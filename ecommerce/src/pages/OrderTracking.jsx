@@ -108,7 +108,7 @@ export default function OrderTracking() {
     const reason = 'User requested cancellation';
     setUpdatingId(orderId);
     try {
-      const res = await axios.put(`/api/orders/${orderId}/cancel`, { reason });
+      await axios.put(`/api/orders/${orderId}/cancel`, { reason });
       // Update local state immediately
       setOrders((prev) => prev.map((o) => (o._id === orderId ? { ...o, status: 'Cancelled', cancelReason: reason } : o)));
       toast.success('Order cancelled successfully');

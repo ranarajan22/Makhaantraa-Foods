@@ -41,7 +41,7 @@ function Navbar() {
     };
     window.addEventListener("storage", handleStorage);
     return () => window.removeEventListener("storage", handleStorage);
-  }, [user]);
+  }, [user, updateCartCount]);
 
   function goToCart() {
     navigate('/cart');

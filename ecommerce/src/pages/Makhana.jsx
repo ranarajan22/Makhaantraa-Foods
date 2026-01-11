@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from 'axios';
-import { CheckCircle, Leaf, Shield, Truck, Factory, Sparkles, ClipboardList, PhoneCall, MessageCircle } from "lucide-react";
+import { CheckCircle, Leaf, Shield, Truck, Factory, Sparkles, ClipboardList, MessageCircle } from "lucide-react";
 import { useAuth } from '../context/AuthContext';
 import { useSettings } from '../context/SettingsContext';
 

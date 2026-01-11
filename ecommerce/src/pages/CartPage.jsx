@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Trash2, Plus, Minus, ShoppingBag, Heart, ArrowRight, Lock, Truck, Gift, Tag } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, Heart, ArrowRight, Lock, Truck, Gift } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useSettings } from "../context/SettingsContext";

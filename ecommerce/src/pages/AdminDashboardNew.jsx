@@ -145,7 +145,7 @@ export default function AdminDashboard() {
       isMounted = false;
       axios.interceptors.response.eject(interceptorId);
     };
-  }, []);
+  }, [loadDashboardData, logout, nav]);
 
   if (loading) {
     return (
