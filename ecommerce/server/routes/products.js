@@ -50,11 +50,32 @@ router.get('/', async (req, res) => {
     const limitNum = parseInt(limit);
     const skip = (pageNum - 1) * limitNum;
 
-    const products = await Product.find(query)
+    let products = await Product.find(query)
       .sort(sort)
       .skip(skip)
       .limit(limitNum)
       .select('-reviews');
+
+    // Fix image URLs for deployment - convert relative paths to absolute public URLs
+    products = products.map(product => {
+      const productObj = product.toObject();
+      const API_URL = process.env.API_URL || 'https://makhaantraa-foods.onrender.com';
+      
+      if (productObj.mainImage && productObj.mainImage.startsWith('/')) {
+        productObj.mainImage = `${API_URL}${productObj.mainImage}`;
+      }
+      
+      if (Array.isArray(productObj.images)) {
+        productObj.images = productObj.images.map(img => {
+          if (img && typeof img === 'string' && img.startsWith('/')) {
+            return `${API_URL}${img}`;
+          }
+          return img;
+        });
+      }
+      
+      return productObj;
+    });
 
     const total = await Product.countDocuments(query);
 
