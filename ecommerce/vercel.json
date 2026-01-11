@@ -30,10 +30,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_API_URL": "@api_url",
-    "REACT_APP_STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
-    "REACT_APP_RAZORPAY_KEY_ID": "@razorpay_key_id"
-  }
+  ]
 }
