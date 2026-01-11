@@ -88,7 +88,7 @@
 
 ### Connection Information
 ```
-MongoDB Atlas URI: mongodb+srv://prp233469_db_user:***@cluster0.t8hhoxk.mongodb.net/ecommerce
+MongoDB Atlas URI: mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce
 Database: ecommerce
 Status: ✅ Connected and verified
 ```

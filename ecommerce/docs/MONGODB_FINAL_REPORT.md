@@ -19,7 +19,7 @@
 
 ### 1. Database Configuration ✅
 ```
-✅ MongoDB Atlas URI: mongodb+srv://prp233469_db_user:***@cluster0.t8hhoxk.mongodb.net/ecommerce
+✅ MongoDB Atlas URI: mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce
 ✅ Environment Variable: Updated in server/.env
 ✅ Connection String: Verified working
 ✅ Database Name: ecommerce
@@ -339,7 +339,7 @@ RESULT: ✅ ALL SYSTEMS OPERATIONAL
 ```
 CHANGED: MONGO_URI
 FROM: mongodb://localhost:27017/ecommerce
-TO: mongodb+srv://prp233469_db_user:***@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority
+TO: mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority
 ```
 
 ### 2. server/models/Order.js

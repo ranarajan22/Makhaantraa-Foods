@@ -5,7 +5,7 @@
 ### 1. **MongoDB Connection**
 - **Status**: ✅ Connected
 - **Database**: ecommerce (MongoDB Atlas)
-- **Connection URI**: `mongodb+srv://prp233469_db_user:***@cluster0.t8hhoxk.mongodb.net/ecommerce`
+- **Connection URI**: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce`
 - **Current Subscribers**: 0 (ready to receive)
 
 ### 2. **Database Model - Newsletter.js**

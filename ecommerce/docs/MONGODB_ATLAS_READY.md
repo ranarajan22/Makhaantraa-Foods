@@ -33,11 +33,11 @@ Replication: 3 nodes
 Backup: Daily automated
 
 Connection String:
-mongodb+srv://prp233469_db_user:7dJQYOxKFnwa0TTB@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority
+mongodb+srv://<username>:<password>@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority
 ```
 
 ### Stored in:
-- 📄 `server/.env` - MONGO_URI variable
+- 📄 `server/.env` - MONGO_URI variable (actual credentials)
 
 ---
 

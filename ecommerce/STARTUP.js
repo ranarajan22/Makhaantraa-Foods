@@ -121,8 +121,8 @@ Other:
 🌍 ENVIRONMENT VARIABLES:
 
 All configured in server/.env:
-  - MONGO_URI: mongodb://localhost:27017/ecommerce
-  - JWT_SECRET: codexx-yoyoyoo
+  - MONGO_URI: mongodb://localhost:27017/ecommerce (or MongoDB Atlas URI)
+  - JWT_SECRET: your_jwt_secret_key
   - JWT_EXPIRES_IN: 30d
   - STRIPE_SECRET_KEY: (Test mode configured)
   - PORT: 5000

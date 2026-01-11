@@ -3,7 +3,7 @@
 ## Connection Details
 
 **MongoDB Cluster:** Cluster0
-**Atlas URI:** `mongodb+srv://prp233469_db_user:7dJQYOxKFnwa0TTB@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority`
+**Atlas URI:** `mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority`
 **Database Name:** `ecommerce`
 
 ---
@@ -17,7 +17,7 @@
 
 **File Updated:** `server/.env`
 ```
-MONGO_URI=mongodb+srv://prp233469_db_user:7dJQYOxKFnwa0TTB@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority
 ```
 
 ### 2. Database Models Fixed
@@ -261,8 +261,8 @@ Expected Response:
 # Backend (.env in /server)
 NODE_ENV=development
 PORT=5000
-MONGO_URI=mongodb+srv://prp233469_db_user:7dJQYOxKFnwa0TTB@cluster0.t8hhoxk.mongodb.net/ecommerce?retryWrites=true&w=majority
-JWT_SECRET=codexx-yoyoyoo
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority
+JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=30d
 
 # Payment Processing
