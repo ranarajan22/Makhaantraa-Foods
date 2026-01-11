@@ -39,6 +39,13 @@
     "eject": "react-scripts eject",
     "vercel-build": "react-scripts build"
   },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "overrides": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
