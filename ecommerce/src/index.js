@@ -4,9 +4,10 @@ import axios from 'axios';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { API_BASE_URL } from './config';
 
-// Configure axios base URL; default to same-origin so CRA proxy works in dev
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
+// Configure axios base URL
+axios.defaults.baseURL = API_BASE_URL;
 const bootstrapToken = localStorage.getItem('token');
 if (bootstrapToken) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${bootstrapToken}`;
