@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext';
 import { ShoppingCart } from 'lucide-react'; // Cart icon
@@ -21,7 +21,7 @@ function Navbar() {
       ? 'text-white font-semibold underline underline-offset-8'
       : 'hover:text-gray-100 transition-colors';
 
-  const updateCartCount = () => {
+  const updateCartCount = useCallback(() => {
     try {
       const storageKey = user ? `cart_${user._id}` : 'cart_guest';
       const cartData = localStorage.getItem(storageKey) || "[]";
@@ -32,7 +32,7 @@ function Navbar() {
       console.error("Error parsing cart:", e);
       setCartCount(0);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     updateCartCount();
@@ -41,7 +41,7 @@ function Navbar() {
     };
     window.addEventListener("storage", handleStorage);
     return () => window.removeEventListener("storage", handleStorage);
-  }, [user, updateCartCount]);
+  }, [updateCartCount]);
 
   function goToCart() {
     navigate('/cart');
