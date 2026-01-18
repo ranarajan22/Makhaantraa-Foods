@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const cloudinary = require('../cloudinary');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Get all products with filters, search, sort, pagination
 router.get('/', async (req, res) => {
@@ -139,3 +143,59 @@ router.get('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+// Create a new product with images uploaded to Cloudinary
+router.post('/', upload.array('images', 5), async (req, res) => {
+  try {
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      // Upload each image to Cloudinary
+      for (const file of req.files) {
+        const uploadResult = await new Promise((resolve, reject) => {
+          cloudinary.uploader.upload_stream({ folder: 'products' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }).end(file.buffer);
+        });
+        imageUrls.push(uploadResult.secure_url);
+      }
+    }
+    // Create product with Cloudinary image URLs
+    const product = new Product({
+      ...req.body,
+      images: imageUrls,
+      mainImage: imageUrls[0] || '',
+    });
+    await product.save();
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update product images (Cloudinary)
+router.put('/:id/images', upload.array('images', 5), async (req, res) => {
+  try {
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const uploadResult = await new Promise((resolve, reject) => {
+          cloudinary.uploader.upload_stream({ folder: 'products' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }).end(file.buffer);
+        });
+        imageUrls.push(uploadResult.secure_url);
+      }
+    }
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { images: imageUrls, mainImage: imageUrls[0] || '' },
+      { new: true }
+    );
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
