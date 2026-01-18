@@ -37,27 +37,27 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use('/api/', limiter);
+// Rate limiting DISABLED for development and testing
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // limit each IP to 100 requests per windowMs
+//   message: 'Too many requests from this IP, please try again later.'
+// });
+// app.use('/api/', limiter);
 
-// Stricter rate limiting for checkout and payment endpoints
-const checkoutLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10, // limit each IP to 10 orders per minute
-  message: 'Too many checkout attempts, please wait before trying again.'
-});
-const paymentLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 20, // limit payment requests
-  message: 'Too many payment requests, please wait.'
-});
-app.use('/api/orders', checkoutLimiter);
-app.use('/api/payments', paymentLimiter);
+// // Stricter rate limiting for checkout and payment endpoints
+// const checkoutLimiter = rateLimit({
+//   windowMs: 60 * 1000, // 1 minute
+//   max: 10, // limit each IP to 10 orders per minute
+//   message: 'Too many checkout attempts, please wait before trying again.'
+// });
+// const paymentLimiter = rateLimit({
+//   windowMs: 60 * 1000, // 1 minute
+//   max: 20, // limit payment requests
+//   message: 'Too many payment requests, please wait.'
+// });
+// app.use('/api/orders', checkoutLimiter);
+// app.use('/api/payments', paymentLimiter);
 
 // Compression for performance
 app.use(compression());

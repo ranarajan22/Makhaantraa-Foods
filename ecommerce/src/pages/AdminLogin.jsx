@@ -113,18 +113,7 @@ export default function AdminLogin() {
           </form>
         </div>
 
-        {/* Default Credentials Info */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-          <div className="flex gap-3">
-            <AlertCircle size={20} className="text-yellow-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-yellow-800">
-              <p className="font-semibold mb-2">Default Admin Credentials:</p>
-              <p><strong>Email:</strong> admin@ecommerce.com</p>
-              <p><strong>Password:</strong> admin12345</p>
-              <p className="text-yellow-700 mt-2 text-xs">⚠️ Change these credentials after first login for security!</p>
-            </div>
-          </div>
-        </div>
+      
 
         {/* Back to User Login */}
         <div className="text-center">

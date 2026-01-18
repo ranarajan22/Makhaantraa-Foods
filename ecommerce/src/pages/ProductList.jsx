@@ -141,7 +141,7 @@ export default function ProductList() {
                   </div>
                 </div>
               ))
-            : products.map(p => {
+            : (Array.isArray(products) ? [...products].reverse() : []).map(p => {
                 const cartItem = cart.find(i => i._id === p._id);
                 const qty = cartItem ? cartItem.qty : 0;
                 const finalPrice = p.discount ? Math.round(p.price * (1 - p.discount / 100)) : p.price;

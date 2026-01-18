@@ -54,8 +54,9 @@ router.get('/', async (req, res) => {
     const limitNum = parseInt(limit);
     const skip = (pageNum - 1) * limitNum;
 
+    // Always sort by newest first unless overridden
     let products = await Product.find(query)
-      .sort(sort)
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNum)
       .select('-reviews');

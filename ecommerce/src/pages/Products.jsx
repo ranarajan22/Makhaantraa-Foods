@@ -10,7 +10,10 @@ export default function Products() {
   const [error, setError] = useState("");
 
   const safeProducts = useMemo(() => {
-    if (products.length) return products;
+    if (products.length) {
+      // Only show products with category 'Makhana', original order
+      return products.filter(p => (p.category === 'Makhana'));
+    }
     return makhanaProducts.map(p => ({ ...p, productId: p.id, _id: p.id }));
   }, [products]);
   
