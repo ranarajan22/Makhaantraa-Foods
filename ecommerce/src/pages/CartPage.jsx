@@ -10,21 +10,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const { settings, setSettings } = useSettings();
-    // Add a button to reload settings dynamically (for admin changes)
-    const reloadSettings = async () => {
-      try {
-        const res = await fetch('/api/settings');
-        if (res.ok) {
-          const data = await res.json();
-          setSettings(data);
-          toast.success('Settings reloaded!');
-        } else {
-          toast.error('Failed to reload settings');
-        }
-      } catch (e) {
-        toast.error('Error reloading settings');
-      }
-    };
+    // ...existing code...
   const { 
     cart, 
     wishlist, 
