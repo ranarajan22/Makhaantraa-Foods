@@ -9,7 +9,22 @@ import toast from "react-hot-toast";
 export default function CartPage() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { settings } = useSettings();
+  const { settings, setSettings } = useSettings();
+    // Add a button to reload settings dynamically (for admin changes)
+    const reloadSettings = async () => {
+      try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+          toast.success('Settings reloaded!');
+        } else {
+          toast.error('Failed to reload settings');
+        }
+      } catch (e) {
+        toast.error('Error reloading settings');
+      }
+    };
   const { 
     cart, 
     wishlist, 
@@ -81,6 +96,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 py-6">
       <div className="max-w-6xl mx-auto px-4">
+        <button onClick={reloadSettings} className="mb-4 px-4 py-2 bg-blue-100 text-blue-700 rounded text-sm">Reload Settings</button>
         {/* Header with gradient */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
