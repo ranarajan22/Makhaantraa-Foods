@@ -125,6 +125,7 @@ export default function ProductsTab({ products, loadData }) {
             <thead className="bg-slate-100 border-b border-slate-200">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Product Name</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Image</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">SKU</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Price</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">MRP</th>
@@ -140,6 +141,13 @@ export default function ProductsTab({ products, loadData }) {
               {products && products.length > 0 ? (
                 products.map((product) => (
                   <tr key={product._id} className="border-b border-slate-200 hover:bg-slate-50">
+                    <td className="px-6 py-3">
+                      {product.mainImage ? (
+                        <img src={product.mainImage} alt="Product" style={{ maxWidth: 60, maxHeight: 60, borderRadius: 8 }} />
+                      ) : (
+                        <span className="text-slate-400 text-xs">No image</span>
+                      )}
+                    </td>
                     <td className="px-6 py-3 text-sm font-semibold text-slate-900">{product.name}</td>
                     <td className="px-6 py-3 text-sm text-slate-600">{product.sku}</td>
                     <td className="px-6 py-3 text-sm font-semibold text-green-600">₹{product.price?.toLocaleString()}</td>
