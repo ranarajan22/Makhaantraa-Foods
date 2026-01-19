@@ -313,7 +313,7 @@ export default function ProductsTab({ products, loadData }) {
                   onClick={handleUpdate}
                   className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
                 >
-                  Update
+                  Save Changes
                 </button>
                 <button
                   onClick={() => setEditingId(null)}
