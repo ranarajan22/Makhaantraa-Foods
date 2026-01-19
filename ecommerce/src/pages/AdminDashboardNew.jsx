@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../utils/api';
+import axios from '../utils/api.js';
 import AdminHeader from '../components/layout/AdminHeader';
 import AdminSidebar from '../components/layout/AdminSidebar';
 import toast from 'react-hot-toast';

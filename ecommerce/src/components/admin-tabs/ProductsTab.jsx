@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Edit2, Trash2, Plus, ToggleLeft, ToggleRight, X } from 'lucide-react';
-import axios from '../../utils/api';
+import axios from '../../utils/api.js';
 import toast from 'react-hot-toast';
 
 export default function ProductsTab({ products, loadData }) {
