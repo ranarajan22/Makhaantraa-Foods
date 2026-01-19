@@ -80,6 +80,10 @@ export default function Checkout() {
 
   return (
     <div className="bg-brand-soft min-h-screen py-12">
+      {/* DEBUG: Show current specialDiscountPercentage */}
+      <div className="bg-yellow-100 text-yellow-900 p-2 mb-2 rounded text-sm">
+        <strong>DEBUG:</strong> specialDiscountPercentage = {String(settings?.specialDiscountPercentage)}
+      </div>
       <main className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 px-4">
         {/* Checkout Form */}
         <div className="flex-1 bg-white rounded-xl shadow-lg p-8">
