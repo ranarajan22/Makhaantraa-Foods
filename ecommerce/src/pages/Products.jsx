@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Package, ShieldCheck, AlertCircle } from "lucide-react";
+
 import { makhanaProducts } from "../data/makhana";
+import { API_BASE_URL } from "../config";
 
 export default function Products() {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ export default function Products() {
       try {
         setLoading(true);
         setError("");
-        const res = await fetch(`/api/products?limit=100`, { signal: controller.signal });
+        const res = await fetch(`${API_BASE_URL}/api/products?limit=100`, { signal: controller.signal });
         if (!res.ok) throw new Error(`Failed to load products (${res.status})`);
         const data = await res.json();
         if (isMounted) {
