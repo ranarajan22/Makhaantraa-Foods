@@ -54,7 +54,7 @@ export default function CartPage() {
           // ignore
         }
       })();
-    }, [user, authLoading, navigate]);
+    }, [user, authLoading, navigate, setSettings]);
 
     if (!user) {
       return (
