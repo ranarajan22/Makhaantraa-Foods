@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ImageUploadField from '../ImageUploadField.jsx';
+import MultiImageUploadField from '../MultiImageUploadField.jsx';
 import { Edit2, Trash2, Plus, ToggleLeft, ToggleRight, X } from 'lucide-react';
 import axios from '../../utils/api.js';
 import toast from 'react-hot-toast';
@@ -207,22 +208,40 @@ export default function ProductsTab({ products, loadData }) {
           <div className="bg-white rounded-xl max-w-md w-full p-6">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Edit Product</h2>
             <div className="space-y-4">
+                            <div>
+                              <ImageUploadField
+                                value={formData.mainImage}
+                                onChange={(url) => setFormData({ ...formData, mainImage: url })}
+                                label="Main Product Image"
+                                name="mainImage"
+                              />
+                            </div>
+                            <div>
+                              <MultiImageUploadField
+                                value={Array.isArray(formData.images) ? formData.images : []}
+                                onChange={(imgs) => setFormData({ ...formData, images: imgs })}
+                                label="Product Images (multiple)"
+                                name="images"
+                              />
+                            </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Price</label>
-                  <input
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) => {
-                      const nextPrice = e.target.value;
-                      setFormData((prev) => ({
-                        ...prev,
-                        price: nextPrice,
-                        discount: computeDiscount(nextPrice, prev.originalPrice)
-                      }));
-                    }}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
+                try {
+                  await axios.put(`/api/admin/products/${editingId}`, {
+                    price: parseFloat(formData.price),
+                    originalPrice: parseFloat(formData.originalPrice) || undefined,
+                    discount: computeDiscount(formData.price, formData.originalPrice),
+                    stock: parseInt(formData.stock),
+                    moq: formData.moq,
+                    active: formData.active,
+                    mainImage: formData.mainImage,
+                    images: Array.isArray(formData.images) ? formData.images : []
+                  });
+                  toast.success('Product updated');
+                  setEditingId(null);
+                  loadData();
+                } catch (error) {
+                  toast.error('Failed to update product');
+                }
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Original Price (MRP)</label>
@@ -442,12 +461,11 @@ export default function ProductsTab({ products, loadData }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Images (comma separated)</label>
-                <input
-                  value={addForm.images}
-                  onChange={(e) => setAddForm({ ...addForm, images: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg"
-                  placeholder="/img1.jpg, /img2.jpg"
+                <MultiImageUploadField
+                  value={Array.isArray(addForm.images) ? addForm.images : []}
+                  onChange={(imgs) => setAddForm({ ...addForm, images: imgs })}
+                  label="Product Images (multiple)"
+                  name="images"
                 />
               </div>
               <div className="flex items-center gap-3">
