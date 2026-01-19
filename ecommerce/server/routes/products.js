@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 
     // Always sort by newest first unless overridden
     let products = await Product.find(query)
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .skip(skip)
       .limit(limitNum)
       .select('-reviews');
