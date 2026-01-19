@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../utils/api.js';
 import toast from 'react-hot-toast';
 import { Lock, Mail } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';

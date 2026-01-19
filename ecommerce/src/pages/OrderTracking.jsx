@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import axios from 'axios';
+import axios from '../utils/api.js';
 import { useNavigate } from 'react-router-dom';
 import { Package, Download, Eye, RefreshCcw, Clock, CheckCircle2, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';

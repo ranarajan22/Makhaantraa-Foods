@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useSettings } from '../context/SettingsContext';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import axios from '../utils/api.js';
 import { AlertCircle, CreditCard, Wallet, ShoppingBag, MapPin, Plus, Check } from 'lucide-react';
 import RazorpayPayment from '../components/RazorpayPayment';
 import StripePayment from '../components/StripePayment';

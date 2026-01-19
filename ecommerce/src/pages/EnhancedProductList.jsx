@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Search, Filter, ShoppingCart, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../utils/api.js';
 import { useQuery } from 'react-query';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
