@@ -99,6 +99,7 @@ mongoose.connect(MONGO_URI, {
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/admin/images', require('./routes/adminImageUpload'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/admin/products', require('./routes/adminProducts'));
 app.use('/api/admin/users', require('./routes/users'));

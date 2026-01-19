@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ImageUploadField from '../ImageUploadField.jsx';
 import { Edit2, Trash2, Plus, ToggleLeft, ToggleRight, X } from 'lucide-react';
 import axios from '../../utils/api.js';
 import toast from 'react-hot-toast';
@@ -425,12 +426,11 @@ export default function ProductsTab({ products, loadData }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Main Image URL</label>
-                <input
+                <ImageUploadField
                   value={addForm.mainImage}
-                  onChange={(e) => setAddForm({ ...addForm, mainImage: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg"
-                  placeholder="/product_image/ceramic.jpg or https://..."
+                  onChange={(url) => setAddForm({ ...addForm, mainImage: url })}
+                  label="Main Product Image"
+                  name="mainImage"
                 />
               </div>
               <div>
