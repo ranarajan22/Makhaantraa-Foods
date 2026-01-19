@@ -27,28 +27,7 @@ export default function ProductList() {
         }
       } catch (e) {
         if (!cancelled) {
-          setProducts([
-            { _id: "p18", name: "Handcrafted Bracelet", price: 699, discount: 0, rating: 4, delivery: "Ships in 2 days", description: "Stylish artisan bracelet", image: "/product_image/bracelet.jpg" },
-            { _id: "p19", name: "Wooden Coasters", price: 399, discount: 0, rating: 5, delivery: "Free Delivery", description: "Set of 4 wooden coasters", image: "/product_image/woodenCoaster.jpg" },
-            { _id: "p20", name: "Decorative Bowl", price: 1099, discount: 15, rating: 4, delivery: "Ships in 3 days", description: "Artistic decorative bowl", image: "/product_image/decorativeball.jpg" },
-            { _id: "p7", name: "Vintage Lamp", price: 2499, discount: 15, rating: 5, delivery: "Ships in 5 days", description: "Retro style table lamp", image: "/product_image/lamp.jpg" },
-            { _id: "p8", name: "Canvas Bag", price: 899, discount: 0, rating: 4, delivery: "Free Delivery", description: "Durable canvas tote bag", image: "/product_image/canvasBag.jpg" },
-            { _id: "p9", name: "Wooden Jewelry Box", price: 1599, discount: 20, rating: 5, delivery: "Ships in 3 days", description: "Handcrafted wooden box", image: "/product_image/jewelrybox.jpg" },
-            { _id: "p10", name: "Knitted Sweater", price: 1499, discount: 0, rating: 4, delivery: "Ships in 1 day", description: "Warm and cozy sweater", image: "/product_image/handmadeSweater.jpg" },
-            { _id: "p11", name: "Bamboo Cutting Board", price: 499, discount: 0, rating: 4, delivery: "Free Delivery", description: "Eco-friendly kitchen board", image: "/product_image/bombooChoppingBoard.jpg" },
-            { _id: "p12", name: "Hand-painted Mug", price: 599, discount: 0, rating: 5, delivery: "Ships in 2 days", description: "Unique artistic mug", image: "/pottery.jpg" },
-            { _id: "p13", name: "Scented Candle Set", price: 1299, discount: 20, rating: 5, delivery: "Free Delivery", description: "Relaxing scented candles", image: "/product_image/candle.jpg" },
-            { _id: "p1", name: "Minimal Sneakers", price: 1999, discount: 0, rating: 5, delivery: "Ships in 2 days", description: "Comfortable everyday sneakers", image: "/product_image/sneakers.jpg" },
-            { _id: "p2", name: "Classic Tee", price: 499, discount: 10, rating: 4, delivery: "Free Delivery", description: "Soft cotton T-shirt", image: "/product_image/cottontshirt.jpg" },
-            { _id: "p3", name: "Handmade Pot", price: 799, discount: 5, rating: 4, delivery: "Ships in 3 days", description: "Beautifully crafted ceramic pot", image: "/product_image/pot.jpg" },
-            { _id: "p4", name: "Leather Wallet", price: 1299, discount: 0, rating: 5, delivery: "Free Delivery", description: "Premium leather wallet", image: "/product_image/leatherWallet.jpg" },
-            { _id: "p5", name: "Cotton Scarf", price: 699, discount: 0, rating: 4, delivery: "Ships in 1 day", description: "Lightweight cotton scarf", image: "/product_image/scarf.jpg" },
-            { _id: "p6", name: "Ceramic Vase", price: 1099, discount: 10, rating: 4, delivery: "Ships in 2 days", description: "Elegant handmade vase", image: "/product_image/ceramic1.jpg" },
-            { _id: "p14", name: "Artisan Notebook", price: 399, discount: 0, rating: 4, delivery: "Free Delivery", description: "Premium handmade notebook", image: "/product_image/notebook.jpg" },
-            { _id: "p15", name: "Embroidered Cushion", price: 899, discount: 10, rating: 4, delivery: "Ships in 2 days", description: "Decorative embroidered cushion", image: "/product_image/pillow.jpg" },
-            { _id: "p16", name: "Wall Hanging", price: 1599, discount: 0, rating: 5, delivery: "Free Delivery", description: "Beautiful handcrafted wall decor", image: "/product_image/wallhanging.jpg" },
-            { _id: "p17", name: "Wool Socks", price: 299, discount: 0, rating: 4, delivery: "Ships in 1 day", description: "Comfortable winter socks", image: "/product_image/socks.jpg" },
-          ]);
+          setProducts([]); // No fallback products except Makhana (API should provide)
           setLoading(false);
         }
       }
