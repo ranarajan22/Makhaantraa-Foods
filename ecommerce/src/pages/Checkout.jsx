@@ -19,6 +19,18 @@ export default function Checkout() {
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(storedCart);
+    // Always reload settings on mount
+    (async () => {
+      try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
   }, []);
 
   // Add a button to reload settings dynamically (for admin changes)

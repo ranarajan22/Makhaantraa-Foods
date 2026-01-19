@@ -42,6 +42,18 @@ export default function CartPage() {
         toast.error('Please login to view your cart');
         navigate('/login?next=/cart', { replace: true });
       }
+      // Always reload settings on mount
+      (async () => {
+        try {
+          const res = await fetch('/api/settings');
+          if (res.ok) {
+            const data = await res.json();
+            setSettings(data);
+          }
+        } catch (e) {
+          // ignore
+        }
+      })();
     }, [user, authLoading, navigate]);
 
     if (!user) {
