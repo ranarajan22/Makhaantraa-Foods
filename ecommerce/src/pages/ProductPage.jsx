@@ -26,7 +26,15 @@ export default function ProductPage(){
       <img src={product.image||'/placeholder.png'} alt={product.name} className="w-full h-96 object-cover rounded" />
       <div>
         <h1 className="text-2xl font-semibold">{product.name}</h1>
-        <p className="text-xl mt-2">₹{product.price}</p>
+        <div className="flex items-baseline gap-2 mt-2">
+          <span className="text-xl font-bold text-brand">₹{product.price ?? "-"}</span>
+          {product.originalPrice ? (
+            <span className="text-sm text-gray-400 line-through">₹{product.originalPrice}</span>
+          ) : null}
+          {product.discount ? (
+            <span className="ml-2 text-green-600 text-sm font-semibold">-{product.discount}%</span>
+          ) : null}
+        </div>
         <p className="mt-4">{product.description}</p>
         <div className="mt-6 flex gap-3">
           <button onClick={()=>{ addToCart(product); nav('/cart'); }} className="px-4 py-2 border rounded">Add to cart</button>
