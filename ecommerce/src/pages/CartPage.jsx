@@ -94,10 +94,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 py-6">
-      {/* DEBUG: Show current specialDiscountPercentage */}
-      <div className="bg-yellow-100 text-yellow-900 p-2 mb-2 rounded text-sm">
-        <strong>DEBUG:</strong> specialDiscountPercentage = {settings?.specialDiscountPercentage !== undefined ? String(settings.specialDiscountPercentage) : 'undefined (not set or missing from backend)'}
-      </div>
+      {/* Debug output removed as requested */}
       <div className="max-w-6xl mx-auto px-4">
         {/* Reload Settings button removed as requested */}
         {/* Header with gradient */}
