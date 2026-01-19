@@ -109,10 +109,10 @@ export default function CartPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 py-6">
       {/* DEBUG: Show current specialDiscountPercentage */}
       <div className="bg-yellow-100 text-yellow-900 p-2 mb-2 rounded text-sm">
-        <strong>DEBUG:</strong> specialDiscountPercentage = {String(settings?.specialDiscountPercentage)}
+        <strong>DEBUG:</strong> specialDiscountPercentage = {settings?.specialDiscountPercentage !== undefined ? String(settings.specialDiscountPercentage) : 'undefined (not set or missing from backend)'}
       </div>
       <div className="max-w-6xl mx-auto px-4">
-        <button onClick={reloadSettings} className="mb-4 px-4 py-2 bg-blue-100 text-blue-700 rounded text-sm">Reload Settings</button>
+        {/* Reload Settings button removed as requested */}
         {/* Header with gradient */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>

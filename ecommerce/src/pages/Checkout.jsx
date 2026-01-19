@@ -82,13 +82,13 @@ export default function Checkout() {
     <div className="bg-brand-soft min-h-screen py-12">
       {/* DEBUG: Show current specialDiscountPercentage */}
       <div className="bg-yellow-100 text-yellow-900 p-2 mb-2 rounded text-sm">
-        <strong>DEBUG:</strong> specialDiscountPercentage = {String(settings?.specialDiscountPercentage)}
+        <strong>DEBUG:</strong> specialDiscountPercentage = {settings?.specialDiscountPercentage !== undefined ? String(settings.specialDiscountPercentage) : 'undefined (not set or missing from backend)'}
       </div>
       <main className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 px-4">
         {/* Checkout Form */}
         <div className="flex-1 bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-semibold mb-6 text-center">Checkout</h1>
-          <button onClick={reloadSettings} className="mb-4 px-4 py-2 bg-blue-100 text-blue-700 rounded text-sm">Reload Settings</button>
+          {/* Reload Settings button removed as requested */}
           <p className="text-gray-700 mb-6 text-center">
             Fill in your details to complete the order. You can also review your cart items here.
           </p>
