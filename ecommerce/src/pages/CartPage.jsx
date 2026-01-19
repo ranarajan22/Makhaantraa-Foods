@@ -4,6 +4,7 @@ import { Trash2, Plus, Minus, ShoppingBag, Heart, ArrowRight, Lock, Truck, Gift 
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useSettings } from "../context/SettingsContext";
+import { API_BASE_URL } from '../config.js';
 import toast from "react-hot-toast";
 
 export default function CartPage() {
@@ -31,7 +32,7 @@ export default function CartPage() {
       // Always reload settings on mount
       (async () => {
         try {
-          const res = await fetch('/api/settings');
+          const res = await fetch(`${API_BASE_URL}/api/settings`);
           if (res.ok) {
             const data = await res.json();
             setSettings(data);

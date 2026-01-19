@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "../utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { useSettings } from "../context/SettingsContext";
+import { API_BASE_URL } from '../config.js';
 
 export default function Checkout() {
   const { settings, setSettings } = useSettings();
@@ -22,7 +23,7 @@ export default function Checkout() {
     // Always reload settings on mount
     (async () => {
       try {
-        const res = await fetch('/api/settings');
+        const res = await fetch(`${API_BASE_URL}/api/settings`);
         if (res.ok) {
           const data = await res.json();
           setSettings(data);

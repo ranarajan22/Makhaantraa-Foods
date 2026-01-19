@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { API_BASE_URL } from '../config.js';
 
 const SettingsContext = createContext(null);
 
@@ -14,7 +15,7 @@ export const SettingsProvider = ({ children }) => {
 
     const loadSettings = async () => {
       try {
-        const res = await fetch('/api/settings');
+        const res = await fetch(`${API_BASE_URL}/api/settings`);
         
         // Handle rate limiting gracefully
         if (res.status === 429) {
