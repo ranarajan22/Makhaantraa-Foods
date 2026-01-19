@@ -41,7 +41,23 @@ export default function SettingsTab({ settings, updateSettings }) {
   };
 
   const handleSubmit = () => {
-    updateSettings(formData);
+    // Only send fields that exist in backend schema
+    const validFields = [
+      'companyEmail',
+      'companyPhone',
+      'whatsappNumber',
+      'maintenanceMode',
+      'maintenanceMessage',
+      'shippingCost',
+      'taxPercentage',
+      'specialDiscountPercentage',
+      'currencyCode'
+    ];
+    const payload = {};
+    validFields.forEach((key) => {
+      if (formData[key] !== undefined) payload[key] = formData[key];
+    });
+    updateSettings(payload);
   };
 
   return (
