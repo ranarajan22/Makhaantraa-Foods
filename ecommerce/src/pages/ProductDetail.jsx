@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { makhanaProducts } from "../data/makhana";
+import { API_BASE_URL } from "../config";
 import { Shield, Truck, Sparkles, ClipboardList, Star, ShoppingCart, Heart, Minus, Plus } from "lucide-react";
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -48,7 +49,7 @@ export default function ProductDetail() {
     let isMounted = true;
     setReviewsLoading(true);
 
-    fetch(`/api/reviews/${productKey}?limit=50`)
+    fetch(`${API_BASE_URL}/api/reviews/${productKey}?limit=50`)
       .then(async (res) => {
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
@@ -99,7 +100,7 @@ export default function ProductDetail() {
         setError("");
 
         // Try listing endpoint for productId match
-        const res = await fetch(`/api/products?limit=200`, { signal: controller.signal });
+        const res = await fetch(`${API_BASE_URL}/api/products?limit=200`, { signal: controller.signal });
         if (!res.ok) throw new Error(`Failed to load products (${res.status})`);
         const data = await res.json();
         const liveProducts = Array.isArray(data.products) ? data.products : [];
@@ -116,13 +117,15 @@ export default function ProductDetail() {
 
         // Fallback to direct fetch by id (covers Mongo _id route)
         try {
-          const detailRes = await fetch(`/api/products/${id}`, { signal: controller.signal });
+          const detailRes = await fetch(`${API_BASE_URL}/api/products/${id}`, { signal: controller.signal });
           if (detailRes.ok) {
             const detail = await detailRes.json();
             if (isMounted) {
               setProduct(hydrate(detail));
               return;
             }
+          } else {
+            console.warn("Direct fetch by id failed", detailRes.status, await detailRes.text());
           }
         } catch (innerErr) {
           if (innerErr.name !== "AbortError") {
