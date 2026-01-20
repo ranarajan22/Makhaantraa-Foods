@@ -206,27 +206,28 @@ export default function ProductsTab({ products, loadData }) {
       {editingId && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Edit Product</h2>
-            <div className="space-y-4">
-                            <div>
-                              <ImageUploadField
-                                value={formData.mainImage}
-                                onChange={(url) => setFormData({ ...formData, mainImage: url })}
-                                label="Main Product Image"
-                                name="mainImage"
-                              />
-                            </div>
-                            <div>
-                              <MultiImageUploadField
-                                value={Array.isArray(formData.images) ? formData.images : []}
-                                onChange={(imgs) => setFormData({ ...formData, images: imgs })}
-                                label="Product Images (multiple)"
-                                name="images"
-                              />
-                            </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* ...existing price, original price, discount, etc. fields... */}
-              </div>
+            <>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Edit Product</h2>
+              <div className="space-y-4">
+                <div>
+                  <ImageUploadField
+                    value={formData.mainImage}
+                    onChange={(url) => setFormData({ ...formData, mainImage: url })}
+                    label="Main Product Image"
+                    name="mainImage"
+                  />
+                </div>
+                <div>
+                  <MultiImageUploadField
+                    value={Array.isArray(formData.images) ? formData.images : []}
+                    onChange={(imgs) => setFormData({ ...formData, images: imgs })}
+                    label="Product Images (multiple)"
+                    name="images"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* ...existing price, original price, discount, etc. fields... */}
+                </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Original Price (MRP)</label>
                   <input
@@ -252,61 +253,61 @@ export default function ProductsTab({ products, loadData }) {
                     className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Discount % (auto)</label>
+                  <input
+                    type="number"
+                    value={formData.discount}
+                    readOnly
+                    className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Stock</label>
+                  <input
+                    type="number"
+                    value={formData.stock}
+                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">MOQ</label>
+                  <input
+                    type="text"
+                    value={formData.moq}
+                    onChange={(e) => setFormData({ ...formData, moq: e.target.value })}
+                    placeholder="e.g., 10 kg or 100 packs"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-slate-700">Active</span>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, active: !formData.active })}
+                    className="flex items-center gap-2 px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
+                  >
+                    {formData.active ? <ToggleRight className="text-emerald-600" /> : <ToggleLeft className="text-slate-400" />}
+                    <span className="text-sm text-slate-800">{formData.active ? 'Visible & In Stock' : 'Hidden'}</span>
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleUpdate}
+                    className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    onClick={() => setEditingId(null)}
+                    className="flex-1 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 font-semibold"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Discount % (auto)</label>
-                <input
-                  type="number"
-                  value={formData.discount}
-                  readOnly
-                  className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Stock</label>
-                <input
-                  type="number"
-                  value={formData.stock}
-                  onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">MOQ</label>
-                <input
-                  type="text"
-                  value={formData.moq}
-                  onChange={(e) => setFormData({ ...formData, moq: e.target.value })}
-                  placeholder="e.g., 10 kg or 100 packs"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-slate-700">Active</span>
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, active: !formData.active })}
-                  className="flex items-center gap-2 px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50"
-                >
-                  {formData.active ? <ToggleRight className="text-emerald-600" /> : <ToggleLeft className="text-slate-400" />}
-                  <span className="text-sm text-slate-800">{formData.active ? 'Visible & In Stock' : 'Hidden'}</span>
-                </button>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleUpdate}
-                  className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
-                >
-                  Save Changes
-                </button>
-                <button
-                  onClick={() => setEditingId(null)}
-                  className="flex-1 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 font-semibold"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+            </>
           </div>
         </div>
       )}
