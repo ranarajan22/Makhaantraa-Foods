@@ -225,24 +225,8 @@ export default function ProductsTab({ products, loadData }) {
                               />
                             </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                try {
-                  await axios.put(`/api/admin/products/${editingId}`, {
-                    price: parseFloat(formData.price),
-                    originalPrice: parseFloat(formData.originalPrice) || undefined,
-                    discount: computeDiscount(formData.price, formData.originalPrice),
-                    stock: parseInt(formData.stock),
-                    moq: formData.moq,
-                    active: formData.active,
-                    mainImage: formData.mainImage,
-                    images: Array.isArray(formData.images) ? formData.images : []
-                  });
-                  toast.success('Product updated');
-                  setEditingId(null);
-                  loadData();
-                } catch (error) {
-                  toast.error('Failed to update product');
-                }
-                </div>
+                {/* ...existing price, original price, discount, etc. fields... */}
+              </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Original Price (MRP)</label>
                   <input
