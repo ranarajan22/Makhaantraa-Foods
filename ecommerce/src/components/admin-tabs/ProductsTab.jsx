@@ -50,13 +50,15 @@ export default function ProductsTab({ products, loadData }) {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`/api/admin/products/${editingId}/pricing`, {
+      await axios.put(`/api/admin/products/${editingId}`, {
         price: parseFloat(formData.price),
         originalPrice: parseFloat(formData.originalPrice) || undefined,
         discount: computeDiscount(formData.price, formData.originalPrice),
         stock: parseInt(formData.stock),
         moq: formData.moq,
-        active: formData.active
+        active: formData.active,
+        mainImage: formData.mainImage,
+        images: Array.isArray(formData.images) ? formData.images : (formData.images ? formData.images.split(',').map(s => s.trim()).filter(Boolean) : [])
       });
       toast.success('Product updated');
       setEditingId(null);
