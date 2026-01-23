@@ -21,9 +21,20 @@ export default function ProductPage(){
   const nav = useNavigate();
   useEffect(()=>{ axios.get(`/api/products/${id}`).then(r=>setProduct(r.data)).catch(()=>setProduct(null)); },[id]);
   if(!product) return <div className="p-6">Loading...</div>;
+  // Gallery logic: use images array if available, fallback to mainImage/image
+  const images = Array.isArray(product.images) && product.images.length > 0
+    ? product.images
+    : [product.mainImage || product.image || '/placeholder.png'];
+
   return (
     <main className="max-w-5xl mx-auto p-6 grid md:grid-cols-2 gap-6">
-      <img src={product.image||'/placeholder.png'} alt={product.name} className="w-full h-96 object-cover rounded" />
+      <div>
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {images.map((img, idx) => (
+            <img key={idx} src={img} alt={product.name} className="w-32 h-32 object-cover rounded border" />
+          ))}
+        </div>
+      </div>
       <div>
         <h1 className="text-2xl font-semibold">{product.name}</h1>
         <div className="flex items-baseline gap-2 mt-2">
