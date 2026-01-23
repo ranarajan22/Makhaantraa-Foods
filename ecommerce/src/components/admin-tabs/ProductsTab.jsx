@@ -228,60 +228,68 @@ export default function ProductsTab({ products, loadData }) {
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {/* ...existing price, original price, discount, etc. fields... */}
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Original Price (MRP)</label>
-                  <input
-                    type="number"
-                    value={formData.originalPrice}
-                    onChange={(e) => {
-                      const nextOriginal = e.target.value;
-                      setFormData((prev) => ({
-                        ...prev,
-                        originalPrice: nextOriginal,
-                        discount: computeDiscount(prev.price, nextOriginal)
-                      }));
-                    }}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Discount % (auto)</label>
-                  <input
-                    type="number"
-                    value={formData.discount}
-                    readOnly
-                    className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Discount % (auto)</label>
-                  <input
-                    type="number"
-                    value={formData.discount}
-                    readOnly
-                    className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Stock</label>
-                  <input
-                    type="number"
-                    value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">MOQ</label>
-                  <input
-                    type="text"
-                    value={formData.moq}
-                    onChange={(e) => setFormData({ ...formData, moq: e.target.value })}
-                    placeholder="e.g., 10 kg or 100 packs"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Price *</label>
+                    <input
+                      type="number"
+                      value={formData.price}
+                      onChange={(e) => {
+                        const nextPrice = e.target.value;
+                        setFormData((prev) => ({
+                          ...prev,
+                          price: nextPrice,
+                          discount: computeDiscount(nextPrice, prev.originalPrice)
+                        }));
+                      }}
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="899"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Original Price (MRP)</label>
+                    <input
+                      type="number"
+                      value={formData.originalPrice}
+                      onChange={(e) => {
+                        const nextOriginal = e.target.value;
+                        setFormData((prev) => ({
+                          ...prev,
+                          originalPrice: nextOriginal,
+                          discount: computeDiscount(prev.price, nextOriginal)
+                        }));
+                      }}
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="1299"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Discount % (auto)</label>
+                    <input
+                      type="number"
+                      value={formData.discount}
+                      readOnly
+                      className="w-full px-4 py-2 border border-slate-200 bg-slate-50 rounded-lg text-slate-700"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Stock</label>
+                    <input
+                      type="number"
+                      value={formData.stock}
+                      onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">MOQ</label>
+                    <input
+                      type="text"
+                      value={formData.moq}
+                      onChange={(e) => setFormData({ ...formData, moq: e.target.value })}
+                      placeholder="e.g., 10 kg or 100 packs"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-semibold text-slate-700">Active</span>
