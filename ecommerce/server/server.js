@@ -82,6 +82,13 @@ app.use(morgan('dev'));
 
 // Serve static files from frontend public folder
 const path = require('path');
+// Serve static files from /public/product_image with CORS headers for images
+app.use('/product_image', express.static(path.join(__dirname, '../public/product_image'), {
+  setHeaders: (res) => {
+    res.set('Access-Control-Allow-Origin', '*'); // Or set to your Vercel domain for more security
+  }
+}));
+// Serve other static files as usual
 app.use(express.static(path.join(__dirname, '../public')));
 
 // MongoDB Connection with optimizations for scalability
