@@ -12,12 +12,16 @@ export default function Products() {
   const [error, setError] = useState("");
 
   // Always show these products at the top in this order if present
-  // Update: Use new product names as per database
+  // Update: Use new product names as per user request
   const getOrderedProducts = useCallback((products) => {
     const orderedNames = [
-      "Raw Makhana (Phool)",
-      "Roasted Makhana",
-      "Flavored Makhana"
+      "7 suta makhana",
+      "6 suta makhana",
+      "5 suta makhana",
+      "4 suta makhana",
+      "raw makhana",
+      "roasted makhana",
+      "flavoured makhna"
     ];
     const nameMap = {};
     products.forEach(p => {
