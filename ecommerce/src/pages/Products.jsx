@@ -128,7 +128,7 @@ export default function Products() {
               className="text-left bg-white rounded-2xl shadow-brand border border-green-50 p-6 flex flex-col gap-3 transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-200"
             >
               {displayImage && (
-                <div className="w-full h-40 rounded-xl bg-green-50 overflow-hidden">
+                <div className="w-full h-56 rounded-xl bg-green-50 overflow-hidden">
                   <img
                     src={displayImage}
                     alt={p.name}
