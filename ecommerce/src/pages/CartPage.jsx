@@ -131,11 +131,11 @@ export default function CartPage() {
                 return (
                 <div key={item._id} className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 transition-all duration-200 border border-gray-100">
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link to={`/product/${item._id}`} className="flex-shrink-0 group">
-                      <div className="relative overflow-hidden rounded-lg">
+                    <Link to={`/product/${item._id}`} className="flex-shrink-0 group w-full sm:w-40">
+                      <div className="relative overflow-hidden rounded-lg w-full h-full min-h-[112px] sm:min-h-[112px]">
                         <img 
                           src={item.mainImage || item.image || "/placeholder.png"} 
-                          className="w-24 h-24 sm:w-28 sm:h-28 object-cover group-hover:scale-105 transition-transform duration-200" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
                           alt={item.name}
                         />
                       </div>
