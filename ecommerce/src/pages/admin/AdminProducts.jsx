@@ -1,13 +1,22 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
-  const [form, setForm] = useState({ name: "", price: 0, description: "", image: "" });
+  const [form, setForm] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    image: "",
+    category: "Makhana"
+  });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [editId, setEditId] = useState(null);
-  const [editForm, setEditForm] = useState({ name: "", price: 0, description: "", image: "" });
+  const [editForm, setEditForm] = useState({ name: "", price: 0, description: "", image: "", category: "Makhana" });
+  const fileInputRef = useRef();
 
   useEffect(() => {
     axios
@@ -39,11 +48,33 @@ export default function AdminProducts() {
 
   async function create(e) {
     e.preventDefault();
+    // Validate required fields
+    if (!form.name.trim() || !form.price || !form.description.trim() || (!form.image && !imageFile)) {
+      alert("All fields including image are required.");
+      return;
+    }
+    let imageUrl = form.image;
+    // Handle image upload if file selected
+    if (imageFile) {
+      const data = new FormData();
+      data.append("file", imageFile);
+      data.append("upload_preset", "makhana_uploads"); // Cloudinary preset or your backend
+      try {
+        const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dqg7u3r2a/image/upload", data);
+        imageUrl = uploadRes.data.secure_url;
+      } catch (err) {
+        alert("Image upload failed");
+        return;
+      }
+    }
     try {
-      const res = await axios.post("/api/admin/products", form);
+      const res = await axios.post("/api/admin/products", { ...form, image: imageUrl });
       if (Array.isArray(res.data)) setProducts(res.data);
-      else setProducts((old) => [res.data, ...old]);
-      setForm({ name: "", price: 0, description: "", image: "" });
+      else setProducts((old) => [...old, res.data]);
+      setForm({ name: "", price: 0, description: "", image: "", category: "Makhana" });
+      setImageFile(null);
+      setImagePreview("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
       console.error("Create error:", err);
       alert("Create failed");
@@ -93,7 +124,7 @@ export default function AdminProducts() {
     <main className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl mb-4">Admin - Products</h1>
 
-      <form onSubmit={create} className="grid md:grid-cols-3 gap-2 mb-6">
+      <form onSubmit={create} className="grid md:grid-cols-5 gap-2 mb-6 bg-white p-4 rounded-xl shadow">
         <input
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -109,7 +140,45 @@ export default function AdminProducts() {
           required
           className="p-2 border rounded"
         />
-        <button className="px-4 py-2 bg-black text-white rounded">Create</button>
+        <input
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          placeholder="Description"
+          required
+          className="p-2 border rounded"
+        />
+        <select
+          value={form.category}
+          onChange={e => setForm({ ...form, category: e.target.value })}
+          className="p-2 border rounded"
+          required
+        >
+          <option value="Makhana">Makhana</option>
+          <option value="Other">Other</option>
+        </select>
+        <div className="flex flex-col items-center">
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={e => {
+              const file = e.target.files[0];
+              setImageFile(file);
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => setImagePreview(ev.target.result);
+                reader.readAsDataURL(file);
+              } else {
+                setImagePreview("");
+              }
+            }}
+            className="mb-1"
+          />
+          {imagePreview && (
+            <img src={imagePreview} alt="Preview" className="w-16 h-16 object-cover rounded border" />
+          )}
+        </div>
+        <button className="px-4 py-2 bg-black text-white rounded col-span-5 md:col-span-1">Add Product</button>
       </form>
 
       <ul>
