@@ -315,7 +315,7 @@ function FeaturedProducts() {
     );
   }
 
-  // Only show these products in order using exact backend names
+  // Always show these products in this order if present
   const featuredNames = [
     "7 Suta Makhana",
     "6 Suta Makhana",
@@ -324,8 +324,7 @@ function FeaturedProducts() {
   ];
   const featuredToShow = featuredNames
     .map(name => featured.find(p => p.name === name))
-    .filter(Boolean)
-    .slice(0, 4);
+    .filter(Boolean);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 bg-white">
