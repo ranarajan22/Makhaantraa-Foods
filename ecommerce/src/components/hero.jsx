@@ -230,6 +230,19 @@ function FeaturedCategories() {
           </div>
         </AutoScrollScroller>
       </div>
+      <div className="text-center mt-12">
+        <Link
+          to="/products"
+          className="inline-flex items-center gap-2 bg-white border-2 border-green-600 text-green-700 px-8 py-4 rounded-xl font-bold hover:bg-green-600 hover:text-white transition-all shadow-lg hover:shadow-xl"
+        >
+          <span>View All Grades</span>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
+    </section>
+  );
 // Auto-scrolling wrapper for horizontal scroller
 function AutoScrollScroller({ children, speed = 1 }) {
   const containerRef = React.useRef(null);
@@ -260,19 +273,6 @@ function AutoScrollScroller({ children, speed = 1 }) {
     </div>
   );
 }
-      <div className="text-center mt-12">
-        <Link
-          to="/products"
-          className="inline-flex items-center gap-2 bg-white border-2 border-green-600 text-green-700 px-8 py-4 rounded-xl font-bold hover:bg-green-600 hover:text-white transition-all shadow-lg hover:shadow-xl"
-        >
-          <span>View All Grades</span>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </div>
-    </section>
-  );
 }
 
 /* ---------------------- Deals Banner ---------------------- */
