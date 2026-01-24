@@ -190,7 +190,7 @@ function FeaturedCategories() {
         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Shop by Makhana Grade</h2>
         <p className="text-xl text-slate-600 max-w-2xl mx-auto">From premium 7 Suta export quality to ready-to-eat flavored varieties</p>
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-green-200 scrollbar-track-green-50">
         {grades.map(grade => {
           const product = products.find(p => p.grade === grade);
           if (!product) return null;
@@ -198,7 +198,7 @@ function FeaturedCategories() {
             <Link
               key={product._id || product.productId || product.id}
               to={`/product/${product.productId || product._id || product.id}`}
-              className="group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
+              className="min-w-[300px] max-w-xs group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
             >
               <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
                 <img
@@ -317,6 +317,15 @@ function FeaturedProducts() {
     );
   }
 
+  // Only show the 4 requested products by id
+  const featuredIds = [
+    '7-suta',
+    '6-suta',
+    'raw-makhana',
+    'roasted-makhana',
+  ];
+  const featuredToShow = featured.filter(p => featuredIds.includes(p.id)).slice(0, 4);
+
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 bg-white">
       <div className="text-center mb-14">
@@ -329,7 +338,7 @@ function FeaturedProducts() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {featured.map((p) => (
+        {featuredToShow.map((p) => (
           <button
             key={p._id || p.productId || p.id}
             onClick={() => navigate(`/product/${p.productId || p._id || p.id}`)}
