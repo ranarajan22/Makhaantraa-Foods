@@ -17,6 +17,7 @@ export default function MessagesTab({ messages, loadData }) {
               <tr className="border-b border-slate-200">
                 <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Phone</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Subject</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Message</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Date</th>
@@ -28,6 +29,7 @@ export default function MessagesTab({ messages, loadData }) {
                 <tr key={msg._id} className="border-b border-slate-200 hover:bg-slate-50">
                   <td className="px-6 py-3">{msg.name}</td>
                   <td className="px-6 py-3">{msg.email}</td>
+                  <td className="px-6 py-3">{msg.phone || <span className='text-slate-400'>-</span>}</td>
                   <td className="px-6 py-3">{msg.subject}</td>
                   <td className="px-6 py-3">
                     <div className="text-slate-700 text-sm whitespace-pre-wrap break-words max-w-xl">
@@ -70,6 +72,7 @@ export default function MessagesTab({ messages, loadData }) {
             <div className="space-y-2 text-sm">
               <div><span className="font-semibold text-slate-700">Name:</span> {selected.name}</div>
               <div><span className="font-semibold text-slate-700">Email:</span> {selected.email}</div>
+              <div><span className="font-semibold text-slate-700">Phone:</span> {selected.phone || <span className='text-slate-400'>-</span>}</div>
               <div><span className="font-semibold text-slate-700">Subject:</span> {selected.subject}</div>
               <div><span className="font-semibold text-slate-700">Date:</span> {new Date(selected.createdAt).toLocaleString()}</div>
             </div>
