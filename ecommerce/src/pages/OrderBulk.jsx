@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from '../utils/api.js';
 import { ClipboardList, CheckCircle2, ShieldCheck, MessageCircle } from "lucide-react";
 import { useAuth } from '../context/AuthContext';
-import { useSettings } from '../context/SettingsContext';
-
 export default function OrderBulk() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
   const { user } = useAuth();
-  const { settings } = useSettings();
   const waNumber = '919142252059';
   const waMsg = encodeURIComponent('Hello! I want to discuss a bulk makhana order.');
   const waUrl = `https://wa.me/${waNumber}?text=${waMsg}`;

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
-import { useSettings } from '../../context/SettingsContext';
-
 function Footer() {
-  const { settings } = useSettings();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
