@@ -128,11 +128,11 @@ export default function Products() {
               className="text-left bg-white rounded-2xl shadow-brand border border-green-50 p-6 flex flex-col gap-3 transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-200"
             >
               {displayImage && (
-                <div className="w-full aspect-square rounded-2xl bg-green-50 overflow-hidden border border-green-100 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:border-green-300">
+                <div className="w-full h-40 rounded-xl bg-green-50 overflow-hidden">
                   <img
                     src={displayImage}
                     alt={p.name}
-                    className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 </div>
