@@ -15,6 +15,7 @@ const Skeleton = ({ height = "20px", width = "100%", className = "" }) => (
 
 /* ---------------------- HERO WITH STATS & TRUST BADGES ---------------------- */
 function HeroSection() {
+  const { settings } = useSettings();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -41,8 +42,6 @@ function HeroSection() {
     );
   }
 
-  // Get hero image from settings context
-  const { settings } = useSettings();
   const heroImage = settings?.heroImage || "/makhana.jpeg";
 
   return (
