@@ -2,6 +2,7 @@ import formidable from 'formidable';
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 import path from 'path';
+import jwt from 'jsonwebtoken';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,10 +18,30 @@ export const config = {
 
 const DB_IMAGE_DIR = path.join(process.cwd(), 'public', 'product_image');
 
+// Auth middleware for Vercel
+const authenticateAdmin = (req) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return false;
+    }
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-in-production');
+    return decoded.role === 'admin';
+  } catch (error) {
+    return false;
+  }
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
+  // Check admin authentication
+  if (!authenticateAdmin(req)) {
+    return res.status(403).json({ error: 'Not authorized as admin' });
   }
 
   const form = new formidable.IncomingForm();
