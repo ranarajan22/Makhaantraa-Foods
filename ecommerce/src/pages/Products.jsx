@@ -11,12 +11,33 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Always show these products at the top in this order if present
+  // Update: Use new product names as per database
+  const orderedNames = [
+    "Raw Makhana (Phool)",
+    "Roasted Makhana",
+    "Flavored Makhana"
+  ];
+  function getOrderedProducts(products) {
+    const nameMap = {};
+    products.forEach(p => {
+      if (p.name) nameMap[p.name.trim().toLowerCase()] = p;
+    });
+    const ordered = orderedNames
+      .map(name => nameMap[name.trim().toLowerCase()])
+      .filter(Boolean);
+    const rest = products.filter(
+      p => !orderedNames.some(name => p.name && p.name.trim().toLowerCase() === name.trim().toLowerCase())
+    );
+    return [...ordered, ...rest];
+  }
+
   const safeProducts = useMemo(() => {
     if (products.length) {
-      // Only show products with category 'Makhana', original order
-      return products.filter(p => (p.category === 'Makhana'));
+      // Only show products with category 'Makhana', custom order
+      return getOrderedProducts(products.filter(p => (p.category === 'Makhana')));
     }
-    return makhanaProducts.map(p => ({ ...p, productId: p.id, _id: p.id }));
+    return getOrderedProducts(makhanaProducts.map(p => ({ ...p, productId: p.id, _id: p.id })));
   }, [products]);
   
   // Scroll to top on page load

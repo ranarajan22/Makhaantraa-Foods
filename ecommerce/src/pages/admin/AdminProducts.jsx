@@ -16,6 +16,27 @@ export default function AdminProducts() {
       .catch(() => setProducts([]));
   }, []);
 
+  // Always show these products at the top in this order if present
+  // Update: Use new product names as per database
+  const orderedNames = [
+    "Raw Makhana (Phool)",
+    "Roasted Makhana",
+    "Flavored Makhana"
+  ];
+  function getOrderedProducts(products) {
+    const nameMap = {};
+    products.forEach(p => {
+      if (p.name) nameMap[p.name.trim().toLowerCase()] = p;
+    });
+    const ordered = orderedNames
+      .map(name => nameMap[name.trim().toLowerCase()])
+      .filter(Boolean);
+    const rest = products.filter(
+      p => !orderedNames.some(name => p.name && p.name.trim().toLowerCase() === name.trim().toLowerCase())
+    );
+    return [...ordered, ...rest];
+  }
+
   async function create(e) {
     e.preventDefault();
     try {
@@ -92,7 +113,7 @@ export default function AdminProducts() {
       </form>
 
       <ul>
-        {products.map((p) => (
+        {getOrderedProducts(products).map((p) => (
           <li key={p._id} className="flex justify-between items-center border p-3 rounded mb-2 bg-white">
             {editId === p._id ? (
               <>
