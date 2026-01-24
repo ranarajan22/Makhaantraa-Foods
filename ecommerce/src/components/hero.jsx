@@ -1,7 +1,6 @@
 // src/components/hero-new.jsx
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useSettings } from '../context/SettingsContext';
-import { makhanaProducts } from "../data/makhana";
 import { Link, useNavigate } from "react-router-dom";
 import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp } from "lucide-react";
 
