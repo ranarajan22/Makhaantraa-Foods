@@ -13,12 +13,12 @@ export default function Products() {
 
   // Always show these products at the top in this order if present
   // Update: Use new product names as per database
-  const orderedNames = [
-    "Raw Makhana (Phool)",
-    "Roasted Makhana",
-    "Flavored Makhana"
-  ];
   const getOrderedProducts = useCallback((products) => {
+    const orderedNames = [
+      "Raw Makhana (Phool)",
+      "Roasted Makhana",
+      "Flavored Makhana"
+    ];
     const nameMap = {};
     products.forEach(p => {
       if (p.name) nameMap[p.name.trim().toLowerCase()] = p;
@@ -30,7 +30,7 @@ export default function Products() {
       p => !orderedNames.some(name => p.name && p.name.trim().toLowerCase() === name.trim().toLowerCase())
     );
     return [...ordered, ...rest];
-  }, [orderedNames]);
+  }, []);
 
   const safeProducts = useMemo(() => {
     if (products.length) {
