@@ -50,7 +50,9 @@ export default async function handler(req, res) {
       if (err) {
         return res.status(500).json({ error: 'Form parse error', details: err.message });
       }
-      const file = files.image;
+      console.log('Formidable files:', files);
+      let file = files.image;
+      if (Array.isArray(file)) file = file[0];
       if (!file) {
         return res.status(400).json({ error: 'No file uploaded' });
       }
