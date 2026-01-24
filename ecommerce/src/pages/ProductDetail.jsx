@@ -316,14 +316,17 @@ export default function ProductDetail() {
               <div className="flex gap-3 mb-4">
                 <button
                   onClick={handleAddToCart}
+                  disabled={product.stock <= 0}
                   className={`flex-1 px-6 py-4 rounded-lg font-bold hover:opacity-95 transition shadow-brand flex items-center justify-center gap-2 text-lg ${
-                    isInCart(productKey) 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-brand-gradient text-white'
+                    product.stock <= 0
+                      ? 'bg-gray-400 text-white cursor-not-allowed opacity-60'
+                      : isInCart(productKey)
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-brand-gradient text-white'
                   }`}
                 >
                   <ShoppingCart size={24} />
-                  {isInCart(productKey) ? 'Go to Cart' : 'Add to Cart'}
+                  {product.stock <= 0 ? 'Out of Stock' : isInCart(productKey) ? 'Go to Cart' : 'Add to Cart'}
                 </button>
                 <button
                   onClick={handleAddToWishlist}
