@@ -32,6 +32,15 @@ export default function ProductDetail() {
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [quantity, setQuantity] = useState(1);
+  // Pack size selector logic (like cart)
+  const PACK_OPTIONS = [
+    { label: '200g', value: 0.2 },
+    { label: '1kg', value: 1 },
+    { label: '6kg', value: 6 },
+    { label: '7kg', value: 7 },
+    { label: '10kg', value: 10 },
+  ];
+  const [packSize, setPackSize] = useState(1); // default to 1kg
   const { cart, addToCart, addToWishlist, isInCart, isInWishlist } = useCart();
 
   // Scroll to top when component loads or product changes
@@ -247,6 +256,7 @@ export default function ProductDetail() {
     );
   }
 
+
   return (
     <div className="bg-brand-soft min-h-screen">
       <section className="bg-white shadow-brand border-b border-green-50">
@@ -261,19 +271,47 @@ export default function ProductDetail() {
               <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Moisture</div><div className="font-semibold">{product.moisture || "-"}</div></div>
               <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Packaging</div><div className="font-semibold">{product.packaging || "-"}</div></div>
             </div>
-            
+
+            {/* Pack Size Selector */}
+            <div className="mb-4">
+              <label className="text-xs font-semibold text-gray-700 flex items-center gap-1 mb-2">
+                <Gift size={14} className="text-green-600" />
+                Pack Size
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {PACK_OPTIONS.map((opt) => {
+                  const active = Number(opt.value) === Number(packSize);
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setPackSize(opt.value)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                        active
+                          ? 'bg-green-600 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-600'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Price and Cart Section */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-4xl font-bold text-brand">₹{product.price || 299}</span>
+                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 299) * packSize)}</span>
                 {product.originalPrice && (
-                  <span className="text-xl text-gray-400 line-through">₹{product.originalPrice}</span>
+                  <span className="text-xl text-gray-400 line-through">₹{Math.round(product.originalPrice * packSize)}</span>
                 )}
                 {product.discount && (
                   <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full font-semibold">
                     {product.discount}% OFF
                   </span>
                 )}
+                <span className="text-xs text-gray-500 ml-2">({packSize}kg)</span>
               </div>
 
               <div className="flex items-center gap-3 text-sm text-slate-700 mb-4">
@@ -283,7 +321,7 @@ export default function ProductDetail() {
                   <span className="bg-red-50 text-red-600 px-3 py-1 rounded-full border border-red-100 font-semibold">Inactive</span>
                 )}
               </div>
-              
+
               {/* Quantity Selector */}
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Quantity</label>
