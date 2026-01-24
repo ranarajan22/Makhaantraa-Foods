@@ -20,8 +20,6 @@ app.use(mongoSanitize());
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://127.0.0.1:3000').split(',');
 const corsOptions = {
   origin: (origin, callback) => {
-    console.log('CORS check: incoming Origin =', origin);
-    console.log('CORS check: allowedOrigins =', allowedOrigins);
     const isDev = process.env.NODE_ENV !== 'production';
     if (isDev) {
       return callback(null, true); // allow all origins in dev to avoid local CORS blocks
@@ -33,7 +31,6 @@ const corsOptions = {
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    console.log('CORS blocked: Origin not allowed:', origin);
     return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
