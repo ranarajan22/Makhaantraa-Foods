@@ -315,9 +315,9 @@ function FeaturedProducts() {
     );
   }
 
-  // Only show these products in order
+  // Only show these products in order using exact backend names
   const featuredNames = [
-    "7 Suta Makhana (Hand Picked)",
+    "7 Suta Makhana",
     "6 Suta Makhana",
     "5 Suta Makhana",
     "Roasted Makhana"
