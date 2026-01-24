@@ -344,11 +344,11 @@ function FeaturedProducts() {
             onClick={() => navigate(`/product/${p.productId || p._id || p.id}`)}
             className="group text-left bg-white rounded-3xl shadow-lg border-2 border-gray-100 overflow-hidden hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
           >
-            <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6 overflow-hidden relative">
+            <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
               <img
                 src={p.mainImage || p.image || (p.images && p.images[0]) || '/product_image/ceramic.jpg'}
                 alt={p.name}
-                className="object-contain w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
                 onError={(e) => { e.target.src = '/product_image/ceramic.jpg'; }}
               />
               <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
