@@ -141,12 +141,7 @@ export default function Products() {
                 {p.originalPrice ? <span className="text-sm text-gray-400 line-through">₹{p.originalPrice}</span> : null}
                 {p.discount ? <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-semibold">{p.discount}% OFF</span> : null}
               </div>
-              <div className="grid grid-cols-2 gap-2 text-sm text-slate-700">
-                <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Pop Rate</div><div className="font-semibold">{p.popRate || "-"}</div></div>
-                <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Moisture</div><div className="font-semibold">{p.moisture || "-"}</div></div>
-                <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Packaging</div><div className="font-semibold">{p.packaging || "-"}</div></div>
-                <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Use Case</div><div className="font-semibold">{p.use || "-"}</div></div>
-              </div>
+              {/* Removed pop rate, moisture, packaging, use case for product cards as requested */}
               <div className="flex items-center justify-between text-sm text-slate-700">
                 <span className="flex items-center gap-2">
                   <span>MOQ: <span className="font-semibold">{p.moq || "-"}</span></span>
