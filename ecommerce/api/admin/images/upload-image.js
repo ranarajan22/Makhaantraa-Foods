@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Cloudinary environment variables are not set' });
     }
 
-    const form = new formidable.IncomingForm();
+    const form = formidable();
     form.parse(req, async (err, fields, files) => {
       if (err) {
         return res.status(500).json({ error: 'Form parse error', details: err.message });
