@@ -1,3 +1,33 @@
+// Auto-scrolling wrapper for horizontal scroller
+function AutoScrollScroller({ children, speed = 1 }) {
+  const containerRef = React.useRef(null);
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    let frame;
+    let scrollLeft = 0;
+    let running = true;
+    function animate() {
+      if (!running) return;
+      scrollLeft += speed;
+      if (scrollLeft >= container.scrollWidth - container.clientWidth) {
+        scrollLeft = 0;
+      }
+      container.scrollLeft = scrollLeft;
+      frame = requestAnimationFrame(animate);
+    }
+    frame = requestAnimationFrame(animate);
+    return () => {
+      running = false;
+      cancelAnimationFrame(frame);
+    };
+  }, [speed]);
+  return (
+    <div ref={containerRef} className="overflow-x-auto scrollbar-thin scrollbar-thumb-green-200 scrollbar-track-green-50">
+      {children}
+    </div>
+  );
+}
 // src/components/hero-new.jsx
 import React, { useEffect, useState } from "react";
 import { useSettings } from '../context/SettingsContext';
@@ -155,7 +185,7 @@ function FeaturedCategories() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     setLoaded(false);
-    fetch('/api/products?limit=100')
+    fetch(`${process.env.REACT_APP_API_BASE_URL || 'https://makhaantraa-foods.onrender.com'}/api/products?limit=100`)
       .then(res => res.json())
       .then(data => {
         setProducts(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts);
@@ -163,9 +193,6 @@ function FeaturedCategories() {
       })
       .catch(() => { setProducts(makhanaProducts); setLoaded(true); });
   }, []);
-
-  // Group by grade
-  const grades = Array.from(new Set(products.map(p => p.grade).filter(Boolean)));
 
   if (!loaded) {
     return (
@@ -193,41 +220,37 @@ function FeaturedCategories() {
       <div className="relative">
         <AutoScrollScroller>
           <div className="flex gap-6 pb-4">
-            {grades.map(grade => {
-              const product = products.find(p => p.grade === grade);
-              if (!product) return null;
-              return (
-                <Link
-                  key={product._id || product.productId || product.id}
-                  to={`/product/${product.productId || product._id || product.id}`}
-                  className="min-w-[300px] max-w-xs group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
-                >
-                  <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
-                    <img
-                      src={product.mainImage || (product.images && product.images[0]) || 'product_image/ceramic.jpg'}
-                      alt={product.name}
-                      className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
-                      onError={e => { e.target.onerror = null; e.target.src = 'product_image/ceramic.jpg'; }}
-                    />
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
-                      {product.grade}
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {products.map(product => (
+              <Link
+                key={product._id || product.productId || product.id}
+                to={`/product/${product.productId || product._id || product.id}`}
+                className="min-w-[300px] max-w-xs group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
+              >
+                <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
+                  <img
+                    src={product.mainImage || (product.images && product.images[0]) || 'product_image/ceramic.jpg'}
+                    alt={product.name}
+                    className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                    onError={e => { e.target.onerror = null; e.target.src = 'product_image/ceramic.jpg'; }}
+                  />
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                    {product.grade}
                   </div>
-                  <div className="p-6">
-                    <h4 className="font-bold text-xl text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
-                      {product.name}
-                    </h4>
-                    <p className="text-sm font-semibold text-green-700 mb-2">{product.description}</p>
-                    <p className="text-xs text-slate-600 mb-4">MOQ: {product.moq} | Pop Rate: {product.popRate}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-green-700 font-bold text-sm group-hover:text-green-800">View Details</span>
-                      <span className="text-green-700 group-hover:translate-x-1 transition-transform">→</span>
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div className="p-6">
+                  <h4 className="font-bold text-xl text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                    {product.name}
+                  </h4>
+                  <p className="text-sm font-semibold text-green-700 mb-2">{product.description}</p>
+                  <p className="text-xs text-slate-600 mb-4">MOQ: {product.moq} | Pop Rate: {product.popRate}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-green-700 font-bold text-sm group-hover:text-green-800">View Details</span>
+                    <span className="text-green-700 group-hover:translate-x-1 transition-transform">→</span>
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         </AutoScrollScroller>
       </div>
