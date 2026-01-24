@@ -257,7 +257,7 @@ export default function EnhancedProductList() {
                           className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                           <ShoppingCart size={18} />
-                          Add to Cart
+                          {product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
                         <button
                           onClick={(e) => handleAddToWishlist(e, product)}
