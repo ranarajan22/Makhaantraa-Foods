@@ -75,7 +75,8 @@ function Footer() {
                   placeholder="Enter your email" 
                   required
                   disabled={loading}
-                  className="flex-1 px-3 py-2 rounded-md text-slate-900 border border-slate-600 bg-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed" 
+                  className="flex-1 px-3 py-2 rounded-md text-white border border-slate-600 bg-slate-700 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed" 
+                  style={{ color: 'white', '::placeholder': { color: '#cbd5e1' } }}
                 />
                 <button 
                   type="submit" 
