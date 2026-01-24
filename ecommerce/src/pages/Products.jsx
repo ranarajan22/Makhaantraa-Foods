@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Package, ShieldCheck, AlertCircle } from "lucide-react";
 
@@ -18,7 +18,7 @@ export default function Products() {
     "Roasted Makhana",
     "Flavored Makhana"
   ];
-  function getOrderedProducts(products) {
+  const getOrderedProducts = useCallback((products) => {
     const nameMap = {};
     products.forEach(p => {
       if (p.name) nameMap[p.name.trim().toLowerCase()] = p;
@@ -30,7 +30,7 @@ export default function Products() {
       p => !orderedNames.some(name => p.name && p.name.trim().toLowerCase() === name.trim().toLowerCase())
     );
     return [...ordered, ...rest];
-  }
+  }, [orderedNames]);
 
   const safeProducts = useMemo(() => {
     if (products.length) {
@@ -38,7 +38,7 @@ export default function Products() {
       return getOrderedProducts(products.filter(p => (p.category === 'Makhana')));
     }
     return getOrderedProducts(makhanaProducts.map(p => ({ ...p, productId: p.id, _id: p.id })));
-  }, [products]);
+  }, [products, getOrderedProducts]);
   
   // Scroll to top on page load
   useEffect(() => {

@@ -9,6 +9,8 @@ const FreeSample = require('./models/FreeSample');
 
 const seedMakhanaDatabase = async () => {
   try {
+    // Log the MongoDB URI being used
+    console.log('Connecting to MongoDB URI:', process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce');
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce');
     console.log('✅ Connected to MongoDB');
@@ -278,7 +280,7 @@ const seedMakhanaDatabase = async () => {
         packaging: '25kg',
         postSampleQty: 'above-100',
         notes: 'Need consistent supply for retail distribution',
-        status: 'pending'
+        status: 'Pending'
       },
       {
         userId: users[1]._id,
@@ -298,7 +300,7 @@ const seedMakhanaDatabase = async () => {
         packaging: '50kg',
         postSampleQty: 'above-500',
         notes: 'Looking for premium grade for export',
-        status: 'pending'
+        status: 'Pending'
       }
     ]);
     console.log(`📦 Created ${bulkOrders.length} sample bulk orders`);
@@ -321,7 +323,7 @@ const seedMakhanaDatabase = async () => {
         makhanaType: '5-suta',
         requirement: 'Product quality testing',
         message: 'Would like to test before bulk ordering',
-        status: 'pending'
+        status: 'Pending'
       }
     ]);
     console.log(`🎁 Created ${freeSamples.length} sample free sample requests`);
