@@ -8,7 +8,7 @@ function Footer() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const whatsappNumber = (settings?.whatsappNumber || '+917667599756').replace(/\s+/g, '');
+  const whatsappNumber = (settings?.whatsappNumber || '+919142252059').replace(/\s+/g, '');
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^\d+]/g, '')}`;
 
   const handleSubscribe = (e) => {

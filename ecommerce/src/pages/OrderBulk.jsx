@@ -10,14 +10,14 @@ export default function OrderBulk() {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const { settings } = useSettings();
-  const waNumber = (settings?.whatsappNumber || '').replace(/\D/g, '') || '919999999999';
+  const waNumber = (settings?.whatsappNumber || '').replace(/\D/g, '') || '919142252059';
   const waMsg = encodeURIComponent('Hello! I want to discuss a bulk makhana order.');
   const waUrl = `https://wa.me/${waNumber}?text=${waMsg}`;
   
   const [form, setForm] = useState({
     fullName: "",
     company: "",
-    phone: "",
+    phone: "9142252059",
     email: "",
     addressLine1: "",
     addressLine2: "",
@@ -37,9 +37,9 @@ export default function OrderBulk() {
     if (user) {
       setForm((prev) => ({
         ...prev,
-        fullName: prev.fullName || user.name || '',
-        email: prev.email || user.email || '',
-        phone: prev.phone || user.phone || ''
+        fullName: user.name || '',
+        email: user.email || '',
+        phone: user.phone || ''
       }));
     }
   }, [user]);
