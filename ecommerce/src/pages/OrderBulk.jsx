@@ -1,8 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from '../utils/api.js';
 import { ClipboardList, CheckCircle2, ShieldCheck, MessageCircle } from "lucide-react";
 import { useAuth } from '../context/AuthContext';
 export default function OrderBulk() {
+  const [footerVisible, setFooterVisible] = useState(false);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    const footer = document.querySelector('footer');
+    if (footer) {
+      observer.observe(footer);
+      footerRef.current = footer;
+    }
+    return () => {
+      if (footerRef.current) observer.unobserve(footerRef.current);
+    };
+  }, []);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
@@ -106,7 +123,7 @@ export default function OrderBulk() {
               href={waUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center group"
+              className={`fixed ${footerVisible ? 'bottom-28' : 'bottom-6'} right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center group`}
               title="Chat on WhatsApp"
             >
               <MessageCircle size={28} fill="currentColor" />
