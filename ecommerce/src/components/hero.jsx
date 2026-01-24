@@ -230,37 +230,36 @@ function FeaturedCategories() {
           </div>
         </AutoScrollScroller>
       </div>
-      // Auto-scrolling wrapper for horizontal scroller
-      import React, { useRef, useEffect } from "react";
-      function AutoScrollScroller({ children, speed = 1 }) {
-        const containerRef = useRef(null);
-        useEffect(() => {
-          const container = containerRef.current;
-          if (!container) return;
-          let frame;
-          let scrollLeft = 0;
-          let running = true;
-          function animate() {
-            if (!running) return;
-            scrollLeft += speed;
-            if (scrollLeft >= container.scrollWidth - container.clientWidth) {
-              scrollLeft = 0;
-            }
-            container.scrollLeft = scrollLeft;
-            frame = requestAnimationFrame(animate);
-          }
-          frame = requestAnimationFrame(animate);
-          return () => {
-            running = false;
-            cancelAnimationFrame(frame);
-          };
-        }, [speed]);
-        return (
-          <div ref={containerRef} className="overflow-x-auto scrollbar-thin scrollbar-thumb-green-200 scrollbar-track-green-50">
-            {children}
-          </div>
-        );
+// Auto-scrolling wrapper for horizontal scroller
+function AutoScrollScroller({ children, speed = 1 }) {
+  const containerRef = React.useRef(null);
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    let frame;
+    let scrollLeft = 0;
+    let running = true;
+    function animate() {
+      if (!running) return;
+      scrollLeft += speed;
+      if (scrollLeft >= container.scrollWidth - container.clientWidth) {
+        scrollLeft = 0;
       }
+      container.scrollLeft = scrollLeft;
+      frame = requestAnimationFrame(animate);
+    }
+    frame = requestAnimationFrame(animate);
+    return () => {
+      running = false;
+      cancelAnimationFrame(frame);
+    };
+  }, [speed]);
+  return (
+    <div ref={containerRef} className="overflow-x-auto scrollbar-thin scrollbar-thumb-green-200 scrollbar-track-green-50">
+      {children}
+    </div>
+  );
+}
       <div className="text-center mt-12">
         <Link
           to="/products"
