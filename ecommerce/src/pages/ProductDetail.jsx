@@ -272,32 +272,7 @@ export default function ProductDetail() {
               <div className="bg-green-50 rounded-lg p-3"><div className="text-xs text-slate-500">Packaging</div><div className="font-semibold">{product.packaging || "-"}</div></div>
             </div>
 
-            {/* Pack Size Selector */}
-            <div className="mb-4">
-              <label className="text-xs font-semibold text-gray-700 flex items-center gap-1 mb-2">
-                <Gift size={14} className="text-green-600" />
-                Pack Size
-              </label>
-              <div className="flex flex-wrap gap-1.5">
-                {PACK_OPTIONS.map((opt) => {
-                  const active = Number(opt.value) === Number(packSize);
-                  return (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setPackSize(opt.value)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                        active
-                          ? 'bg-green-600 text-white shadow-md'
-                          : 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-600'
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+
 
             {/* Price and Cart Section */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
@@ -320,6 +295,33 @@ export default function ProductDetail() {
                 {product.active === false && (
                   <span className="bg-red-50 text-red-600 px-3 py-1 rounded-full border border-red-100 font-semibold">Inactive</span>
                 )}
+              </div>
+
+              {/* Pack Size Selector - moved here above Add to Cart */}
+              <div className="mb-4">
+                <label className="text-xs font-semibold text-gray-700 flex items-center gap-1 mb-2">
+                  <Gift size={14} className="text-green-600" />
+                  Pack Size
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {PACK_OPTIONS.map((opt) => {
+                    const active = Number(opt.value) === Number(packSize);
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setPackSize(opt.value)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                          active
+                            ? 'bg-green-600 text-white shadow-md'
+                            : 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-600'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Quantity Selector */}
