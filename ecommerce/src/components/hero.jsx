@@ -1,6 +1,7 @@
 // src/components/hero-new.jsx
 import React, { useEffect, useState } from "react";
 import { useSettings } from '../context/SettingsContext';
+import { makhanaProducts } from "../data/makhana";
 import { Link, useNavigate } from "react-router-dom";
 import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp } from "lucide-react";
 
@@ -157,10 +158,10 @@ function FeaturedCategories() {
     fetch('/api/products?limit=100')
       .then(res => res.json())
       .then(data => {
-        setProducts(Array.isArray(data.products) ? data.products : []);
+        setProducts(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts);
         setLoaded(true);
       })
-      .catch(() => setLoaded(true));
+      .catch(() => { setProducts(makhanaProducts); setLoaded(true); });
   }, []);
 
   // Group by grade
@@ -297,10 +298,10 @@ function FeaturedProducts() {
     fetch('/api/products?featured=true&limit=4')
       .then(res => res.json())
       .then(data => {
-        setFeatured(Array.isArray(data.products) ? data.products : []);
+        setFeatured(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts.filter(p => p.featured));
         setLoaded(true);
       })
-      .catch(() => setLoaded(true));
+      .catch(() => { setFeatured(makhanaProducts.filter(p => p.featured)); setLoaded(true); });
   }, []);
 
   if (!loaded) {
