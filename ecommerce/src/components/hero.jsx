@@ -3,6 +3,7 @@ import { useSettings } from '../context/SettingsContext';
 import { makhanaProducts } from "../data/makhana";
 import { Link, useNavigate } from "react-router-dom";
 import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp } from "lucide-react";
+import { API_BASE_URL } from '../config';
 
 /* ---------------------- Skeleton ---------------------- */
 const Skeleton = ({ height = "20px", width = "100%", className = "" }) => (
@@ -154,7 +155,7 @@ function FeaturedCategories() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     setLoaded(false);
-    fetch(`${process.env.REACT_APP_API_BASE_URL || 'https://makhaantraa-foods.onrender.com'}/api/products?limit=100`)
+    fetch(`${API_BASE_URL}/api/products?limit=100`)
       .then(res => res.json())
       .then(data => {
         setProducts(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts);
@@ -292,7 +293,7 @@ function FeaturedProducts() {
   const [featured, setFeatured] = useState([]);
   useEffect(() => {
     setLoaded(false);
-    fetch('/api/products?featured=true&limit=4')
+    fetch(`${API_BASE_URL}/api/products?featured=true&limit=4`)
       .then(res => res.json())
       .then(data => {
         setFeatured(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts.filter(p => p.featured));
