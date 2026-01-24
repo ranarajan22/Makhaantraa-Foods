@@ -11,7 +11,7 @@ export default function Makhana() {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const { settings } = useSettings();
-  const waNumber = (settings?.whatsappNumber || '').replace(/\D/g, '') || '919142252059';
+  const waNumber = '919142252059';
   const waMsg = encodeURIComponent('Hi! I am interested in a makhana free sample.');
   const waUrl = `https://wa.me/${waNumber}?text=${waMsg}`;
   
@@ -23,7 +23,7 @@ export default function Makhana() {
   const [form, setForm] = useState({
     name: "",
     company: "",
-    phone: "9142252059",
+    phone: "",
     email: "",
     addressLine1: "",
     addressLine2: "",
