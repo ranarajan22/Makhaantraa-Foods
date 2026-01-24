@@ -204,7 +204,7 @@ function FeaturedCategories() {
                 >
                   <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
                     <img
-                      src={product.mainImage || product.image || (product.images && product.images[0]) || 'product_image/ceramic.jpg'}
+                      src={product.mainImage || (product.images && product.images[0]) || 'product_image/ceramic.jpg'}
                       alt={product.name}
                       className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
                       onError={e => { e.target.onerror = null; e.target.src = 'product_image/ceramic.jpg'; }}
