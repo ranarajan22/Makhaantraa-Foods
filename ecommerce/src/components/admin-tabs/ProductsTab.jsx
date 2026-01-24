@@ -48,7 +48,8 @@ export default function ProductsTab({ products, loadData }) {
     });
   };
 
-  const handleUpdate = async () => {
+  // Save only non-image fields
+  const handleUpdateFields = async () => {
     try {
       await axios.put(`/api/admin/products/${editingId}`, {
         price: parseFloat(formData.price),
@@ -56,15 +57,28 @@ export default function ProductsTab({ products, loadData }) {
         discount: computeDiscount(formData.price, formData.originalPrice),
         stock: parseInt(formData.stock),
         moq: formData.moq,
-        active: formData.active,
-        mainImage: formData.mainImage,
-        images: Array.isArray(formData.images) ? formData.images : (formData.images ? formData.images.split(',').map(s => s.trim()).filter(Boolean) : [])
+        active: formData.active
       });
-      toast.success('Product updated');
+      toast.success('Product details updated');
       setEditingId(null);
       loadData();
     } catch (error) {
-      toast.error('Failed to update product');
+      toast.error('Failed to update product details');
+    }
+  };
+
+  // Save only image fields
+  const handleUpdateImage = async () => {
+    try {
+      await axios.put(`/api/admin/products/${editingId}`, {
+        mainImage: formData.mainImage,
+        images: Array.isArray(formData.images) ? formData.images : (formData.images ? formData.images.split(',').map(s => s.trim()).filter(Boolean) : [])
+      });
+      toast.success('Product image updated');
+      setEditingId(null);
+      loadData();
+    } catch (error) {
+      toast.error('Failed to update product image');
     }
   };
 
@@ -302,16 +316,24 @@ export default function ProductsTab({ products, loadData }) {
                     <span className="text-sm text-slate-800">{formData.active ? 'Visible & In Stock' : 'Hidden'}</span>
                   </button>
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleUpdate}
-                    className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
-                  >
-                    Save Changes
-                  </button>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleUpdateImage}
+                      className="flex-1 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+                    >
+                      Save Image
+                    </button>
+                    <button
+                      onClick={handleUpdateFields}
+                      className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
+                    >
+                      Save Details
+                    </button>
+                  </div>
                   <button
                     onClick={() => setEditingId(null)}
-                    className="flex-1 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 font-semibold"
+                    className="w-full py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 font-semibold"
                   >
                     Cancel
                   </button>
