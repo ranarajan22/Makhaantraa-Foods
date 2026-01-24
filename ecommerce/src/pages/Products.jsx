@@ -147,7 +147,13 @@ export default function Products() {
                   <span>MOQ: <span className="font-semibold">{p.moq || "-"}</span></span>
                   <span className="text-xs text-slate-500">| Stock: {typeof p.stock === "number" ? p.stock : "-"}</span>
                 </span>
-                <span className="text-brand font-semibold">View details →</span>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold shadow hover:from-green-700 hover:to-emerald-700 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
+                  onClick={e => { e.stopPropagation(); navigate(`/product/${p.productId || p._id || p.id}`); }}
+                >
+                  View Details <span className="text-lg">→</span>
+                </button>
               </div>
             </button>
           );
