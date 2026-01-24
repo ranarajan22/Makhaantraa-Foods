@@ -260,6 +260,13 @@ export default function EnhancedProductList() {
                           {product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
                         <button
+                          onClick={() => navigate('/cart')}
+                          disabled={product.stock <= 0}
+                          className="flex-1 bg-gradient-to-r from-green-500 to-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                          {product.stock <= 0 ? 'Out of Stock' : 'Go to Cart'}
+                        </button>
+                        <button
                           onClick={(e) => handleAddToWishlist(e, product)}
                           className={`p-2 rounded-lg border-2 transition ${
                             isInWishlist(product._id)
