@@ -152,45 +152,20 @@ function HeroSection() {
 /* ---------------------- Featured Categories ---------------------- */
 function FeaturedCategories() {
   const [loaded, setLoaded] = useState(false);
-  const categories = [
-    { 
-      id: "7-suta", 
-      title: "7 Suta Premium", 
-      subtitle: "16mm+ • 99% Pop", 
-      img: "/product_image/ceramic.jpg", 
-      badge: "Flagship",
-      specs: "Export grade, premium retail"
-    },
-    { 
-      id: "6-suta", 
-      title: "6+ Suta Grade", 
-      subtitle: "14-16mm • 98% Pop", 
-      img: "/product_image/ceramic1.jpg", 
-      badge: "Popular",
-      specs: "Best seller, retail ready"
-    },
-    { 
-      id: "raw-makhana", 
-      title: "Raw/Phool Makhana", 
-      subtitle: "Unprocessed Bulk", 
-      img: "/product_image/pot.jpg", 
-      badge: "Wholesale",
-      specs: "Processing, bulk orders"
-    },
-    { 
-      id: "flavored-makhana", 
-      title: "Flavored RTE", 
-      subtitle: "Private Label", 
-      img: "/product_image/candle.jpg", 
-      badge: "New",
-      specs: "Ready-to-eat, customizable"
-    },
-  ];
-
+  const [products, setProducts] = useState([]);
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 500);
-    return () => clearTimeout(timer);
+    setLoaded(false);
+    fetch('/api/products?limit=100')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
   }, []);
+
+  // Group by grade
+  const grades = Array.from(new Set(products.map(p => p.grade).filter(Boolean)));
 
   if (!loaded) {
     return (
@@ -215,50 +190,48 @@ function FeaturedCategories() {
         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Shop by Makhana Grade</h2>
         <p className="text-xl text-slate-600 max-w-2xl mx-auto">From premium 7 Suta export quality to ready-to-eat flavored varieties</p>
       </div>
-      
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {categories.map(c => (
-          <Link 
-            key={c.id} 
-            to={`/product/${c.id}`} 
-            className="group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
-          >
-            <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
-              <img 
-                src={c.img} 
-                alt={c.title} 
-                className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
-                {c.badge}
+        {grades.map(grade => {
+          const product = products.find(p => p.grade === grade);
+          if (!product) return null;
+          return (
+            <Link
+              key={product._id || product.productId || product.id}
+              to={`/product/${product.productId || product._id || product.id}`}
+              className="group block overflow-hidden rounded-3xl bg-white shadow-lg border-2 border-green-50 hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
+            >
+              <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
+                <img
+                  src={product.mainImage || product.image || (product.images && product.images[0]) || '/product_image/ceramic.jpg'}
+                  alt={product.name}
+                  className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                  {product.grade}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            
-            <div className="p-6">
-              <h4 className="font-bold text-xl text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
-                {c.title}
-              </h4>
-              <p className="text-sm font-semibold text-green-700 mb-2">{c.subtitle}</p>
-              <p className="text-xs text-slate-600 mb-4">{c.specs}</p>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-green-700 font-bold text-sm group-hover:text-green-800">View Details</span>
-                <span className="text-green-700 group-hover:translate-x-1 transition-transform">→</span>
+              <div className="p-6">
+                <h4 className="font-bold text-xl text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                  {product.name}
+                </h4>
+                <p className="text-sm font-semibold text-green-700 mb-2">{product.description}</p>
+                <p className="text-xs text-slate-600 mb-4">MOQ: {product.moq} | Pop Rate: {product.popRate}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-green-700 font-bold text-sm group-hover:text-green-800">View Details</span>
+                  <span className="text-green-700 group-hover:translate-x-1 transition-transform">→</span>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
-
-      {/* View All CTA */}
       <div className="text-center mt-12">
-        <Link 
-          to="/products" 
+        <Link
+          to="/products"
           className="inline-flex items-center gap-2 bg-white border-2 border-green-600 text-green-700 px-8 py-4 rounded-xl font-bold hover:bg-green-600 hover:text-white transition-all shadow-lg hover:shadow-xl"
         >
-          <span>View All 7 Grades</span>
+          <span>View All Grades</span>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
@@ -320,46 +293,16 @@ function FeaturedProducts() {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
   const [featured, setFeatured] = useState([]);
-  const [featuredError, setFeaturedError] = useState("");
-  const fallbackFeatured = useMemo(() => 
-    makhanaProducts.filter(p => 
-      ['7-suta', '6-suta', '5-suta', 'flavored-makhana'].includes(p.id)
-    ), []
-  );
-
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 500);
-    return () => clearTimeout(timer);
+    setLoaded(false);
+    fetch('/api/products?featured=true&limit=4')
+      .then(res => res.json())
+      .then(data => {
+        setFeatured(Array.isArray(data.products) ? data.products : []);
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
   }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const fetchFeatured = async () => {
-      try {
-        setFeaturedError("");
-        const res = await fetch(`/api/products?featured=true&limit=4`, { signal: controller.signal });
-        if (!res.ok) throw new Error(`Failed to load featured (${res.status})`);
-        const data = await res.json();
-        const items = Array.isArray(data.products) ? data.products : [];
-        if (isMounted) {
-          setFeatured(items.length ? items : fallbackFeatured);
-        }
-      } catch (err) {
-        if (!isMounted || err.name === "AbortError") return;
-        console.warn("Featured fetch failed", err);
-        setFeaturedError("Live featured products unavailable. Showing defaults.");
-        setFeatured(fallbackFeatured);
-      }
-    };
-
-    fetchFeatured();
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, [fallbackFeatured]);
 
   if (!loaded) {
     return (
@@ -393,10 +336,10 @@ function FeaturedProducts() {
             className="group text-left bg-white rounded-3xl shadow-lg border-2 border-gray-100 overflow-hidden hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
           >
             <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6 overflow-hidden relative">
-              <img 
-                src={p.mainImage || p.image || (p.images && p.images[0]) || '/product_image/ceramic.jpg'} 
-                alt={p.name} 
-                className="object-contain w-full h-full transform group-hover:scale-110 transition-transform duration-500" 
+              <img
+                src={p.mainImage || p.image || (p.images && p.images[0]) || '/product_image/ceramic.jpg'}
+                alt={p.name}
+                className="object-contain w-full h-full transform group-hover:scale-110 transition-transform duration-500"
                 onError={(e) => { e.target.src = '/product_image/ceramic.jpg'; }}
               />
               <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
@@ -408,7 +351,6 @@ function FeaturedProducts() {
               <h3 className="font-bold text-xl text-slate-900 mb-3 group-hover:text-green-700 transition-colors">
                 {p.name}
               </h3>
-              
               <div className="space-y-2 mb-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-600">Pop Rate:</span>
@@ -423,7 +365,6 @@ function FeaturedProducts() {
                   <span className="font-semibold text-slate-900">{p.moq}</span>
                 </div>
               </div>
-
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <span className="text-green-700 font-bold group-hover:text-green-800">View Details</span>
                 <span className="text-green-700 group-hover:translate-x-1 transition-transform">→</span>
@@ -432,12 +373,6 @@ function FeaturedProducts() {
           </button>
         ))}
       </div>
-
-      {featuredError && (
-        <div className="text-center text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-4 py-2 inline-block">
-          {featuredError}
-        </div>
-      )}
     </section>
   );
 }
