@@ -196,7 +196,6 @@ function FeaturedCategories() {
             {grades.map(grade => {
               const product = products.find(p => p.grade === grade);
               if (!product) return null;
-              console.log('Shop by Makhana Grade product:', product); // DEBUG
               return (
                 <Link
                   key={product._id || product.productId || product.id}
@@ -245,36 +244,6 @@ function FeaturedCategories() {
       </div>
     </section>
   );
-// Auto-scrolling wrapper for horizontal scroller
-function AutoScrollScroller({ children, speed = 1 }) {
-  const containerRef = React.useRef(null);
-  React.useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    let frame;
-    let scrollLeft = 0;
-    let running = true;
-    function animate() {
-      if (!running) return;
-      scrollLeft += speed;
-      if (scrollLeft >= container.scrollWidth - container.clientWidth) {
-        scrollLeft = 0;
-      }
-      container.scrollLeft = scrollLeft;
-      frame = requestAnimationFrame(animate);
-    }
-    frame = requestAnimationFrame(animate);
-    return () => {
-      running = false;
-      cancelAnimationFrame(frame);
-    };
-  }, [speed]);
-  return (
-    <div ref={containerRef} className="overflow-x-auto scrollbar-thin scrollbar-thumb-green-200 scrollbar-track-green-50">
-      {children}
-    </div>
-  );
-}
 }
 
 /* ---------------------- Deals Banner ---------------------- */
@@ -353,14 +322,14 @@ function FeaturedProducts() {
     );
   }
 
-  // Only show the 4 requested products by id
-  const featuredIds = [
-    '7-suta',
-    '6-suta',
-    'raw-makhana',
-    'roasted-makhana',
+  // Only show these grades in order
+  const featuredGrades = [
+    "Super Premium 16mm+",
+    "Premium 14-16mm",
+    "Mixed size, cleaned",
+    "Ready-to-eat"
   ];
-  const featuredToShow = featured.filter(p => featuredIds.includes(p.id)).slice(0, 4);
+  const featuredToShow = featured.filter(p => featuredGrades.includes(p.grade)).slice(0, 4);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 bg-white">
