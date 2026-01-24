@@ -196,6 +196,7 @@ function FeaturedCategories() {
             {grades.map(grade => {
               const product = products.find(p => p.grade === grade);
               if (!product) return null;
+              console.log('Shop by Makhana Grade product:', product); // DEBUG
               return (
                 <Link
                   key={product._id || product.productId || product.id}
