@@ -26,7 +26,11 @@ const corsOptions = {
     if (isDev) {
       return callback(null, true); // allow all origins in dev to avoid local CORS blocks
     }
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      // Allow requests with no Origin (e.g., direct browser, server-to-server)
+      return callback(null, true);
+    }
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     console.log('CORS blocked: Origin not allowed:', origin);
