@@ -277,16 +277,16 @@ export default function ProductDetail() {
             {/* Price and Cart Section */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 299) * packSize)}</span>
+                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 299) * packSize * quantity)}</span>
                 {product.originalPrice && (
-                  <span className="text-xl text-gray-400 line-through">₹{Math.round(product.originalPrice * packSize)}</span>
+                  <span className="text-xl text-gray-400 line-through">₹{Math.round(product.originalPrice * packSize * quantity)}</span>
                 )}
                 {product.discount && (
                   <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full font-semibold">
                     {product.discount}% OFF
                   </span>
                 )}
-                <span className="text-xs text-gray-500 ml-2">({packSize}kg)</span>
+                <span className="text-xs text-gray-500 ml-2">({packSize}kg × {quantity})</span>
               </div>
 
               <div className="flex items-center gap-3 text-sm text-slate-700 mb-4">

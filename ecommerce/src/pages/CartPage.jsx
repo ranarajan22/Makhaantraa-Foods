@@ -148,8 +148,8 @@ export default function CartPage() {
                         </h3>
                       </Link>
                       <div className="flex items-baseline gap-2 mb-2">
-                        <p className="text-xl font-bold text-green-600">₹{perPackPrice}</p>
-                        <span className="text-xs text-gray-500">({packSize}kg)</span>
+                        <p className="text-xl font-bold text-green-600">₹{perPackPrice * (item.qty || 1)}</p>
+                        <span className="text-xs text-gray-500">({packSize}kg × {item.qty || 1})</span>
                       </div>
                       <p className="text-xs text-gray-600 mb-2 bg-gray-50 px-2 py-1 rounded inline-block">₹{item.price}/kg</p>
                       <div className="mb-3">
