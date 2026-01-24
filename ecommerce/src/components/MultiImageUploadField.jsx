@@ -9,6 +9,7 @@ export default function MultiImageUploadField({ value = [], onChange, label = 'P
     if (!files.length) return;
     setUploading(true);
     const uploaded = [];
+    const token = localStorage.getItem('token');
     for (const file of files) {
       const formData = new FormData();
       formData.append('image', file);
@@ -16,14 +17,19 @@ export default function MultiImageUploadField({ value = [], onChange, label = 'P
         const res = await fetch('/api/admin/images/upload-image', {
           method: 'POST',
           body: formData,
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
           credentials: 'include',
         });
         const data = await res.json();
         if (data.url) {
           uploaded.push(data.url);
+        } else {
+          console.error('Upload failed:', data.error);
         }
       } catch (err) {
-        // skip failed uploads
+        console.error('Upload error:', err);
       }
     }
     const next = [...previews, ...uploaded];

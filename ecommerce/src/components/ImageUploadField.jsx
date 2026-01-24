@@ -10,10 +10,14 @@ export default function ImageUploadField({ value, onChange, label = 'Product Ima
     setUploading(true);
     const formData = new FormData();
     formData.append('image', file);
+    const token = localStorage.getItem('token');
     try {
       const res = await fetch('/api/admin/images/upload-image', {
         method: 'POST',
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         credentials: 'include',
       });
       const data = await res.json();
