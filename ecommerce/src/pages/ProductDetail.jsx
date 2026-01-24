@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { makhanaProducts } from "../data/makhana";
 import { API_BASE_URL } from "../config";
-import { Shield, Truck, Sparkles, ClipboardList, Star, ShoppingCart, Heart, Minus, Plus } from "lucide-react";
+import { Shield, Truck, Sparkles, ClipboardList, Star, ShoppingCart, Heart, Minus, Plus, Gift } from "lucide-react";
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
