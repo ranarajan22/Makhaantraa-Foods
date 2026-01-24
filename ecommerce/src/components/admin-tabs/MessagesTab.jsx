@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 export default function MessagesTab({ messages, loadData }) {
   const [selected, setSelected] = useState(null);
   const [q, setQ] = useState('');
   const ql = q.trim().toLowerCase();
   const filtered = !ql ? (messages || []) : (messages || []).filter(m => [m.name, m.email, m.subject, m.message].filter(Boolean).join(' ').toLowerCase().includes(ql));
+  async function handleDelete(msgId) {
+    if (!window.confirm('Delete this message?')) return;
+    try {
+      await axios.delete(`/api/admin/messages/${msgId}`);
+      if (typeof loadData === 'function') loadData();
+    } catch (err) {
+      alert('Delete failed');
+    }
+  }
   return (
     <div>
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
@@ -37,12 +47,18 @@ export default function MessagesTab({ messages, loadData }) {
                     </div>
                   </td>
                   <td className="px-6 py-3">{new Date(msg.createdAt).toLocaleDateString()}</td>
-                  <td className="px-6 py-3 text-right">
+                  <td className="px-6 py-3 text-right flex gap-2 justify-end">
                     <button
                       onClick={() => setSelected(msg)}
                       className="px-3 py-1.5 text-sm bg-slate-200 hover:bg-slate-300 rounded-lg"
                     >
                       View
+                    </button>
+                    <button
+                      onClick={() => handleDelete(msg._id)}
+                      className="px-3 py-1.5 text-sm bg-red-100 text-red-700 hover:bg-red-200 rounded-lg"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
