@@ -314,14 +314,17 @@ function FeaturedProducts() {
     );
   }
 
-  // Only show these grades in order
-  const featuredGrades = [
-    "Super Premium 16mm+",
-    "Premium 14-16mm",
-    "Mixed size, cleaned",
-    "Ready-to-eat"
+  // Only show these products in order
+  const featuredNames = [
+    "7 Suta Makhana (Hand Picked)",
+    "6 Suta Makhana",
+    "5 Suta Makhana",
+    "Roasted Makhana"
   ];
-  const featuredToShow = featured.filter(p => featuredGrades.includes(p.grade)).slice(0, 4);
+  const featuredToShow = featuredNames
+    .map(name => featured.find(p => p.name === name))
+    .filter(Boolean)
+    .slice(0, 4);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 bg-white">
