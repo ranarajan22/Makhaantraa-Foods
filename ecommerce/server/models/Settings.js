@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
+    heroImage: { type: String, default: '' },
   siteTitle: { type: String, default: 'Makhana Shop' },
   siteDescription: { type: String, default: 'Premium GI-Certified Mithila Makhana' },
   companyEmail: { type: String, default: 'contact@makhana.com' },

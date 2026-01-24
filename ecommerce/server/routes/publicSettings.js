@@ -19,7 +19,8 @@ router.get('/', async (req, res) => {
       shippingCost,
       taxPercentage,
       specialDiscountPercentage,
-      currencyCode
+      currencyCode,
+      heroImage
     } = settings;
     res.json({
       whatsappNumber,
@@ -31,7 +32,8 @@ router.get('/', async (req, res) => {
       shippingCost,
       taxPercentage,
       specialDiscountPercentage,
-      currencyCode
+      currencyCode,
+      heroImage
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

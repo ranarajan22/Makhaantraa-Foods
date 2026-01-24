@@ -4,6 +4,7 @@ import { Save, X } from 'lucide-react';
 export default function SettingsTab({ settings, updateSettings }) {
   const [formData, setFormData] = useState({
     companyName: 'Makhaantraa Foods',
+    heroImage: settings?.heroImage || '',
     companyEmail: settings?.companyEmail || 'info@makhaantraa.com',
     companyPhone: settings?.companyPhone || '+91-XXXXXXXXXX',
     whatsappNumber: settings?.whatsappNumber || '+91-XXXXXXXXXX',
@@ -31,13 +32,19 @@ export default function SettingsTab({ settings, updateSettings }) {
       shippingCost: settings?.shippingCost ?? 50,
       taxPercentage: settings?.taxPercentage ?? 18,
       specialDiscountPercentage: settings?.specialDiscountPercentage ?? 0,
-      currencyCode: settings?.currencyCode || 'INR'
+      currencyCode: settings?.currencyCode || 'INR',
+      heroImage: settings?.heroImage || ''
     }));
   }, [settings]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handle hero image upload
+  const handleHeroImageChange = (url) => {
+    setFormData(prev => ({ ...prev, heroImage: url }));
   };
 
   const handleSubmit = () => {
@@ -51,7 +58,8 @@ export default function SettingsTab({ settings, updateSettings }) {
       'shippingCost',
       'taxPercentage',
       'specialDiscountPercentage',
-      'currencyCode'
+      'currencyCode',
+      'heroImage'
     ];
     const payload = {};
     validFields.forEach((key) => {
@@ -65,6 +73,22 @@ export default function SettingsTab({ settings, updateSettings }) {
       <h1 className="text-3xl font-bold text-slate-900 mb-6">System Settings</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Hero Image Upload */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h2 className="text-xl font-bold text-slate-900 mb-4 pb-4 border-b border-slate-200">Homepage Hero Image</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Hero Section Main Image</label>
+              <ImageUploadField
+                value={formData.heroImage}
+                onChange={handleHeroImageChange}
+                label="Hero Image"
+                name="heroImage"
+              />
+              <p className="text-xs text-slate-500 mt-1">This image will be shown in the homepage hero section.</p>
+            </div>
+          </div>
+        </div>
         {/* Company Settings */}
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           <h2 className="text-xl font-bold text-slate-900 mb-4 pb-4 border-b border-slate-200">Company Information</h2>

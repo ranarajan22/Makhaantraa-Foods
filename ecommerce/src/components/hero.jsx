@@ -40,6 +40,10 @@ function HeroSection() {
     );
   }
 
+  // Get hero image from settings context
+  const { settings } = require('../context/SettingsContext');
+  const heroImage = settings?.heroImage || "/makhana.jpeg";
+
   return (
     <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Main Hero Content */}
@@ -103,7 +107,7 @@ function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-br from-green-200 via-emerald-100 to-transparent rounded-2xl blur-3xl opacity-30 -z-10"></div>
             
             <img 
-              src="/makhana.jpeg" 
+              src={heroImage}
               alt="Premium Makhana" 
               className="rounded-2xl shadow-2xl w-full h-full object-cover border-4 border-green-100 hover:shadow-3xl transition-shadow duration-300"
             />
