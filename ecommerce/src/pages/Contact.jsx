@@ -51,7 +51,7 @@ export default function Contact() {
               <strong>Email:</strong> support@yourbrand.com
             </div>
             <div>
-              <strong>Phone:</strong> +91 123 456 7890
+              <strong>Phone:</strong> +91 9142252059
             </div>
             <div>
               <strong>Address:</strong> 123 Handmade Street, Craft City, India
