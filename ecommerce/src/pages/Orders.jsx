@@ -29,6 +29,7 @@ export default function Orders() {
   const [showBulkOrderModal, setShowBulkOrderModal] = useState(false);
   const [selectedSample, setSelectedSample] = useState(null);
   const [showSampleModal, setShowSampleModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('summary'); // 'summary', 'regular', 'bulk', 'sample'
 
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
@@ -96,45 +97,86 @@ export default function Orders() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-green-50 to-white py-12 px-4">
-      {/* Status Selector Tabs */}
-      <div className="max-w-4xl mx-auto mb-8">
-        <div className="flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start bg-white rounded-2xl shadow border border-green-100 p-3 md:p-4">
-          {STATUS_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              className={`px-4 py-2 rounded-full font-semibold transition-all text-sm md:text-base
-                ${selectedStatus === opt.value
-                  ? "bg-green-700 text-white shadow-md"
-                  : "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"}
-              `}
-              onClick={() => setSelectedStatus(opt.value)}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-      {/* Order Type Counters */}
+      {/* Category Preview Cards */}
       <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center justify-center">
+        {/* Regular Orders Preview */}
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('regular')}>
           <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-green-700">{orders.length}</span>
           </div>
-          <div className="text-lg font-semibold text-green-800">Regular Orders</div>
+          <div className="text-lg font-semibold text-green-800 mb-2">Regular Orders</div>
+          <div className="w-full space-y-2">
+            {orders.slice(0, 3).map((o) => (
+              <div key={o._id} className="border rounded p-2 flex flex-col">
+                <span className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</span>
+                <span className="text-xs text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</span>
+                <span className="text-xs text-green-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</span>
+              </div>
+            ))}
+            {orders.length === 0 && <span className="text-xs text-slate-400">No orders</span>}
+          </div>
         </div>
-        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col items-center justify-center">
+        {/* Bulk Orders Preview */}
+        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('bulk')}>
           <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-blue-700">{bulkOrders.length}</span>
           </div>
-          <div className="text-lg font-semibold text-blue-800">Bulk Orders</div>
+          <div className="text-lg font-semibold text-blue-800 mb-2">Bulk Orders</div>
+          <div className="w-full space-y-2">
+            {bulkOrders.slice(0, 3).map((b) => (
+              <div key={b._id} className="border rounded p-2 flex flex-col">
+                <span className="font-semibold text-gray-900 truncate">{b.company || b.fullName || b._id}</span>
+                <span className="text-xs text-slate-600">{new Date(b.createdAt).toLocaleDateString('en-IN')}</span>
+              </div>
+            ))}
+            {bulkOrders.length === 0 && <span className="text-xs text-slate-400">No bulk orders</span>}
+          </div>
         </div>
-        <div className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-6 flex flex-col items-center justify-center">
+        {/* Free Sample Preview */}
+        <div className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('sample')}>
           <div className="w-12 h-12 rounded-full bg-yellow-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-yellow-700">{freeSamples.length}</span>
           </div>
-          <div className="text-lg font-semibold text-yellow-800">Free Sample Requests</div>
+          <div className="text-lg font-semibold text-yellow-800 mb-2">Free Sample Requests</div>
+          <div className="w-full space-y-2">
+            {freeSamples.slice(0, 3).map((s) => (
+              <div key={s._id} className="border rounded p-2 flex flex-col">
+                <span className="font-semibold text-gray-900 truncate">{s.name || s.company || s._id}</span>
+                <span className="text-xs text-slate-600">{new Date(s.createdAt).toLocaleDateString('en-IN')}</span>
+              </div>
+            ))}
+            {freeSamples.length === 0 && <span className="text-xs text-slate-400">No free samples</span>}
+          </div>
         </div>
       </div>
+      {/* Tabbed View for All Orders in Category */}
+      <div className="max-w-4xl mx-auto mb-8 flex gap-2">
+        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'summary' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('summary')}>Summary</button>
+        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'regular' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('regular')}>Regular Orders</button>
+        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'bulk' ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'}`} onClick={() => setActiveTab('bulk')}>Bulk Orders</button>
+        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'sample' ? 'bg-yellow-700 text-white' : 'bg-yellow-50 text-yellow-700'}`} onClick={() => setActiveTab('sample')}>Free Samples</button>
+      </div>
+      {/* Status Selector Tabs (only for regular orders) */}
+      {activeTab === 'regular' && (
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start bg-white rounded-2xl shadow border border-green-100 p-3 md:p-4">
+            {STATUS_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                className={`px-4 py-2 rounded-full font-semibold transition-all text-sm md:text-base
+                  ${selectedStatus === opt.value
+                    ? "bg-green-700 text-white shadow-md"
+                    : "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"}
+                `}
+                onClick={() => setSelectedStatus(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      
       {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -198,76 +240,76 @@ export default function Orders() {
           </div>
         </div>
       )}
+      {/* Tab Content */}
       <div className="max-w-4xl mx-auto space-y-8">
-        {/* Regular Orders */}
-        <div className="bg-white rounded-xl shadow-md border border-green-100 p-6">
-          <h2 className="text-2xl font-bold text-green-800 mb-4">My Orders</h2>
-          {ordersLoading ? (
-            <p className="text-slate-600">Loading orders...</p>
-          ) : orders.length === 0 ? (
-            <p className="text-slate-600">No orders yet.</p>
-          ) : (
-            <>
-              {/* Filtered Orders */}
-              <div className="space-y-3">
-                {orders
-                  .filter(o => selectedStatus === 'all' ? true : o.status === selectedStatus)
-                  .map((o) => (
-                    <div key={o._id} className={`border rounded-lg p-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-2 ${o.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}> 
-                      <div className="min-w-0 flex-1 w-full sm:w-auto">
-                        <p className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</p>
-                        <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
-                      </div>
-                      <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 min-w-0 w-full sm:w-auto justify-between sm:justify-end">
-                        <p className={o.status === 'cancelled' ? "text-red-700 font-bold" : "text-green-700 font-bold"}>₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
-                        <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
-                          o.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          o.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                          o.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
-                          o.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                          o.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                          'bg-gray-100 text-gray-700'
-                        }`}>{o.status}</span>
-                        <div className="flex flex-row flex-wrap gap-2 w-full sm:w-auto justify-end">
-                          <button
-                            className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200 whitespace-nowrap"
-                            onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
-                          >
-                            Details
-                          </button>
-                          {o.status !== 'cancelled' && (
+        {activeTab === 'summary' && (
+          <div className="text-center text-slate-500 text-lg">Select a category above to view all orders in that category.</div>
+        )}
+        {activeTab === 'regular' && (
+          <div className="bg-white rounded-xl shadow-md border border-green-100 p-6">
+            <h2 className="text-2xl font-bold text-green-800 mb-4">All Regular Orders</h2>
+            {ordersLoading ? (
+              <p className="text-slate-600">Loading orders...</p>
+            ) : orders.length === 0 ? (
+              <p className="text-slate-600">No orders yet.</p>
+            ) : (
+              <>
+                <div className="space-y-3">
+                  {orders
+                    .filter(o => selectedStatus === 'all' ? true : o.status === selectedStatus)
+                    .map((o) => (
+                      <div key={o._id} className={`border rounded-lg p-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-2 ${o.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}> 
+                        <div className="min-w-0 flex-1 w-full sm:w-auto">
+                          <p className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</p>
+                          <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
+                        </div>
+                        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 min-w-0 w-full sm:w-auto justify-between sm:justify-end">
+                          <p className={o.status === 'cancelled' ? "text-red-700 font-bold" : "text-green-700 font-bold"}>₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
+                          <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
+                            o.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            o.status === 'processing' ? 'bg-blue-100 text-blue-800' :
+                            o.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
+                            o.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                            o.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>{o.status}</span>
+                          <div className="flex flex-row flex-wrap gap-2 w-full sm:w-auto justify-end">
                             <button
-                              className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
-                              onClick={() => handleCancelOrder(o._id)}
+                              className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200 whitespace-nowrap"
+                              onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
                             >
-                              Cancel
+                              Details
                             </button>
-                          )}
+                            {o.status !== 'cancelled' && (
+                              <button
+                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                                onClick={() => handleCancelOrder(o._id)}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-              </div>
-              {/* No orders for selected status */}
-              {orders.filter(o => selectedStatus === 'all' ? true : o.status === selectedStatus).length === 0 && (
-                <div className="text-slate-600 py-4 text-center">No orders for selected status.</div>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Bulk Orders */}
-        <div className="bg-white rounded-xl shadow-md border border-blue-100 p-6">
-          <h2 className="text-2xl font-bold text-blue-800 mb-4">My Bulk Orders</h2>
-          {bulkOrdersLoading ? (
-            <p className="text-slate-600">Loading bulk orders...</p>
-          ) : bulkOrders.length === 0 ? (
-            <p className="text-slate-600">No bulk orders yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {bulkOrders
-                .filter(b => selectedStatus === 'all' ? true : b.status === selectedStatus)
-                .map((b) => (
+                    ))}
+                </div>
+                {orders.filter(o => selectedStatus === 'all' ? true : o.status === selectedStatus).length === 0 && (
+                  <div className="text-slate-600 py-4 text-center">No orders for selected status.</div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+        {activeTab === 'bulk' && (
+          <div className="bg-white rounded-xl shadow-md border border-blue-100 p-6">
+            <h2 className="text-2xl font-bold text-blue-800 mb-4">All Bulk Orders</h2>
+            {bulkOrdersLoading ? (
+              <p className="text-slate-600">Loading bulk orders...</p>
+            ) : bulkOrders.length === 0 ? (
+              <p className="text-slate-600">No bulk orders yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {bulkOrders.map((b) => (
                   <div key={b._id} className={`border rounded-lg p-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-2 ${b.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-blue-50'}`}> 
                     <div className="min-w-0 flex-1 w-full sm:w-auto">
                       <p className="font-semibold text-gray-900 truncate">{b.company || b.fullName || b._id}</p>
@@ -301,26 +343,20 @@ export default function Orders() {
                     </div>
                   </div>
                 ))}
-              {/* No bulk orders for selected status */}
-              {bulkOrders.filter(b => selectedStatus === 'all' ? true : b.status === selectedStatus).length === 0 && (
-                <div className="text-slate-600 py-4 text-center">No bulk orders for selected status.</div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Free Sample Requests */}
-        <div className="bg-white rounded-xl shadow-md border border-yellow-100 p-6">
-          <h2 className="text-2xl font-bold text-yellow-800 mb-4">My Free Sample Requests</h2>
-          {freeSamplesLoading ? (
-            <p className="text-slate-600">Loading free sample requests...</p>
-          ) : freeSamples.length === 0 ? (
-            <p className="text-slate-600">No free sample requests yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {freeSamples
-                .filter(s => selectedStatus === 'all' ? true : s.status === selectedStatus)
-                .map((s) => (
+              </div>
+            )}
+          </div>
+        )}
+        {activeTab === 'sample' && (
+          <div className="bg-white rounded-xl shadow-md border border-yellow-100 p-6">
+            <h2 className="text-2xl font-bold text-yellow-800 mb-4">All Free Sample Requests</h2>
+            {freeSamplesLoading ? (
+              <p className="text-slate-600">Loading free sample requests...</p>
+            ) : freeSamples.length === 0 ? (
+              <p className="text-slate-600">No free sample requests yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {freeSamples.map((s) => (
                   <div key={s._id} className={`border rounded-lg p-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-2 ${s.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-yellow-50'}`}> 
                     <div className="min-w-0 flex-1 w-full sm:w-auto">
                       <p className="font-semibold text-gray-900 truncate">{s.name || s.company || s._id}</p>
@@ -354,13 +390,10 @@ export default function Orders() {
                     </div>
                   </div>
                 ))}
-              {/* No free sample requests for selected status */}
-              {freeSamples.filter(s => selectedStatus === 'all' ? true : s.status === selectedStatus).length === 0 && (
-                <div className="text-slate-600 py-4 text-center">No free sample requests for selected status.</div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Bulk Order Modal */}
