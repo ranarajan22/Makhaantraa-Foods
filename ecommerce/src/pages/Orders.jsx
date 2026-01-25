@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "../utils/api.js";
 import { useAuth } from "../context/AuthContext";
 
@@ -76,31 +76,38 @@ export default function Orders() {
   };
 
 
+  const fetchAllRef = useRef();
+  const fetchAll = async () => {
+    setOrdersLoading(true);
+    setBulkOrdersLoading(true);
+    setFreeSamplesLoading(true);
+    try {
+      const [ordersRes, bulkRes, sampleRes] = await Promise.all([
+        axios.get('/api/orders/my'),
+        axios.get('/api/bulk-orders/my'),
+        axios.get('/api/free-samples/my'),
+      ]);
+      setOrders(ordersRes.data || []);
+      setBulkOrders(bulkRes.data || []);
+      setFreeSamples(sampleRes.data || []);
+    } catch (e) {
+      setOrders([]);
+      setBulkOrders([]);
+      setFreeSamples([]);
+    } finally {
+      setOrdersLoading(false);
+      setBulkOrdersLoading(false);
+      setFreeSamplesLoading(false);
+    }
+  };
+  fetchAllRef.current = fetchAll;
+
   useEffect(() => {
-    const fetchAll = async () => {
-      setOrdersLoading(true);
-      setBulkOrdersLoading(true);
-      setFreeSamplesLoading(true);
-      try {
-        const [ordersRes, bulkRes, sampleRes] = await Promise.all([
-          axios.get('/api/orders/my'),
-          axios.get('/api/bulk-orders/my'),
-          axios.get('/api/free-samples/my'),
-        ]);
-        setOrders(ordersRes.data || []);
-        setBulkOrders(bulkRes.data || []);
-        setFreeSamples(sampleRes.data || []);
-      } catch (e) {
-        setOrders([]);
-        setBulkOrders([]);
-        setFreeSamples([]);
-      } finally {
-        setOrdersLoading(false);
-        setBulkOrdersLoading(false);
-        setFreeSamplesLoading(false);
-      }
-    };
     fetchAll();
+    const interval = setInterval(() => {
+      if (fetchAllRef.current) fetchAllRef.current();
+    }, 60000); // 60 seconds
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -128,36 +135,61 @@ export default function Orders() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-green-50 to-white py-12 px-4">
+      {/* Refresh Button */}
+      <div className="max-w-4xl mx-auto mb-4 flex justify-end">
+        <button
+          onClick={fetchAll}
+          className="flex items-center gap-2 px-4 py-2 rounded font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition disabled:opacity-60"
+          disabled={ordersLoading || bulkOrdersLoading || freeSamplesLoading}
+          title="Refresh orders"
+        >
+          <svg className={`w-5 h-5 ${ordersLoading || bulkOrdersLoading || freeSamplesLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.635 19A9 9 0 1 1 19 5.635" /></svg>
+          Refresh
+        </button>
+      </div>
+
       {/* Category Preview Cards */}
-      <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         {/* Regular Orders Counter */}
-        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('regular')}>
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition min-w-0 w-full" onClick={() => setActiveTab('regular')}>
           <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-green-700">{orders.length}</span>
           </div>
           <div className="text-lg font-semibold text-green-800">Regular Orders</div>
         </div>
         {/* Bulk Orders Counter */}
-        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('bulk')}>
+        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition min-w-0 w-full" onClick={() => setActiveTab('bulk')}>
           <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-blue-700">{bulkOrders.length}</span>
           </div>
           <div className="text-lg font-semibold text-blue-800">Bulk Orders</div>
         </div>
         {/* Free Sample Counter */}
-        <div className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition" onClick={() => setActiveTab('sample')}>
+        <div className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition min-w-0 w-full" onClick={() => setActiveTab('sample')}>
           <div className="w-12 h-12 rounded-full bg-yellow-50 flex items-center justify-center mb-2">
             <span className="text-2xl font-bold text-yellow-700">{freeSamples.length}</span>
           </div>
           <div className="text-lg font-semibold text-yellow-800">Free Sample Requests</div>
         </div>
       </div>
+      {/* Refresh Button */}
+      <div className="max-w-4xl mx-auto mb-4 flex justify-end">
+        <button
+          onClick={fetchAll}
+          className="flex items-center gap-2 px-4 py-2 rounded font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition disabled:opacity-60"
+          disabled={ordersLoading || bulkOrdersLoading || freeSamplesLoading}
+          title="Refresh orders"
+        >
+          <svg className={`w-5 h-5 ${ordersLoading || bulkOrdersLoading || freeSamplesLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.635 19A9 9 0 1 1 19 5.635" /></svg>
+          Refresh
+        </button>
+      </div>
       {/* Tabbed View for All Orders in Category */}
-      <div className="max-w-4xl mx-auto mb-8 flex gap-2">
-        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'summary' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('summary')}>Summary</button>
-        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'regular' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('regular')}>Regular Orders</button>
-        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'bulk' ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'}`} onClick={() => setActiveTab('bulk')}>Bulk Orders</button>
-        <button className={`px-4 py-2 rounded font-semibold ${activeTab === 'sample' ? 'bg-yellow-700 text-white' : 'bg-yellow-50 text-yellow-700'}`} onClick={() => setActiveTab('sample')}>Free Samples</button>
+      <div className="max-w-4xl mx-auto mb-8 flex flex-wrap gap-2 sm:gap-3 justify-center">
+        <button className={`px-3 py-2 rounded font-semibold text-sm sm:text-base ${activeTab === 'summary' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('summary')}>Summary</button>
+        <button className={`px-3 py-2 rounded font-semibold text-sm sm:text-base ${activeTab === 'regular' ? 'bg-green-700 text-white' : 'bg-green-50 text-green-700'}`} onClick={() => setActiveTab('regular')}>Regular Orders</button>
+        <button className={`px-3 py-2 rounded font-semibold text-sm sm:text-base ${activeTab === 'bulk' ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'}`} onClick={() => setActiveTab('bulk')}>Bulk Orders</button>
+        <button className={`px-3 py-2 rounded font-semibold text-sm sm:text-base ${activeTab === 'sample' ? 'bg-yellow-700 text-white' : 'bg-yellow-50 text-yellow-700'}`} onClick={() => setActiveTab('sample')}>Free Samples</button>
       </div>
       {/* Status Selector Tabs (for all tabs) */}
       {(activeTab === 'regular' || activeTab === 'bulk' || activeTab === 'sample') && (
@@ -182,8 +214,8 @@ export default function Orders() {
       
       {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xl w-full relative border border-green-200">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
               onClick={() => setShowOrderModal(false)}
@@ -325,7 +357,7 @@ export default function Orders() {
                           <span className="text-sm text-slate-600">Date: <span className="text-gray-800">{new Date(b.createdAt).toLocaleDateString('en-IN')}</span></span>
                         </div>
                       </div>
-                      <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 min-w-0 w-full sm:w-auto justify-between sm:justify-end">
+                      <div className="flex flex-row flex-wrap sm:flex-col items-center sm:items-end gap-2 min-w-0 w-full sm:w-auto justify-between sm:justify-end">
                         <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
                           b.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                           b.status === 'processing' ? 'bg-blue-100 text-blue-800' :
@@ -334,7 +366,7 @@ export default function Orders() {
                           b.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                           'bg-gray-100 text-gray-700'
                         }`}>{b.status}</span>
-                        <div className="flex flex-row flex-wrap gap-2 w-full sm:w-auto justify-end">
+                        <div className="flex flex-row flex-wrap gap-2 w-full sm:w-auto justify-end mt-2 sm:mt-0">
                           <button
                             className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200 whitespace-nowrap"
                             onClick={() => { setSelectedBulkOrder(b); setShowBulkOrderModal(true); }}
@@ -415,8 +447,8 @@ export default function Orders() {
 
       {/* Bulk Order Modal */}
       {showBulkOrderModal && selectedBulkOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
               onClick={() => setShowBulkOrderModal(false)}
@@ -472,8 +504,8 @@ export default function Orders() {
 
       {/* Free Sample Modal */}
       {showSampleModal && selectedSample && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
               onClick={() => setShowSampleModal(false)}

@@ -234,10 +234,10 @@ export default function Makhana() {
           </div>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="Full Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm bg-gray-100 cursor-not-allowed" placeholder="Full Name" value={form.name} readOnly disabled required />
             <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="Company / Brand" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
-            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
-            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="Email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm bg-gray-100 cursor-not-allowed" placeholder="Phone" value={form.phone} readOnly disabled required />
+            <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm bg-gray-100 cursor-not-allowed" placeholder="Email" type="email" value={form.email} readOnly disabled required />
             
             <input className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Address Line 1 (House/Building No., Street)" value={form.addressLine1} onChange={(e) => setForm({ ...form, addressLine1: e.target.value })} required />
             <input className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Address Line 2 (Area, Locality)" value={form.addressLine2} onChange={(e) => setForm({ ...form, addressLine2: e.target.value })} />

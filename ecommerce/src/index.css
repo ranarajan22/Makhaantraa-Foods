@@ -9,10 +9,11 @@
   padding: 0;
 }
 
+/* WARNING: 'scroll-behavior' and '@layer' are not supported by Safari on iOS < 15.4. Consider providing fallbacks if targeting older iOS devices. */
 html {
   overflow-x: hidden;
   width: 100%;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; /* Not supported on iOS < 15.4 */
 }
 
 body {
@@ -56,6 +57,7 @@ img {
   }
 }
 
+/* 'layer' is not supported on iOS < 15.4. Tailwind will still work for most modern browsers. */
 @layer utilities {
   .animate-fadeIn {
     animation: fadeIn 0.3s ease-in-out;

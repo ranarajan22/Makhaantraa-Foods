@@ -133,10 +133,10 @@ export default function OrderBulk() {
             </a>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <input className="w-full input-brand p-3" placeholder="Full Name" autoComplete="name" value={form.fullName} onChange={(e) => setForm({...form, fullName: e.target.value})} required />
+              <input className="w-full input-brand p-3 bg-gray-100 cursor-not-allowed" placeholder="Full Name" autoComplete="name" value={form.fullName} readOnly disabled required />
               <input className="w-full input-brand p-3" placeholder="Company / Brand" autoComplete="organization" value={form.company} onChange={(e) => setForm({...form, company: e.target.value})} />
-              <input className="w-full input-brand p-3" placeholder="Phone" type="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} required />
-              <input className="w-full input-brand p-3" placeholder="Email" type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} required />
+              <input className="w-full input-brand p-3 bg-gray-100 cursor-not-allowed" placeholder="Phone" type="tel" autoComplete="tel" value={form.phone} readOnly disabled required />
+              <input className="w-full input-brand p-3 bg-gray-100 cursor-not-allowed" placeholder="Email" type="email" autoComplete="email" value={form.email} readOnly disabled required />
             
               <input className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Address Line 1 (House/Building No., Street)" autoComplete="address-line1" value={form.addressLine1} onChange={(e) => setForm({...form, addressLine1: e.target.value})} required />
               <input className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Address Line 2 (Area, Locality)" autoComplete="address-line2" value={form.addressLine2} onChange={(e) => setForm({...form, addressLine2: e.target.value})} />

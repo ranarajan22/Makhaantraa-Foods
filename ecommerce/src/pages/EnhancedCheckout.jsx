@@ -348,13 +348,13 @@ export default function EnhancedCheckout() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-soft py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-brand-soft py-12 px-4 overflow-x-hidden">
+      <div className="max-w-full sm:max-w-4xl mx-auto overflow-x-hidden">
         <h1 className="text-3xl font-bold mb-8">Secure Checkout</h1>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 overflow-x-hidden">
           {/* Checkout Form */}
-          <form onSubmit={handleSubmit} className="md:col-span-2 space-y-6">
+          <form onSubmit={handleSubmit} className="md:col-span-2 space-y-6 overflow-x-hidden">
             {/* Shipping Address */}
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center justify-between mb-4">
@@ -623,7 +623,7 @@ export default function EnhancedCheckout() {
                     </div>
                     <div className="flex-1">
                       <span className="font-semibold text-gray-800 text-lg">Razorpay</span>
-                      <p className="text-sm text-gray-600 mt-0.5">UPI, Cards, Wallets & NetBanking</p>
+                      <p className="text-sm text-gray-600 mt-0.5 break-words">UPI, Cards, Wallets & NetBanking</p>
                       <div className="flex gap-2 mt-2">
                         <span className="pill-brand">🇮🇳 India</span>
                         <span className="pill-brand">UPI supported</span>
