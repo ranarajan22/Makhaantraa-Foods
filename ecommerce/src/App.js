@@ -37,6 +37,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboardNew'));
 const OrderTracking = lazy(() => import('./pages/OrderTracking'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 const Profile = lazy(() => import('./pages/Profile'));
+const Orders = lazy(() => import('./pages/Orders'));
 
 // Skeleton component
 const Skeleton = ({ height = '20px', width = '100%', className = '' }) => (
@@ -215,7 +216,7 @@ function AppLayout() {
             element={
               <ProtectedRoute>
                 <Suspense fallback={<Skeleton height="300px" />}>
-                  <OrderTracking />
+                  <Orders />
                 </Suspense>
               </ProtectedRoute>
             }
