@@ -74,46 +74,51 @@ export default function Orders() {
             >
               &times;
             </button>
-            <h3 className="text-xl font-bold mb-2 text-green-800">Order Details</h3>
-            <div className="space-y-2 text-sm max-h-[60vh] overflow-y-auto pr-2">
-              {Object.entries(selectedOrder).map(([key, value]) => {
-                if (["_id", "__v"].includes(key)) return null;
-                if (key === "createdAt" || key === "updatedAt") {
-                  return (
-                    <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {new Date(value).toLocaleString('en-IN')}</div>
-                  );
-                }
-                if (typeof value === "object" && value !== null) {
-                  if (Array.isArray(value)) {
-                    // Items array
-                    return (
-                      <div key={key}>
-                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
-                        <ul className="ml-4 list-disc">
-                          {value.map((item, idx) => (
-                            <li key={idx}>{typeof item === 'object' ? JSON.stringify(item) : String(item)}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    );
-                  } else {
-                    // Nested object (e.g., shippingAddress)
-                    return (
-                      <div key={key}>
-                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
-                        <div className="ml-2">
-                          {Object.entries(value).map(([k, v]) => (
-                            <div key={k}><span className="capitalize">{k}:</span> {typeof v === 'object' ? JSON.stringify(v) : String(v)}</div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  }
-                }
-                return (
-                  <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {String(value)}</div>
-                );
-              })}
+            <h3 className="text-xl font-bold mb-4 text-green-800">Order Details</h3>
+            <div className="space-y-3 text-sm max-h-[60vh] overflow-y-auto pr-2">
+              <div>
+                <span className="font-semibold">Order ID:</span> {selectedOrder.orderNumber || selectedOrder._id}
+              </div>
+              <div>
+                <span className="font-semibold">Date:</span> {selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleString('en-IN') : ''}
+              </div>
+              <div>
+                <span className="font-semibold">Status:</span> {selectedOrder.status}
+              </div>
+              <div>
+                <span className="font-semibold">Total:</span> ₹{(selectedOrder.totalPrice || selectedOrder.total || 0).toFixed(2)}
+              </div>
+              {selectedOrder.shippingAddress && (
+                <div>
+                  <span className="font-semibold">Shipping Address:</span>
+                  <div className="ml-2">
+                    {Object.entries(selectedOrder.shippingAddress).map(([k, v]) => (
+                      <div key={k}><span className="capitalize">{k}:</span> {v}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {selectedOrder.items && Array.isArray(selectedOrder.items) && (
+                <div>
+                  <span className="font-semibold">Items:</span>
+                  <ul className="ml-4 list-disc">
+                    {selectedOrder.items.map((item, idx) => (
+                      <li key={idx}>
+                        {item.name} x{item.qty} - ₹{item.price}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {selectedOrder.paymentMethod && (
+                <div>
+                  <span className="font-semibold">Payment Method:</span> {selectedOrder.paymentMethod}
+                </div>
+              )}
+              {selectedOrder.notes && (
+                <div><span className="font-semibold">Notes:</span> {selectedOrder.notes}</div>
+              )}
+              {/* Add more user-relevant fields as needed */}
               {selectedOrder.status !== 'cancelled' && (
                 <button
                   className="mt-4 px-4 py-2 rounded bg-red-100 text-red-700 font-semibold hover:bg-red-200"
