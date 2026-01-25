@@ -218,58 +218,101 @@ export default function OrdersTab({ orders, loadData }) {
       {/* Order Details Modal */}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-3xl w-full max-h-96 overflow-y-auto p-6">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-slate-900">Order Details</h2>
+              <h2 className="text-2xl font-bold text-slate-900">Order Details - {selectedOrder.orderNumber || (selectedOrder._id ? `ORD-${String(selectedOrder._id).slice(-6).toUpperCase()}` : '—')}</h2>
               <button onClick={() => setSelectedOrder(null)} className="text-slate-500 hover:text-slate-700">
                 <X size={24} />
               </button>
             </div>
             {selectedOrder && selectedOrder._id ? (
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div>
-                  <p className="text-sm text-slate-600">Order Number</p>
-                  <p className="font-semibold text-slate-900">{selectedOrder.orderNumber || (selectedOrder._id ? `ORD-${String(selectedOrder._id).slice(-6).toUpperCase()}` : '—')}</p>
+              <div className="space-y-6">
+                {/* Customer Information */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">Customer Information</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-sm text-slate-600">Name</p>
+                      <p className="font-semibold text-slate-900">{selectedOrder.userId?.name || selectedOrder.user?.name || 'Unknown'}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-600">Email</p>
+                      <p className="font-semibold text-slate-900">{selectedOrder.userId?.email || selectedOrder.user?.email || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-600">Phone</p>
+                      <p className="font-semibold text-slate-900">{selectedOrder.userId?.phone || selectedOrder.user?.phone || selectedOrder.phone || '—'}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-slate-600">Status</p>
-                  <p className="font-semibold text-slate-900 capitalize">{selectedOrder.status || '—'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Customer Name</p>
-                  <p className="font-semibold text-slate-900">{selectedOrder.userId?.name || selectedOrder.user?.name || 'Unknown'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Email</p>
-                  <p className="font-semibold text-slate-900">{selectedOrder.userId?.email || selectedOrder.user?.email || '—'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Total Amount</p>
-                  <p className="font-semibold text-green-600">₹{typeof selectedOrder.totalPrice === 'number' ? selectedOrder.totalPrice.toLocaleString() : '—'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Date</p>
-                  <p className="font-semibold text-slate-900">{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString('en-IN') : '—'}</p>
-                </div>
-                <div className="col-span-2">
-                  <p className="text-sm text-slate-600">Items</p>
+
+                {/* Product/Items Information */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">Order Items</h3>
                   <div className="text-sm text-slate-900">
                     {Array.isArray(selectedOrder.items) && selectedOrder.items.length > 0 ? (
-                      selectedOrder.items.map((item, idx) => (
-                        <p key={idx}>{item.quantity || 1}x {item.name || '—'} @ ₹{item.price || 0}</p>
-                      ))
+                      <table className="w-full mb-2">
+                        <thead>
+                          <tr>
+                            <th className="text-left">Product</th>
+                            <th className="text-left">Qty</th>
+                            <th className="text-left">Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedOrder.items.map((item, idx) => (
+                            <tr key={idx}>
+                              <td>{item.name || '—'}</td>
+                              <td>{item.quantity || 1}</td>
+                              <td>₹{item.price || 0}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     ) : (
                       <p>No items found</p>
                     )}
                   </div>
                 </div>
-                <div className="col-span-2">
-                  <p className="text-sm text-slate-600">Shipping Address</p>
+
+                {/* Shipping Address */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">Shipping Address</h3>
                   <p className="text-sm text-slate-900">{selectedOrder.shippingAddress || '—'}</p>
                 </div>
-                <div className="col-span-2">
-                  <p className="text-sm text-slate-600">Tracking ID</p>
-                  <p className="text-sm text-slate-900">{selectedOrder.trackingId || 'Not provided yet'}</p>
+
+                {/* Status & Payment */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">Status & Payment</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-sm text-slate-600">Status</p>
+                      <p className="font-semibold text-slate-900 capitalize">{selectedOrder.status || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-600">Total Amount</p>
+                      <p className="font-semibold text-green-600">₹{typeof selectedOrder.totalPrice === 'number' ? selectedOrder.totalPrice.toLocaleString() : '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-600">Order Date</p>
+                      <p className="font-semibold text-slate-900">{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString('en-IN') : '—'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tracking & Notes */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">Tracking & Notes</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-slate-600">Tracking ID</p>
+                      <p className="text-sm text-slate-900">{selectedOrder.trackingId || 'Not provided yet'}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-600">Admin Notes</p>
+                      <p className="text-sm text-slate-900">{selectedOrder.adminNotes || '—'}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -277,7 +320,7 @@ export default function OrdersTab({ orders, loadData }) {
             )}
             <button
               onClick={() => setSelectedOrder(null)}
-              className="w-full py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition"
+              className="w-full py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition mt-6"
             >
               Close
             </button>
