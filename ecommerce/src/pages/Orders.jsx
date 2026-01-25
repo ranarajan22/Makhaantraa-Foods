@@ -75,54 +75,45 @@ export default function Orders() {
               &times;
             </button>
             <h3 className="text-2xl font-bold mb-4 text-green-800 border-b pb-2">Order Details</h3>
-            <div className="space-y-4 text-base max-h-[60vh] overflow-y-auto pr-2">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <span className="font-semibold">Order ID:</span> <span className="text-gray-700">{selectedOrder.orderNumber || selectedOrder._id}</span>
-                </div>
-                <div>
-                  <span className="font-semibold">Date:</span> <span className="text-gray-700">{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleString('en-IN') : ''}</span>
-                </div>
-                <div>
-                  <span className="font-semibold">Status:</span> <span className="text-gray-700">{selectedOrder.status}</span>
-                </div>
-                <div>
-                  <span className="font-semibold">Total:</span> <span className="text-gray-700">₹{(selectedOrder.totalPrice || selectedOrder.total || 0).toFixed(2)}</span>
-                </div>
-                {selectedOrder.paymentMethod && (
-                  <div>
-                    <span className="font-semibold">Payment Method:</span> <span className="text-gray-700">{selectedOrder.paymentMethod}</span>
-                  </div>
-                )}
-              </div>
-              {selectedOrder.shippingAddress && (
-                <div className="bg-green-50 rounded-lg p-3">
-                  <span className="font-semibold">Shipping Address:</span>
-                  <div className="ml-2 text-gray-700">
-                    {Object.entries(selectedOrder.shippingAddress).map(([k, v]) => (
-                      <div key={k}><span className="capitalize">{k}:</span> {v}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedOrder.items && Array.isArray(selectedOrder.items) && (
-                <div className="bg-green-50 rounded-lg p-3">
-                  <span className="font-semibold">Items:</span>
-                  <ul className="ml-4 list-disc text-gray-700">
-                    {selectedOrder.items.map((item, idx) => (
-                      <li key={idx}>
-                        {item.name} x{item.qty} - ₹{item.price}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {selectedOrder.notes && (
-                <div className="bg-yellow-50 rounded-lg p-3">
-                  <span className="font-semibold">Notes:</span> <span className="text-gray-700">{selectedOrder.notes}</span>
-                </div>
-              )}
-              {/* Add more user-relevant fields as needed */}
+            <div className="space-y-2 text-base max-h-[60vh] overflow-y-auto pr-2">
+              {Object.entries(selectedOrder).map(([key, value]) => {
+                if (["_id", "__v"].includes(key)) return null;
+                if (key === "createdAt" || key === "updatedAt") {
+                  return (
+                    <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {new Date(value).toLocaleString('en-IN')}</div>
+                  );
+                }
+                if (typeof value === "object" && value !== null) {
+                  if (Array.isArray(value)) {
+                    // Items array
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <ul className="ml-4 list-disc">
+                          {value.map((item, idx) => (
+                            <li key={idx}>{typeof item === 'object' ? JSON.stringify(item) : String(item)}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  } else {
+                    // Nested object (e.g., shippingAddress)
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <div className="ml-2">
+                          {Object.entries(value).map(([k, v]) => (
+                            <div key={k}><span className="capitalize">{k}:</span> {typeof v === 'object' ? JSON.stringify(v) : String(v)}</div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                return (
+                  <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {String(value)}</div>
+                );
+              })}
               {selectedOrder.status !== 'cancelled' && (
                 <button
                   className="mt-4 px-4 py-2 rounded bg-red-100 text-red-700 font-semibold hover:bg-red-200"
