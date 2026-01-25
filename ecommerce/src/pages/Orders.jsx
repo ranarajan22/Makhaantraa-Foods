@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Orders() {
-  const { user, logout, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
