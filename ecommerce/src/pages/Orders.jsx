@@ -85,6 +85,27 @@ export default function Orders() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-green-50 to-white py-12 px-4">
+      {/* Order Type Counters */}
+      <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-2">
+            <span className="text-2xl font-bold text-green-700">{orders.length}</span>
+          </div>
+          <div className="text-lg font-semibold text-green-800">Regular Orders</div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-2">
+            <span className="text-2xl font-bold text-blue-700">{bulkOrders.length}</span>
+          </div>
+          <div className="text-lg font-semibold text-blue-800">Bulk Orders</div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-6 flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-yellow-50 flex items-center justify-center mb-2">
+            <span className="text-2xl font-bold text-yellow-700">{freeSamples.length}</span>
+          </div>
+          <div className="text-lg font-semibold text-yellow-800">Free Sample Requests</div>
+        </div>
+      </div>
       {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
