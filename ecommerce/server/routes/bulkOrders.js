@@ -94,7 +94,7 @@ router.post('/submit', async (req, res) => {
       try {
         const jwt = require('jsonwebtoken');
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-        bulkOrderData.userId = decoded._id;
+        bulkOrderData.userId = decoded.id; // Use .id to match auth middleware
       } catch (err) {
         // Token invalid or expired - continue without userId
       }
@@ -136,6 +136,27 @@ router.get('/my', protect, async (req, res) => {
   } catch (error) {
     console.error('Error fetching user bulk orders:', error);
     res.status(500).json({ error: 'Failed to fetch bulk orders' });
+  }
+});
+
+
+// Cancel bulk order
+router.patch('/:id/cancel', protect, async (req, res) => {
+  try {
+    const order = await BulkOrder.findById(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Bulk order not found' });
+    // Only allow user to cancel their own order
+    if (order.userId && order.userId.toString() !== req.user._id.toString() && order.userId.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+    if (order.status === 'Cancelled') {
+      return res.status(400).json({ error: 'Order already cancelled' });
+    }
+    order.status = 'Cancelled';
+    await order.save();
+    res.json({ success: true, message: 'Bulk order cancelled', order });
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Failed to cancel bulk order' });
   }
 });
 

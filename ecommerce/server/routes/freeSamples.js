@@ -132,4 +132,25 @@ router.get('/my', protect, async (req, res) => {
   }
 });
 
+
+// Cancel free sample request
+router.patch('/:id/cancel', protect, async (req, res) => {
+  try {
+    const order = await FreeSample.findById(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Free sample request not found' });
+    // Only allow user to cancel their own request
+    if (order.userId && order.userId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+    if (order.status === 'Cancelled') {
+      return res.status(400).json({ error: 'Request already cancelled' });
+    }
+    order.status = 'Cancelled';
+    await order.save();
+    res.json({ success: true, message: 'Free sample request cancelled', order });
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Failed to cancel free sample request' });
+  }
+});
+
 module.exports = router;

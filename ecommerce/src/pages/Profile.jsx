@@ -11,10 +11,7 @@ export default function Profile() {
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
-  const [selectedBulkOrder, setSelectedBulkOrder] = useState(null);
-  const [showBulkOrderModal, setShowBulkOrderModal] = useState(false);
-  const [selectedSample, setSelectedSample] = useState(null);
-  const [showSampleModal, setShowSampleModal] = useState(false);
+  // Removed unused state variables for lint clean
   const navigate = useNavigate();
 
   // Cancel order handler
@@ -247,36 +244,19 @@ export default function Profile() {
                               'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                             }`}
                             onClick={() => {
-                              if (order._type === 'regular') { setSelectedOrder(order); setShowOrderModal(true); }
-                              else if (order._type === 'bulk') { setSelectedOrder(null); setShowOrderModal(false); setSelectedBulkOrder(order); setShowBulkOrderModal(true); }
-                              else { setSelectedOrder(null); setShowOrderModal(false); setSelectedSample(order); setShowSampleModal(true); }
+                              setSelectedOrder(order);
+                              setShowOrderModal(true);
                             }}
                           >
                             Details
                           </button>
                           {order.status !== 'cancelled' && (
-                            order._type === 'regular' ? (
-                              <button
-                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
-                                onClick={() => handleCancelOrder(order._id)}
-                              >
-                                Cancel
-                              </button>
-                            ) : order._type === 'bulk' ? (
-                              <button
-                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
-                                onClick={() => alert('Bulk order cancellation is not supported in this version.')}
-                              >
-                                Cancel
-                              </button>
-                            ) : (
-                              <button
-                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
-                                onClick={() => alert('Free sample cancellation is not supported in this version.')}
-                              >
-                                Cancel
-                              </button>
-                            )
+                            <button
+                              className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                              onClick={() => handleCancelOrder(order._id)}
+                            >
+                              Cancel
+                            </button>
                           )}
                         </div>
                       </div>
