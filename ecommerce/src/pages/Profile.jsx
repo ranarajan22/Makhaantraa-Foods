@@ -11,6 +11,10 @@ export default function Profile() {
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [selectedBulkOrder, setSelectedBulkOrder] = useState(null);
+  const [showBulkOrderModal, setShowBulkOrderModal] = useState(false);
+  const [selectedSample, setSelectedSample] = useState(null);
+  const [showSampleModal, setShowSampleModal] = useState(false);
   const navigate = useNavigate();
 
   // Cancel order handler
