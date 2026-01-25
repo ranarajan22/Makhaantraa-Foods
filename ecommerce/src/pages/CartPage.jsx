@@ -77,10 +77,6 @@ export default function CartPage() {
     navigate('/checkout');
   };
 
-  const handleUpdateQty = (productId, newQty) => {
-    if (newQty < 1) return;
-    updateQuantity(productId, newQty);
-  };
 
   const handleRemove = (productId, productName) => {
     removeFromCart(productId);
