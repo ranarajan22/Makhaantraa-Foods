@@ -111,122 +111,118 @@ export default function Profile() {
           </div>
         </div>
       )}
-          <div>
-            <p className="text-sm text-green-700 font-semibold">Profile</p>
-            <h1 className="text-3xl font-bold text-gray-900">{user?.name || 'User'}</h1>
-            <p className="text-slate-600">{user?.email}</p>
-            {user?.phone && <p className="text-slate-600">{user.phone}</p>}
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-600">
-              <div className="bg-green-50 rounded-lg p-3">
-                <p className="font-semibold text-green-800">Role</p>
-                <p>{user?.role || 'user'}</p>
-              </div>
-              <div className="bg-green-50 rounded-lg p-3">
-                <p className="font-semibold text-green-800">Member Since</p>
-                <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN') : 'N/A'}</p>
-              </div>
-              {orders.length > 0 && (
-                <div className="bg-green-50 rounded-lg p-3">
-                  <p className="font-semibold text-green-800">Total Orders</p>
-                  <p>{orders.length}</p>
-                </div>
-              )}
-              {user?.lastLogin && (
-                <div className="bg-green-50 rounded-lg p-3">
-                  <p className="font-semibold text-green-800">Last Login</p>
-                  <p>{new Date(user.lastLogin).toLocaleString('en-IN')}</p>
-                </div>
-              )}
-            </div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button
-                onClick={() => navigate('/orders')}
-                className="px-4 py-2 rounded-lg font-semibold bg-green-700 text-white hover:bg-green-800"
-              >
-                View My Orders
-              </button>
-              <button
-                onClick={() => { logout(); navigate('/login'); }}
-                className="px-4 py-2 rounded-lg font-semibold border border-red-200 text-red-700 hover:bg-red-50"
-              >
-                Logout
-              </button>
-            </div>
+      <div>
+        <p className="text-sm text-green-700 font-semibold">Profile</p>
+        <h1 className="text-3xl font-bold text-gray-900">{user?.name || 'User'}</h1>
+        <p className="text-slate-600">{user?.email}</p>
+        {user?.phone && <p className="text-slate-600">{user.phone}</p>}
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-600">
+          <div className="bg-green-50 rounded-lg p-3">
+            <p className="font-semibold text-green-800">Role</p>
+            <p>{user?.role || 'user'}</p>
           </div>
+          <div className="bg-green-50 rounded-lg p-3">
+            <p className="font-semibold text-green-800">Member Since</p>
+            <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN') : 'N/A'}</p>
+          </div>
+          {orders.length > 0 && (
+            <div className="bg-green-50 rounded-lg p-3">
+              <p className="font-semibold text-green-800">Total Orders</p>
+              <p>{orders.length}</p>
+            </div>
+          )}
+          {user?.lastLogin && (
+            <div className="bg-green-50 rounded-lg p-3">
+              <p className="font-semibold text-green-800">Last Login</p>
+              <p>{new Date(user.lastLogin).toLocaleString('en-IN')}</p>
+            </div>
+          )}
         </div>
-
-        <div className="bg-white rounded-xl shadow-md border border-green-100 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-green-800">Recent Orders</h2>
-            <a href="/orders" className="text-sm font-semibold text-green-700 hover:text-green-800">See all</a>
-          </div>
-
-          {ordersLoading ? (
-            <p className="text-slate-600">Loading orders...</p>
-          ) : orders.length === 0 ? (
-            <p className="text-slate-600">No orders yet.</p>
-          ) : (
-            <>
-              {/* Active Orders */}
-              <div className="space-y-3">
-                {orders.filter(o => o.status !== 'cancelled').slice(0, 3).map((o) => (
-                  <div key={o._id} className="border border-green-50 rounded-lg p-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-gray-900">{o.orderNumber || o._id}</p>
-                      <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            onClick={() => navigate('/orders')}
+            className="px-4 py-2 rounded-lg font-semibold bg-green-700 text-white hover:bg-green-800"
+          >
+            View My Orders
+          </button>
+          <button
+            onClick={() => { logout(); navigate('/login'); }}
+            className="px-4 py-2 rounded-lg font-semibold border border-red-200 text-red-700 hover:bg-red-50"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+      <div className="bg-white rounded-xl shadow-md border border-green-100 p-6 mt-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold text-green-800">Recent Orders</h2>
+          <a href="/orders" className="text-sm font-semibold text-green-700 hover:text-green-800">See all</a>
+        </div>
+        {ordersLoading ? (
+          <p className="text-slate-600">Loading orders...</p>
+        ) : orders.length === 0 ? (
+          <p className="text-slate-600">No orders yet.</p>
+        ) : (
+          <>
+            {/* Active Orders */}
+            <div className="space-y-3">
+              {orders.filter(o => o.status !== 'cancelled').slice(0, 3).map((o) => (
+                <div key={o._id} className="border border-green-50 rounded-lg p-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-900">{o.orderNumber || o._id}</p>
+                    <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
+                  </div>
+                  <div className="text-right flex flex-col items-end gap-2">
+                    <p className="text-green-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
+                    <p className="text-sm text-slate-600">{o.status}</p>
+                    <div className="flex gap-2">
+                      <button
+                        className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200"
+                        onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
+                      >
+                        Details
+                      </button>
+                      {o.status !== 'cancelled' && (
+                        <button
+                          className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200"
+                          onClick={() => handleCancelOrder(o._id)}
+                        >
+                          Cancel
+                        </button>
+                      )}
                     </div>
-                    <div className="text-right flex flex-col items-end gap-2">
-                      <p className="text-green-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
-                      <p className="text-sm text-slate-600">{o.status}</p>
-                      <div className="flex gap-2">
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Cancelled Orders */}
+            {orders.filter(o => o.status === 'cancelled').length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-lg font-bold text-red-700 mb-2">Cancelled Orders</h3>
+                <div className="space-y-3">
+                  {orders.filter(o => o.status === 'cancelled').slice(0, 3).map((o) => (
+                    <div key={o._id} className="border border-red-100 rounded-lg p-4 flex items-center justify-between bg-red-50">
+                      <div>
+                        <p className="font-semibold text-gray-900">{o.orderNumber || o._id}</p>
+                        <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
+                      </div>
+                      <div className="text-right flex flex-col items-end gap-2">
+                        <p className="text-red-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
+                        <p className="text-sm text-red-700">{o.status}</p>
                         <button
                           className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200"
                           onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
                         >
                           Details
                         </button>
-                        {o.status !== 'cancelled' && (
-                          <button
-                            className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200"
-                            onClick={() => handleCancelOrder(o._id)}
-                          >
-                            Cancel
-                          </button>
-                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              {/* Cancelled Orders */}
-              {orders.filter(o => o.status === 'cancelled').length > 0 && (
-                <div className="mt-8">
-                  <h3 className="text-lg font-bold text-red-700 mb-2">Cancelled Orders</h3>
-                  <div className="space-y-3">
-                    {orders.filter(o => o.status === 'cancelled').slice(0, 3).map((o) => (
-                      <div key={o._id} className="border border-red-100 rounded-lg p-4 flex items-center justify-between bg-red-50">
-                        <div>
-                          <p className="font-semibold text-gray-900">{o.orderNumber || o._id}</p>
-                          <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
-                        </div>
-                        <div className="text-right flex flex-col items-end gap-2">
-                          <p className="text-red-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
-                          <p className="text-sm text-red-700">{o.status}</p>
-                          <button
-                            className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200"
-                            onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
-                          >
-                            Details
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              )}
-            </>
-          )}
-        </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </main>
   );
