@@ -6,6 +6,8 @@ import { useAuth } from "../context/AuthContext";
 export default function Profile() {
   const { user, logout, loading } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [bulkOrders, setBulkOrders] = useState([]);
+  const [freeSamples, setFreeSamples] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -26,17 +28,26 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchAll = async () => {
+      setOrdersLoading(true);
       try {
-        const r = await axios.get('/api/orders/my');
-        setOrders(r.data || []);
+        const [ordersRes, bulkRes, sampleRes] = await Promise.all([
+          axios.get('/api/orders/my'),
+          axios.get('/api/bulk-orders/my'),
+          axios.get('/api/free-samples/my'),
+        ]);
+        setOrders(ordersRes.data || []);
+        setBulkOrders(bulkRes.data || []);
+        setFreeSamples(sampleRes.data || []);
       } catch (e) {
         setOrders([]);
+        setBulkOrders([]);
+        setFreeSamples([]);
       } finally {
         setOrdersLoading(false);
       }
     };
-    fetchOrders();
+    fetchAll();
   }, []);
 
   if (loading) {
@@ -141,12 +152,10 @@ export default function Profile() {
             <p className="font-semibold text-green-800">Member Since</p>
             <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN') : 'N/A'}</p>
           </div>
-          {orders.length > 0 && (
-            <div className="bg-green-50 rounded-lg p-3">
-              <p className="font-semibold text-green-800">Total Orders</p>
-              <p>{orders.length}</p>
-            </div>
-          )}
+          <div className="bg-green-50 rounded-lg p-3">
+            <p className="font-semibold text-green-800">Total Orders</p>
+            <p>{orders.length + bulkOrders.length + freeSamples.length}</p>
+          </div>
           {user?.lastLogin && (
             <div className="bg-green-50 rounded-lg p-3">
               <p className="font-semibold text-green-800">Last Login</p>
