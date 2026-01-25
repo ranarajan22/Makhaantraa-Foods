@@ -282,12 +282,22 @@ export default function Orders() {
                         b.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                         'bg-gray-100 text-gray-700'
                       }`}>{b.status}</span>
-                      <button
-                        className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200 whitespace-nowrap"
-                        onClick={() => { setSelectedBulkOrder(b); setShowBulkOrderModal(true); }}
-                      >
-                        Details
-                      </button>
+                      <div className="flex flex-wrap gap-2 w-full justify-end">
+                        <button
+                          className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200 whitespace-nowrap"
+                          onClick={() => { setSelectedBulkOrder(b); setShowBulkOrderModal(true); }}
+                        >
+                          Details
+                        </button>
+                        {b.status !== 'cancelled' && (
+                          <button
+                            className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                            onClick={() => alert('Bulk order cancellation is not supported in this version.')}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -325,12 +335,22 @@ export default function Orders() {
                         s.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                         'bg-gray-100 text-gray-700'
                       }`}>{s.status}</span>
-                      <button
-                        className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold hover:bg-yellow-200 whitespace-nowrap"
-                        onClick={() => { setSelectedSample(s); setShowSampleModal(true); }}
-                      >
-                        Details
-                      </button>
+                      <div className="flex flex-wrap gap-2 w-full justify-end">
+                        <button
+                          className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold hover:bg-yellow-200 whitespace-nowrap"
+                          onClick={() => { setSelectedSample(s); setShowSampleModal(true); }}
+                        >
+                          Details
+                        </button>
+                        {s.status !== 'cancelled' && (
+                          <button
+                            className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                            onClick={() => alert('Free sample cancellation is not supported in this version.')}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
