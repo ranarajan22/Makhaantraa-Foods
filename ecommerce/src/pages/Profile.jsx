@@ -138,55 +138,55 @@ export default function Profile() {
           </div>
         </div>
       )}
-      <section className="w-full max-w-4xl flex flex-col md:flex-row gap-8 md:gap-12 mb-8">
+      <section className="w-full max-w-5xl flex flex-col md:flex-row gap-8 md:gap-12 mb-8">
         {/* Profile Card */}
-        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center md:items-start">
-          <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-4">
-            <span className="text-3xl font-bold text-green-700">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-green-100 p-8 flex flex-col items-center md:items-start min-w-0">
+          <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-4 shadow-inner">
+            <span className="text-4xl font-bold text-green-700">{user?.name?.[0]?.toUpperCase() || 'U'}</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1 text-center md:text-left">{user?.name || 'User'}</h1>
-          <p className="text-slate-600 text-center md:text-left">{user?.email}</p>
-          {user?.phone && <p className="text-slate-600 text-center md:text-left">{user.phone}</p>}
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 w-full text-sm text-slate-600">
-            <div className="bg-green-50 rounded-lg p-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-1 text-center md:text-left tracking-tight">{user?.name || 'User'}</h1>
+          <p className="text-slate-600 text-center md:text-left text-lg">{user?.email}</p>
+          {user?.phone && <p className="text-slate-600 text-center md:text-left text-lg">{user.phone}</p>}
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full text-base text-slate-700">
+            <div className="bg-green-50 rounded-lg p-4">
               <p className="font-semibold text-green-800">Role</p>
               <p>{user?.role || 'user'}</p>
             </div>
-            <div className="bg-green-50 rounded-lg p-3">
+            <div className="bg-green-50 rounded-lg p-4">
               <p className="font-semibold text-green-800">Member Since</p>
               <p>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN') : 'N/A'}</p>
             </div>
-            <div className="bg-green-50 rounded-lg p-3">
+            <div className="bg-green-50 rounded-lg p-4">
               <p className="font-semibold text-green-800">Total Orders</p>
               <p>{orders.length + bulkOrders.length + freeSamples.length}</p>
             </div>
             {user?.lastLogin && (
-              <div className="bg-green-50 rounded-lg p-3">
+              <div className="bg-green-50 rounded-lg p-4">
                 <p className="font-semibold text-green-800">Last Login</p>
                 <p>{new Date(user.lastLogin).toLocaleString('en-IN')}</p>
               </div>
             )}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3 w-full justify-center md:justify-start">
+          <div className="mt-8 flex flex-wrap gap-4 w-full justify-center md:justify-start">
             <button
               onClick={() => navigate('/orders')}
-              className="px-4 py-2 rounded-lg font-semibold bg-green-700 text-white hover:bg-green-800"
+              className="px-6 py-3 rounded-lg font-semibold bg-green-700 text-white hover:bg-green-800 text-base shadow"
             >
               View My Orders
             </button>
             <button
               onClick={() => { logout(); navigate('/login'); }}
-              className="px-4 py-2 rounded-lg font-semibold border border-red-200 text-red-700 hover:bg-red-50"
+              className="px-6 py-3 rounded-lg font-semibold border border-red-200 text-red-700 hover:bg-red-50 text-base shadow"
             >
               Logout
             </button>
           </div>
         </div>
         {/* Recent Orders Card */}
-        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-green-800">Recent Orders</h2>
-            <a href="/orders" className="text-sm font-semibold text-green-700 hover:text-green-800">See all</a>
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-green-100 p-8 min-w-0">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-green-800 tracking-tight">Recent Orders</h2>
+            <a href="/orders" className="text-base font-semibold text-green-700 hover:text-green-800">See all</a>
           </div>
           {ordersLoading ? (
             <p className="text-slate-600">Loading orders...</p>
@@ -195,7 +195,7 @@ export default function Profile() {
           ) : (
             <>
               {/* Show 3 most recent orders across all types */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   ...orders.map(o => ({
                     ...o,
@@ -216,8 +216,8 @@ export default function Profile() {
                   .sort((a, b) => b._created - a._created)
                   .slice(0, 3)
                   .map((order) => (
-                    <div key={order._id} className={`border rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 ${order.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}>
-                      <div className="min-w-0 flex-1">
+                    <div key={order._id} className={`border rounded-lg p-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-2 ${order.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}>
+                      <div className="min-w-0 flex-1 w-full sm:w-auto">
                         <div className="flex items-center gap-2 mb-1">
                           <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
                             order._type === 'regular' ? 'bg-blue-100 text-blue-700' :
@@ -230,12 +230,12 @@ export default function Profile() {
                         </div>
                         <p className="text-sm text-slate-600">{order._created.toLocaleDateString('en-IN')}</p>
                       </div>
-                      <div className="flex flex-col items-end gap-2 min-w-[120px]">
+                      <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 min-w-0 w-full sm:w-auto justify-between sm:justify-end">
                         {order._type === 'regular' && (
                           <p className="text-green-700 font-bold">₹{(order.totalPrice || order.total || 0).toFixed(2)}</p>
                         )}
                         <p className={`text-sm ${order.status === 'cancelled' ? 'text-red-700' : 'text-slate-600'}`}>{order.status}</p>
-                        <div className="flex flex-wrap gap-2 w-full justify-end">
+                        <div className="flex flex-row flex-wrap gap-2 w-full sm:w-auto justify-end">
                           <button
                             className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap ${
                               order._type === 'regular' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
