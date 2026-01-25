@@ -525,16 +525,16 @@ function Testimonials(){
     },
     { 
       id: 2, 
-      name: "Karan S.", 
+      name: "Lalan Yadav", 
       role: "Export Manager", 
-      company: "Global Foods Ltd",
+      company: "Global Foods, Bihar",
       text: "Palletized export was seamless. Documentation and moisture reports shared upfront. Will definitely order again." 
     },
     { 
       id: 3, 
-      name: "Ananya R.", 
+      name: "Vinay Kumar", 
       role: "Retail Store Owner", 
-      company: "Organic Store, Delhi",
+      company: "Dev Makhana udyog, Bihar",
       text: "Perfect for my store! Can order in retail packs or wholesale. Great quality and my customers keep coming back." 
     },
     { 
