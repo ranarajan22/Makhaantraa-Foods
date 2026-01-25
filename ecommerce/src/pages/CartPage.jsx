@@ -129,34 +129,32 @@ export default function CartPage() {
                 const perPackPrice = Math.round((Number(item.price) || 0) * packSize);
                 const linePrice = perPackPrice * (item.qty || 1);
                 return (
-                <div key={item._id} className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 transition-all duration-200 border border-gray-100">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Link to={`/product/${item._id}`} className="flex-shrink-0 group w-full sm:w-40">
-                      <div className="relative overflow-hidden rounded-lg w-full h-full min-h-[112px] sm:min-h-[112px]">
+
+                <div key={item._id} className="bg-white rounded-xl shadow-md hover:shadow-lg p-2 sm:p-4 transition-all duration-200 border border-gray-100">
+                  <div className="flex flex-row gap-2 sm:gap-4 items-start">
+                    <Link to={`/product/${item._id}`} className="flex-shrink-0 group w-16 h-16 sm:w-28 sm:h-28">
+                      <div className="relative overflow-hidden rounded-lg w-16 h-16 sm:w-28 sm:h-28 bg-gray-50 flex items-center justify-center">
                         <img 
                           src={item.mainImage || item.image || "/placeholder.png"} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                          className="w-full h-full max-w-[64px] max-h-[64px] sm:max-w-[112px] sm:max-h-[112px] object-contain rounded-lg group-hover:scale-105 transition-transform duration-200" 
                           alt={item.name}
                         />
                       </div>
                     </Link>
-                    
-                    <div className="flex-grow">
-                      <Link to={`/product/${item._id}`}>
-                        <h3 className="font-semibold text-base text-gray-900 hover:text-green-600 transition mb-2">
-                          {item.name}
-                        </h3>
-                      </Link>
-                      <div className="flex items-baseline gap-2 mb-2">
-                        <p className="text-xl font-bold text-green-600">₹{perPackPrice * (item.qty || 1)}</p>
-                        <span className="text-xs text-gray-500">({packSize}kg × {item.qty || 1})</span>
+                    <div className="flex-grow flex flex-col justify-between min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between min-w-0">
+                        <Link to={`/product/${item._id}`} className="truncate">
+                          <h3 className="font-semibold text-sm sm:text-base text-gray-900 hover:text-green-600 transition mb-1 truncate">
+                            {item.name}
+                          </h3>
+                        </Link>
+                        <div className="flex items-baseline gap-2 mb-1 sm:mb-0">
+                          <p className="text-base sm:text-xl font-bold text-green-600">₹{perPackPrice * (item.qty || 1)}</p>
+                          <span className="text-xs text-gray-500">({packSize}kg × {item.qty || 1})</span>
+                        </div>
                       </div>
-                      <p className="text-xs text-gray-600 mb-2 bg-gray-50 px-2 py-1 rounded inline-block">₹{item.price}/kg</p>
-                      <div className="mb-3">
-                        <label className="text-xs font-semibold text-gray-700 flex items-center gap-1 mb-2">
-                          <Gift size={14} className="text-green-600" />
-                          Pack Size
-                        </label>
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <p className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded">₹{item.price}/kg</p>
                         <div className="flex flex-wrap gap-1.5">
                           {PACK_OPTIONS.map((opt) => {
                             const active = Number(opt.value) === Number(packSize);
@@ -165,7 +163,7 @@ export default function CartPage() {
                                 key={opt.value}
                                 type="button"
                                 onClick={() => updatePackSize(item._id, opt.value)}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                className={`px-2 py-1 rounded-lg text-xs font-semibold transition-all ${
                                   active
                                     ? 'bg-green-600 text-white shadow-md'
                                     : 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-600'
@@ -180,26 +178,28 @@ export default function CartPage() {
                       
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                         {/* Quantity Controls */}
-                        <div className="inline-flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg px-2 py-1">
-                          <button
-                            onClick={() => handleUpdateQty(item._id, item.qty - 1)}
-                            className="w-8 h-8 rounded-md flex items-center justify-center text-gray-600 hover:text-green-600 hover:bg-white transition disabled:opacity-40"
-                            disabled={item.qty <= 1}
-                          >
-                            <Minus size={16} />
-                          </button>
-                          <span className="min-w-[35px] text-center text-base font-semibold text-gray-900">
-                            {item.qty}
-                          </span>
-                          <button
-                            onClick={() => handleUpdateQty(item._id, item.qty + 1)}
-                            className="w-8 h-8 rounded-md flex items-center justify-center text-gray-600 hover:text-green-600 hover:bg-white transition disabled:opacity-40"
-                            disabled={item.qty >= 10}
-                          >
-                            <Plus size={16} />
-                          </button>
-                          <span className="text-[10px] text-gray-500 ml-1">Max 10</span>
-                        </div>
+                        <div className="inline-flex items-center gap-4 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-500 rounded-full shadow px-4 py-1 h-10">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item._id, (item.qty || 1) - 1)}
+                              className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow hover:bg-gray-100 text-green-700 text-xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+                              disabled={item.qty <= 1}
+                              aria-label="Decrease quantity"
+                            >
+                              <Minus size={18} />
+                            </button>
+                            <span className="min-w-[36px] text-center px-2 py-1 rounded-full bg-white text-green-900 font-bold text-base shadow-sm">
+                              {item.qty}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item._id, (item.qty || 1) + 1)}
+                              className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow hover:bg-gray-100 text-green-700 text-xl font-bold transition"
+                              aria-label="Increase quantity"
+                            >
+                              <Plus size={18} />
+                            </button>
+                          </div>
                         
                         {/* Remove Button */}
                         <button

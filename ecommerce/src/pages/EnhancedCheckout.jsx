@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -9,11 +10,31 @@ import { AlertCircle, CreditCard, Wallet, ShoppingBag, MapPin, Plus, Check } fro
 import RazorpayPayment from '../components/RazorpayPayment';
 import StripePayment from '../components/StripePayment';
 
+
 export default function EnhancedCheckout() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const { cart, cartTotal, clearCart } = useCart();
   const { settings } = useSettings();
+
+  // Delete address handler (must be inside component to access state)
+  const handleDeleteAddress = async (addressId) => {
+    if (!window.confirm('Are you sure you want to delete this address?')) return;
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`/api/auth/address/${addressId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setSavedAddresses(prev => prev.filter(addr => addr._id !== addressId));
+      if (selectedAddressId === addressId) {
+        setSelectedAddressId(null);
+        setFormData(prev => ({ ...prev, street: '', city: '', state: '', zipCode: '' }));
+      }
+      toast.success('Address deleted successfully!');
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Failed to delete address');
+    }
+  };
 
   // Redirect if not authenticated
   React.useEffect(() => {
@@ -366,9 +387,9 @@ export default function EnhancedCheckout() {
                   <button
                     type="button"
                     onClick={() => setShowNewAddressForm(true)}
-                    className="text-sm text-green-600 hover:text-green-700 font-semibold flex items-center gap-1"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-500 to-green-700 text-white font-bold shadow-md hover:from-green-600 hover:to-green-800 transition-all duration-150 text-sm sm:text-base"
                   >
-                    <Plus size={16} />
+                    <Plus size={18} className="-ml-1" />
                     Add New Address
                   </button>
                 )}
@@ -386,7 +407,7 @@ export default function EnhancedCheckout() {
                           : 'border-gray-200 hover:border-green-300'
                       }`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
                         <input
                           type="radio"
                           name="savedAddress"
@@ -395,27 +416,38 @@ export default function EnhancedCheckout() {
                           className="mt-1"
                         />
                         <div className="flex-1">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <p className="font-semibold text-gray-900">{address.street}</p>
                             {address.isDefault && (
-                              <span className="text-xs bg-green-600 text-white px-2 py-0.5 rounded">Default</span>
+                              <span className="text-xs bg-green-600 text-white px-2 py-0.5 rounded whitespace-nowrap">Default</span>
                             )}
                           </div>
                           <p className="text-sm text-gray-600">
                             {address.city}, {address.state} - {address.zipCode}
                           </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          {selectedAddressId === address._id && (
-                            <Check className="text-green-600" size={20} />
-                          )}
-                          <button
-                            type="button"
-                            onClick={(e) => { e.preventDefault(); startEditAddress(address); }}
-                            className="text-xs px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-700"
-                          >
-                            Edit
-                          </button>
+                          <div className="flex flex-row flex-wrap items-center gap-2 mt-2 sm:mt-0 justify-start sm:justify-end">
+                            {selectedAddressId === address._id && (
+                              <Check className="text-green-600" size={20} />
+                            )}
+                            <button
+                              type="button"
+                              onClick={(e) => { e.preventDefault(); startEditAddress(address); }}
+                              className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 transition-all duration-150 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                              style={{minWidth:'64px'}}
+                            >
+                              <svg className="w-3.5 h-3.5 mr-1.5 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6 6M3 21h6l11.293-11.293a1 1 0 000-1.414l-4.586-4.586a1 1 0 00-1.414 0L3 15v6z" /></svg>
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => { e.preventDefault(); handleDeleteAddress(address._id); }}
+                              className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-red-100 hover:bg-red-200 text-red-700 border border-red-300 transition-all duration-150 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400"
+                              style={{minWidth:'64px'}}
+                            >
+                              <svg className="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -484,16 +516,19 @@ export default function EnhancedCheckout() {
 
               {/* New Address Form */}
               {(showNewAddressForm || savedAddresses.length === 0) && (
-                <div>
-                  {savedAddresses.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setShowNewAddressForm(false)}
-                      className="text-sm text-gray-600 hover:text-gray-800 mb-3"
-                    >
-                      ← Back to saved addresses
-                    </button>
-                  )}
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm mt-2">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800">Add New Address</h3>
+                    {savedAddresses.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowNewAddressForm(false)}
+                        className="text-xs text-gray-600 hover:text-green-700 font-medium px-3 py-1 rounded transition"
+                      >
+                        ← Back
+                      </button>
+                    )}
+                  </div>
                   <div className="grid md:grid-cols-2 gap-4">
                     <input
                       type="text"
@@ -501,7 +536,7 @@ export default function EnhancedCheckout() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Full Name"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       required
                     />
                     <input
@@ -510,7 +545,7 @@ export default function EnhancedCheckout() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       required
                     />
                     <input
@@ -519,7 +554,7 @@ export default function EnhancedCheckout() {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="Phone Number (10 digits)"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       pattern="[0-9]{10}"
                       minLength="10"
                       maxLength="10"
@@ -531,7 +566,7 @@ export default function EnhancedCheckout() {
                       value={formData.zipCode}
                       onChange={handleChange}
                       placeholder="Postal Code (e.g., 400001)"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       pattern="[0-9]{5,6}"
                       minLength="5"
                       maxLength="6"
@@ -544,7 +579,7 @@ export default function EnhancedCheckout() {
                     value={formData.street}
                     onChange={handleChange}
                     placeholder="Street Address"
-                    className="w-full p-3 border rounded-lg mt-4"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white mt-4"
                     required
                   />
 
@@ -555,7 +590,7 @@ export default function EnhancedCheckout() {
                       value={formData.city}
                       onChange={handleChange}
                       placeholder="City"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       required
                     />
                     <input
@@ -564,14 +599,14 @@ export default function EnhancedCheckout() {
                       value={formData.state}
                       onChange={handleChange}
                       placeholder="State"
-                      className="p-3 border rounded-lg"
+                      className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white"
                       required
                     />
                   </div>
 
                   {showNewAddressForm && (
-                    <div className="mt-4">
-                      <label className="flex items-center gap-2">
+                    <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:gap-4">
+                      <label className="flex items-center gap-2 mb-2 sm:mb-0">
                         <input
                           type="checkbox"
                           checked={saveAddress}
@@ -585,7 +620,7 @@ export default function EnhancedCheckout() {
                           type="button"
                           onClick={handleAddNewAddress}
                           disabled={isSavingAddress}
-                          className={`mt-3 text-sm px-4 py-2 rounded-lg transition ${isSavingAddress ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                          className={`text-sm px-5 py-2 rounded-lg font-semibold shadow-sm transition-all duration-150 ${isSavingAddress ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
                         >
                           {isSavingAddress ? 'Saving...' : 'Save Address'}
                         </button>
@@ -779,8 +814,8 @@ export default function EnhancedCheckout() {
 
         {/* Payment Modal */}
         {showPaymentModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
-            <div className="bg-white rounded-2xl max-w-lg w-full p-8 relative shadow-2xl transform animate-slideUp">
+          <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-[9999] animate-fadeIn overflow-y-auto">
+            <div className="bg-white rounded-2xl w-full max-w-lg p-4 sm:p-8 relative shadow-2xl transform animate-slideUp max-h-[98vh] overflow-y-auto flex flex-col justify-center">
               <button
                 onClick={() => {
                   setShowPaymentModal(false);

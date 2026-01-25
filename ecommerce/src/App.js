@@ -72,7 +72,8 @@ function AppLayout() {
   const path = location.pathname;
   const isAdminDashboard = path.startsWith('/admin/dashboard') || path.startsWith('/admin/products');
   const isAdminLogin = path === '/admin-login';
-  const hideHeaderFooter = isAdminDashboard || isAdminLogin;
+  const isCheckoutPage = path === '/checkout';
+  const hideHeaderFooter = isAdminDashboard || isAdminLogin || isCheckoutPage;
   const isCartPage = path === '/cart';
   const { settings } = useSettings();
   const showMaintenance = settings?.maintenanceMode && !hideHeaderFooter;
