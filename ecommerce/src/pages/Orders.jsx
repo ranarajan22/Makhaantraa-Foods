@@ -6,13 +6,14 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Orders() {
     // Status selector state
+    // Use capitalized status values to match backend and data
     const STATUS_OPTIONS = [
       { label: "All", value: "all" },
-      { label: "Pending", value: "pending" },
-      { label: "Processing", value: "processing" },
-      { label: "Shipped", value: "shipped" },
-      { label: "Delivered", value: "delivered" },
-      { label: "Cancelled", value: "cancelled" },
+      { label: "Pending", value: "Pending" },
+      { label: "Processing", value: "Processing" },
+      { label: "Shipped", value: "Shipped" },
+      { label: "Delivered", value: "Delivered" },
+      { label: "Cancelled", value: "Cancelled" },
     ];
     const [selectedStatus, setSelectedStatus] = useState("all");
   const { user, loading } = useAuth();
