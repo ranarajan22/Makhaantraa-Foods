@@ -225,48 +225,56 @@ export default function OrdersTab({ orders, loadData }) {
                 <X size={24} />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div>
-                <p className="text-sm text-slate-600">Order Number</p>
-                <p className="font-semibold text-slate-900">{selectedOrder.orderNumber || `ORD-${selectedOrder._id.slice(-6).toUpperCase()}`}</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Status</p>
-                <p className="font-semibold text-slate-900 capitalize">{selectedOrder.status}</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Customer Name</p>
-                <p className="font-semibold text-slate-900">{selectedOrder.userId?.name || selectedOrder.user?.name || 'Unknown'}</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Email</p>
-                <p className="font-semibold text-slate-900">{selectedOrder.userId?.email || selectedOrder.user?.email || '—'}</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Total Amount</p>
-                <p className="font-semibold text-green-600">₹{selectedOrder.totalPrice?.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-600">Date</p>
-                <p className="font-semibold text-slate-900">{new Date(selectedOrder.createdAt).toLocaleDateString('en-IN')}</p>
-              </div>
-              <div className="col-span-2">
-                <p className="text-sm text-slate-600">Items</p>
-                <div className="text-sm text-slate-900">
-                  {selectedOrder.items?.map((item, idx) => (
-                    <p key={idx}>{item.quantity}x {item.name} @ ₹{item.price}</p>
-                  ))}
+            {selectedOrder && selectedOrder._id ? (
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                  <p className="text-sm text-slate-600">Order Number</p>
+                  <p className="font-semibold text-slate-900">{selectedOrder.orderNumber || (selectedOrder._id ? `ORD-${String(selectedOrder._id).slice(-6).toUpperCase()}` : '—')}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600">Status</p>
+                  <p className="font-semibold text-slate-900 capitalize">{selectedOrder.status || '—'}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600">Customer Name</p>
+                  <p className="font-semibold text-slate-900">{selectedOrder.userId?.name || selectedOrder.user?.name || 'Unknown'}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600">Email</p>
+                  <p className="font-semibold text-slate-900">{selectedOrder.userId?.email || selectedOrder.user?.email || '—'}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600">Total Amount</p>
+                  <p className="font-semibold text-green-600">₹{typeof selectedOrder.totalPrice === 'number' ? selectedOrder.totalPrice.toLocaleString() : '—'}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600">Date</p>
+                  <p className="font-semibold text-slate-900">{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleDateString('en-IN') : '—'}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-slate-600">Items</p>
+                  <div className="text-sm text-slate-900">
+                    {Array.isArray(selectedOrder.items) && selectedOrder.items.length > 0 ? (
+                      selectedOrder.items.map((item, idx) => (
+                        <p key={idx}>{item.quantity || 1}x {item.name || '—'} @ ₹{item.price || 0}</p>
+                      ))
+                    ) : (
+                      <p>No items found</p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-slate-600">Shipping Address</p>
+                  <p className="text-sm text-slate-900">{selectedOrder.shippingAddress || '—'}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-slate-600">Tracking ID</p>
+                  <p className="text-sm text-slate-900">{selectedOrder.trackingId || 'Not provided yet'}</p>
                 </div>
               </div>
-              <div className="col-span-2">
-                <p className="text-sm text-slate-600">Shipping Address</p>
-                <p className="text-sm text-slate-900">{selectedOrder.shippingAddress || '—'}</p>
-              </div>
-              <div className="col-span-2">
-                <p className="text-sm text-slate-600">Tracking ID</p>
-                <p className="text-sm text-slate-900">{selectedOrder.trackingId || 'Not provided yet'}</p>
-              </div>
-            </div>
+            ) : (
+              <div className="text-center text-red-600 font-semibold py-8">Order data is missing or incomplete.</div>
+            )}
             <button
               onClick={() => setSelectedOrder(null)}
               className="w-full py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition"
