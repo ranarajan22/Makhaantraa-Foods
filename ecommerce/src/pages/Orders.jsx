@@ -355,7 +355,9 @@ export default function Orders() {
               &times;
             </button>
             <h3 className="text-xl font-bold mb-2 text-blue-800">Bulk Order Details</h3>
-            <div className="mb-2 text-xs text-slate-500 font-mono">Order ID: <span className="break-all">{selectedBulkOrder._id}</span></div>
+            <div className="mb-2 text-xs text-slate-500 font-mono">
+              Order ID: <span className="break-all">{selectedBulkOrder.orderId || `BULK-${selectedBulkOrder._id?.slice(-6)?.toUpperCase()}`}</span>
+            </div>
             <div className="space-y-2 text-sm max-h-[60vh] overflow-y-auto pr-2">
               {Object.entries(selectedBulkOrder).map(([key, value]) => {
                 if (["_id", "__v"].includes(key)) return null;
@@ -410,7 +412,9 @@ export default function Orders() {
               &times;
             </button>
             <h3 className="text-xl font-bold mb-2 text-yellow-800">Free Sample Request Details</h3>
-            <div className="mb-2 text-xs text-slate-500 font-mono">Order ID: <span className="break-all">{selectedSample._id}</span></div>
+            <div className="mb-2 text-xs text-slate-500 font-mono">
+              Order ID: <span className="break-all">{selectedSample.orderId || `FS-${selectedSample._id?.slice(-6)?.toUpperCase()}`}</span>
+            </div>
             <div className="space-y-2 text-sm max-h-[60vh] overflow-y-auto pr-2">
               {Object.entries(selectedSample).map(([key, value]) => {
                 if (["_id", "__v"].includes(key)) return null;
