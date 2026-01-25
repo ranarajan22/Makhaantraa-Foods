@@ -66,7 +66,7 @@ export default function Orders() {
       {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xl w-full relative border border-green-200">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
               onClick={() => setShowOrderModal(false)}
@@ -74,24 +74,31 @@ export default function Orders() {
             >
               &times;
             </button>
-            <h3 className="text-xl font-bold mb-4 text-green-800">Order Details</h3>
-            <div className="space-y-3 text-sm max-h-[60vh] overflow-y-auto pr-2">
-              <div>
-                <span className="font-semibold">Order ID:</span> {selectedOrder.orderNumber || selectedOrder._id}
-              </div>
-              <div>
-                <span className="font-semibold">Date:</span> {selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleString('en-IN') : ''}
-              </div>
-              <div>
-                <span className="font-semibold">Status:</span> {selectedOrder.status}
-              </div>
-              <div>
-                <span className="font-semibold">Total:</span> ₹{(selectedOrder.totalPrice || selectedOrder.total || 0).toFixed(2)}
+            <h3 className="text-2xl font-bold mb-4 text-green-800 border-b pb-2">Order Details</h3>
+            <div className="space-y-4 text-base max-h-[60vh] overflow-y-auto pr-2">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="font-semibold">Order ID:</span> <span className="text-gray-700">{selectedOrder.orderNumber || selectedOrder._id}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Date:</span> <span className="text-gray-700">{selectedOrder.createdAt ? new Date(selectedOrder.createdAt).toLocaleString('en-IN') : ''}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Status:</span> <span className="text-gray-700">{selectedOrder.status}</span>
+                </div>
+                <div>
+                  <span className="font-semibold">Total:</span> <span className="text-gray-700">₹{(selectedOrder.totalPrice || selectedOrder.total || 0).toFixed(2)}</span>
+                </div>
+                {selectedOrder.paymentMethod && (
+                  <div>
+                    <span className="font-semibold">Payment Method:</span> <span className="text-gray-700">{selectedOrder.paymentMethod}</span>
+                  </div>
+                )}
               </div>
               {selectedOrder.shippingAddress && (
-                <div>
+                <div className="bg-green-50 rounded-lg p-3">
                   <span className="font-semibold">Shipping Address:</span>
-                  <div className="ml-2">
+                  <div className="ml-2 text-gray-700">
                     {Object.entries(selectedOrder.shippingAddress).map(([k, v]) => (
                       <div key={k}><span className="capitalize">{k}:</span> {v}</div>
                     ))}
@@ -99,9 +106,9 @@ export default function Orders() {
                 </div>
               )}
               {selectedOrder.items && Array.isArray(selectedOrder.items) && (
-                <div>
+                <div className="bg-green-50 rounded-lg p-3">
                   <span className="font-semibold">Items:</span>
-                  <ul className="ml-4 list-disc">
+                  <ul className="ml-4 list-disc text-gray-700">
                     {selectedOrder.items.map((item, idx) => (
                       <li key={idx}>
                         {item.name} x{item.qty} - ₹{item.price}
@@ -110,13 +117,10 @@ export default function Orders() {
                   </ul>
                 </div>
               )}
-              {selectedOrder.paymentMethod && (
-                <div>
-                  <span className="font-semibold">Payment Method:</span> {selectedOrder.paymentMethod}
-                </div>
-              )}
               {selectedOrder.notes && (
-                <div><span className="font-semibold">Notes:</span> {selectedOrder.notes}</div>
+                <div className="bg-yellow-50 rounded-lg p-3">
+                  <span className="font-semibold">Notes:</span> <span className="text-gray-700">{selectedOrder.notes}</span>
+                </div>
               )}
               {/* Add more user-relevant fields as needed */}
               {selectedOrder.status !== 'cancelled' && (
