@@ -638,8 +638,8 @@ function Newsletter(){
     e.preventDefault();
     setLoading(true);
     setMessage("");
-    
-    fetch('/api/newsletter/subscribe', {
+    const apiBase = process.env.REACT_APP_API_URL || "";
+    fetch(`${apiBase}/api/newsletter/subscribe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
