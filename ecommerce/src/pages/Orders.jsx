@@ -213,12 +213,12 @@ export default function Orders() {
                 {orders
                   .filter(o => selectedStatus === 'all' ? true : o.status === selectedStatus)
                   .map((o) => (
-                    <div key={o._id} className={`border rounded-lg p-4 flex items-center justify-between ${o.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}>
-                      <div>
-                        <p className="font-semibold text-gray-900">{o.orderNumber || o._id}</p>
+                    <div key={o._id} className={`border rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 ${o.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}> 
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</p>
                         <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
                       </div>
-                      <div className="text-right flex flex-col items-end gap-2">
+                      <div className="flex flex-col items-end gap-2 min-w-[120px]">
                         <p className={o.status === 'cancelled' ? "text-red-700 font-bold" : "text-green-700 font-bold"}>₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
                         <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
                           o.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
@@ -228,16 +228,16 @@ export default function Orders() {
                           o.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                           'bg-gray-100 text-gray-700'
                         }`}>{o.status}</span>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2 w-full justify-end">
                           <button
-                            className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200"
+                            className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200 whitespace-nowrap"
                             onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
                           >
                             Details
                           </button>
                           {o.status !== 'cancelled' && (
                             <button
-                              className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200"
+                              className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
                               onClick={() => handleCancelOrder(o._id)}
                             >
                               Cancel
@@ -268,12 +268,12 @@ export default function Orders() {
               {bulkOrders
                 .filter(b => selectedStatus === 'all' ? true : b.status === selectedStatus)
                 .map((b) => (
-                  <div key={b._id} className={`border rounded-lg p-4 flex items-center justify-between ${b.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-blue-50'}`}>
-                    <div>
-                      <p className="font-semibold text-gray-900">{b.company || b.fullName || b._id}</p>
+                  <div key={b._id} className={`border rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 ${b.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-blue-50'}`}> 
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-gray-900 truncate">{b.company || b.fullName || b._id}</p>
                       <p className="text-sm text-slate-600">{new Date(b.createdAt).toLocaleDateString('en-IN')}</p>
                     </div>
-                    <div className="text-right flex flex-col items-end gap-2">
+                    <div className="flex flex-col items-end gap-2 min-w-[120px]">
                       <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
                         b.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                         b.status === 'processing' ? 'bg-blue-100 text-blue-800' :
@@ -283,7 +283,7 @@ export default function Orders() {
                         'bg-gray-100 text-gray-700'
                       }`}>{b.status}</span>
                       <button
-                        className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200"
+                        className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200 whitespace-nowrap"
                         onClick={() => { setSelectedBulkOrder(b); setShowBulkOrderModal(true); }}
                       >
                         Details
@@ -311,12 +311,12 @@ export default function Orders() {
               {freeSamples
                 .filter(s => selectedStatus === 'all' ? true : s.status === selectedStatus)
                 .map((s) => (
-                  <div key={s._id} className={`border rounded-lg p-4 flex items-center justify-between ${s.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-yellow-50'}`}>
-                    <div>
-                      <p className="font-semibold text-gray-900">{s.name || s.company || s._id}</p>
+                  <div key={s._id} className={`border rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 ${s.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-yellow-50'}`}> 
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-gray-900 truncate">{s.name || s.company || s._id}</p>
                       <p className="text-sm text-slate-600">{new Date(s.createdAt).toLocaleDateString('en-IN')}</p>
                     </div>
-                    <div className="text-right flex flex-col items-end gap-2">
+                    <div className="flex flex-col items-end gap-2 min-w-[120px]">
                       <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
                         s.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                         s.status === 'processing' ? 'bg-blue-100 text-blue-800' :
@@ -326,7 +326,7 @@ export default function Orders() {
                         'bg-gray-100 text-gray-700'
                       }`}>{s.status}</span>
                       <button
-                        className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold hover:bg-yellow-200"
+                        className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold hover:bg-yellow-200 whitespace-nowrap"
                         onClick={() => { setSelectedSample(s); setShowSampleModal(true); }}
                       >
                         Details
