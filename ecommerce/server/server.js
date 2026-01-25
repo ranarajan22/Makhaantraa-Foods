@@ -17,7 +17,13 @@ app.use(helmet());
 app.use(mongoSanitize());
 
 // CORS Configuration (place before rate limiting so preflight gets headers)
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://127.0.0.1:3000').split(',');
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://makhaantraafoods.com',
+  'https://www.makhaantraafoods.com',
+  'https://makhaantraa-foods.vercel.app'
+].join(',')).split(',');
 const corsOptions = {
   origin: (origin, callback) => {
     const isDev = process.env.NODE_ENV !== 'production';
