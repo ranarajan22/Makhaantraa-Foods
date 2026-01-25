@@ -190,67 +190,95 @@ export default function Profile() {
           </div>
           {ordersLoading ? (
             <p className="text-slate-600">Loading orders...</p>
-          ) : orders.length === 0 ? (
+          ) : (orders.length + bulkOrders.length + freeSamples.length) === 0 ? (
             <p className="text-slate-600">No orders yet.</p>
           ) : (
             <>
-              {/* Active Orders */}
+              {/* Show 3 most recent orders across all types */}
               <div className="space-y-3">
-                {orders.filter(o => o.status !== 'cancelled').slice(0, 3).map((o) => (
-                  <div key={o._id} className="border border-green-50 rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</p>
-                      <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
-                    </div>
-                    <div className="flex flex-col items-end gap-2 min-w-[120px]">
-                      <p className="text-green-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
-                      <p className="text-sm text-slate-600">{o.status}</p>
-                      <div className="flex flex-wrap gap-2 w-full justify-end">
-                        <button
-                          className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200 whitespace-nowrap"
-                          onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
-                        >
-                          Details
-                        </button>
-                        {o.status !== 'cancelled' && (
-                          <button
-                            className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
-                            onClick={() => handleCancelOrder(o._id)}
-                          >
-                            Cancel
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Cancelled Orders */}
-              {orders.filter(o => o.status === 'cancelled').length > 0 && (
-                <div className="mt-8">
-                  <h3 className="text-lg font-bold text-red-700 mb-2">Cancelled Orders</h3>
-                  <div className="space-y-3">
-                    {orders.filter(o => o.status === 'cancelled').slice(0, 3).map((o) => (
-                      <div key={o._id} className="border border-red-100 rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 bg-red-50">
-                        <div className="min-w-0 flex-1">
-                          <p className="font-semibold text-gray-900 truncate">{o.orderNumber || o._id}</p>
-                          <p className="text-sm text-slate-600">{new Date(o.createdAt).toLocaleDateString('en-IN')}</p>
+                {[
+                  ...orders.map(o => ({
+                    ...o,
+                    _type: 'regular',
+                    _created: new Date(o.createdAt),
+                  })),
+                  ...bulkOrders.map(b => ({
+                    ...b,
+                    _type: 'bulk',
+                    _created: new Date(b.createdAt),
+                  })),
+                  ...freeSamples.map(s => ({
+                    ...s,
+                    _type: 'sample',
+                    _created: new Date(s.createdAt),
+                  })),
+                ]
+                  .sort((a, b) => b._created - a._created)
+                  .slice(0, 3)
+                  .map((order) => (
+                    <div key={order._id} className={`border rounded-lg p-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 ${order.status === 'cancelled' ? 'border-red-100 bg-red-50' : 'border-green-50'}`}>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
+                            order._type === 'regular' ? 'bg-blue-100 text-blue-700' :
+                            order._type === 'bulk' ? 'bg-purple-100 text-purple-700' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {order._type === 'regular' ? 'Order' : order._type === 'bulk' ? 'Bulk' : 'Sample'}
+                          </span>
+                          <span className="font-semibold text-gray-900 truncate">{order.orderNumber || order.orderId || order._id}</span>
                         </div>
-                        <div className="flex flex-col items-end gap-2 min-w-[120px]">
-                          <p className="text-red-700 font-bold">₹{(o.totalPrice || o.total || 0).toFixed(2)}</p>
-                          <p className="text-sm text-red-700">{o.status}</p>
+                        <p className="text-sm text-slate-600">{order._created.toLocaleDateString('en-IN')}</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2 min-w-[120px]">
+                        {order._type === 'regular' && (
+                          <p className="text-green-700 font-bold">₹{(order.totalPrice || order.total || 0).toFixed(2)}</p>
+                        )}
+                        <p className={`text-sm ${order.status === 'cancelled' ? 'text-red-700' : 'text-slate-600'}`}>{order.status}</p>
+                        <div className="flex flex-wrap gap-2 w-full justify-end">
                           <button
-                            className="px-3 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold hover:bg-green-200 whitespace-nowrap"
-                            onClick={() => { setSelectedOrder(o); setShowOrderModal(true); }}
+                            className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap ${
+                              order._type === 'regular' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
+                              order._type === 'bulk' ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' :
+                              'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                            }`}
+                            onClick={() => {
+                              if (order._type === 'regular') { setSelectedOrder(order); setShowOrderModal(true); }
+                              else if (order._type === 'bulk') { setSelectedOrder(null); setShowOrderModal(false); setSelectedBulkOrder(order); setShowBulkOrderModal(true); }
+                              else { setSelectedOrder(null); setShowOrderModal(false); setSelectedSample(order); setShowSampleModal(true); }
+                            }}
                           >
                             Details
                           </button>
+                          {order.status !== 'cancelled' && (
+                            order._type === 'regular' ? (
+                              <button
+                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                                onClick={() => handleCancelOrder(order._id)}
+                              >
+                                Cancel
+                              </button>
+                            ) : order._type === 'bulk' ? (
+                              <button
+                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                                onClick={() => alert('Bulk order cancellation is not supported in this version.')}
+                              >
+                                Cancel
+                              </button>
+                            ) : (
+                              <button
+                                className="px-3 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold hover:bg-red-200 whitespace-nowrap"
+                                onClick={() => alert('Free sample cancellation is not supported in this version.')}
+                              >
+                                Cancel
+                              </button>
+                            )
+                          )}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                    </div>
+                  ))}
+              </div>
             </>
           )}
         </div>
