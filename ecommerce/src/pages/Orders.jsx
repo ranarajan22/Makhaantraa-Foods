@@ -1,15 +1,23 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "../utils/api.js";
-// import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+
 
 export default function Orders() {
   const { user, loading } = useAuth();
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
+  const [bulkOrders, setBulkOrders] = useState([]);
+  const [bulkOrdersLoading, setBulkOrdersLoading] = useState(true);
+  const [freeSamples, setFreeSamples] = useState([]);
+  const [freeSamplesLoading, setFreeSamplesLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
-  // const navigate = useNavigate();
+  const [selectedBulkOrder, setSelectedBulkOrder] = useState(null);
+  const [showBulkOrderModal, setShowBulkOrderModal] = useState(false);
+  const [selectedSample, setSelectedSample] = useState(null);
+  const [showSampleModal, setShowSampleModal] = useState(false);
 
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
@@ -24,18 +32,32 @@ export default function Orders() {
     }
   };
 
+
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchAll = async () => {
+      setOrdersLoading(true);
+      setBulkOrdersLoading(true);
+      setFreeSamplesLoading(true);
       try {
-        const r = await axios.get('/api/orders/my');
-        setOrders(r.data || []);
+        const [ordersRes, bulkRes, sampleRes] = await Promise.all([
+          axios.get('/api/orders/my'),
+          axios.get('/api/bulk-orders/my'),
+          axios.get('/api/free-samples/my'),
+        ]);
+        setOrders(ordersRes.data || []);
+        setBulkOrders(bulkRes.data || []);
+        setFreeSamples(sampleRes.data || []);
       } catch (e) {
         setOrders([]);
+        setBulkOrders([]);
+        setFreeSamples([]);
       } finally {
         setOrdersLoading(false);
+        setBulkOrdersLoading(false);
+        setFreeSamplesLoading(false);
       }
     };
-    fetchOrders();
+    fetchAll();
   }, []);
 
   if (loading) {
@@ -127,6 +149,7 @@ export default function Orders() {
         </div>
       )}
       <div className="max-w-4xl mx-auto space-y-8">
+        {/* Regular Orders */}
         <div className="bg-white rounded-xl shadow-md border border-green-100 p-6">
           <h2 className="text-2xl font-bold text-green-800 mb-4">My Orders</h2>
           {ordersLoading ? (
@@ -195,7 +218,175 @@ export default function Orders() {
             </>
           )}
         </div>
+
+        {/* Bulk Orders */}
+        <div className="bg-white rounded-xl shadow-md border border-blue-100 p-6">
+          <h2 className="text-2xl font-bold text-blue-800 mb-4">My Bulk Orders</h2>
+          {bulkOrdersLoading ? (
+            <p className="text-slate-600">Loading bulk orders...</p>
+          ) : bulkOrders.length === 0 ? (
+            <p className="text-slate-600">No bulk orders yet.</p>
+          ) : (
+            <div className="space-y-3">
+              {bulkOrders.map((b) => (
+                <div key={b._id} className="border border-blue-50 rounded-lg p-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-900">{b.company || b.fullName || b._id}</p>
+                    <p className="text-sm text-slate-600">{new Date(b.createdAt).toLocaleDateString('en-IN')}</p>
+                  </div>
+                  <div className="text-right flex flex-col items-end gap-2">
+                    <p className="text-blue-700 font-bold">{b.status}</p>
+                    <button
+                      className="px-3 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200"
+                      onClick={() => { setSelectedBulkOrder(b); setShowBulkOrderModal(true); }}
+                    >
+                      Details
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Free Sample Requests */}
+        <div className="bg-white rounded-xl shadow-md border border-yellow-100 p-6">
+          <h2 className="text-2xl font-bold text-yellow-800 mb-4">My Free Sample Requests</h2>
+          {freeSamplesLoading ? (
+            <p className="text-slate-600">Loading free sample requests...</p>
+          ) : freeSamples.length === 0 ? (
+            <p className="text-slate-600">No free sample requests yet.</p>
+          ) : (
+            <div className="space-y-3">
+              {freeSamples.map((s) => (
+                <div key={s._id} className="border border-yellow-50 rounded-lg p-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-900">{s.name || s.company || s._id}</p>
+                    <p className="text-sm text-slate-600">{new Date(s.createdAt).toLocaleDateString('en-IN')}</p>
+                  </div>
+                  <div className="text-right flex flex-col items-end gap-2">
+                    <p className="text-yellow-700 font-bold">{s.status}</p>
+                    <button
+                      className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold hover:bg-yellow-200"
+                      onClick={() => { setSelectedSample(s); setShowSampleModal(true); }}
+                    >
+                      Details
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Bulk Order Modal */}
+      {showBulkOrderModal && selectedBulkOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
+              onClick={() => setShowBulkOrderModal(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-bold mb-2 text-blue-800">Bulk Order Details</h3>
+            <div className="space-y-2 text-sm max-h-[60vh] overflow-y-auto pr-2">
+              {Object.entries(selectedBulkOrder).map(([key, value]) => {
+                if (["_id", "__v"].includes(key)) return null;
+                if (key === "createdAt" || key === "updatedAt") {
+                  return (
+                    <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {new Date(value).toLocaleString('en-IN')}</div>
+                  );
+                }
+                if (typeof value === "object" && value !== null) {
+                  if (Array.isArray(value)) {
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <ul className="ml-4 list-disc">
+                          {value.map((item, idx) => (
+                            <li key={idx}>{typeof item === 'object' ? JSON.stringify(item) : String(item)}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <div className="ml-2">
+                          {Object.entries(value).map(([k, v]) => (
+                            <div key={k}><span className="capitalize">{k}:</span> {typeof v === 'object' ? JSON.stringify(v) : String(v)}</div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                return (
+                  <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {String(value)}</div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Free Sample Modal */}
+      {showSampleModal && selectedSample && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
+              onClick={() => setShowSampleModal(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-bold mb-2 text-yellow-800">Free Sample Request Details</h3>
+            <div className="space-y-2 text-sm max-h-[60vh] overflow-y-auto pr-2">
+              {Object.entries(selectedSample).map(([key, value]) => {
+                if (["_id", "__v"].includes(key)) return null;
+                if (key === "createdAt" || key === "updatedAt") {
+                  return (
+                    <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {new Date(value).toLocaleString('en-IN')}</div>
+                  );
+                }
+                if (typeof value === "object" && value !== null) {
+                  if (Array.isArray(value)) {
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <ul className="ml-4 list-disc">
+                          {value.map((item, idx) => (
+                            <li key={idx}>{typeof item === 'object' ? JSON.stringify(item) : String(item)}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={key}>
+                        <span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                        <div className="ml-2">
+                          {Object.entries(value).map(([k, v]) => (
+                            <div key={k}><span className="capitalize">{k}:</span> {typeof v === 'object' ? JSON.stringify(v) : String(v)}</div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                return (
+                  <div key={key}><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> {String(value)}</div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
