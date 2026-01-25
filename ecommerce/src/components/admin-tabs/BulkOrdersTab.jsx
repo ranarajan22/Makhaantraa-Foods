@@ -285,8 +285,8 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
                     <p className="font-semibold text-slate-900">{selectedOrder.packaging}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-600">Post-Sample Qty</p>
-                    <p className="font-semibold text-slate-900">{getPostSampleQtyLabel(selectedOrder.postSampleQty)}</p>
+                    <p className="text-sm text-slate-600">Immediate Order Quantity</p>
+                    <p className="font-semibold text-slate-900">{selectedOrder.postSampleQty || '—'}</p>
                   </div>
                 </div>
               </div>

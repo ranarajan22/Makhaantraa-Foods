@@ -178,15 +178,14 @@ export default function OrderBulk() {
               <option value="10kg">10 Kg</option>
             </select>
             
-            <select className="input-brand p-3 md:col-span-2" value={form.postSampleQty} onChange={(e) => setForm({...form, postSampleQty: e.target.value})} required>
-              <option value="" disabled>Immediate Order Quantity</option>
-              <option value="retail-small">1-10 Kgs</option>
-              <option value="retail-medium">10-50 Kgs</option>
-              <option value="below-100">50-100 Kgs</option>
-              <option value="above-100">100-500 Kgs</option>
-              <option value="above-500">500-1000 Kgs</option>
-              <option value="above-1000">1000+ Kgs</option>
-            </select>
+            <input
+              className="input-brand p-3 md:col-span-2"
+              type="text"
+              placeholder="Immediate Order Quantity (e.g. 100 kg)"
+              value={form.postSampleQty}
+              onChange={(e) => setForm({ ...form, postSampleQty: e.target.value })}
+              required
+            />
             <textarea className="input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" rows={3} placeholder="Delivery location, timeline, packaging preference, or any special requirements" value={form.notes} onChange={(e) => setForm({...form, notes: e.target.value})}></textarea>
             <div className="md:col-span-2 flex flex-wrap items-center gap-3 justify-between">
               <div className="text-sm text-slate-600">Reply within 24 hours with pricing and dispatch plan.</div>
