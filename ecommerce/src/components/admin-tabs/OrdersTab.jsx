@@ -278,7 +278,27 @@ export default function OrdersTab({ orders, loadData }) {
                 {/* Shipping Address */}
                 <div className="border-t pt-4">
                   <h3 className="text-lg font-bold text-slate-900 mb-3">Shipping Address</h3>
-                  <p className="text-sm text-slate-900">{selectedOrder.shippingAddress || '—'}</p>
+                  {typeof selectedOrder.shippingAddress === 'object' && selectedOrder.shippingAddress !== null ? (
+                    <div className="text-sm text-slate-900 space-y-1">
+                      {selectedOrder.shippingAddress.name && <div><span className="text-slate-600">Name: </span>{selectedOrder.shippingAddress.name}</div>}
+                      {selectedOrder.shippingAddress.phone && <div><span className="text-slate-600">Phone: </span>{selectedOrder.shippingAddress.phone}</div>}
+                      {selectedOrder.shippingAddress.line1 && <div><span className="text-slate-600">Address Line 1: </span>{selectedOrder.shippingAddress.line1}</div>}
+                      {selectedOrder.shippingAddress.line2 && <div><span className="text-slate-600">Address Line 2: </span>{selectedOrder.shippingAddress.line2}</div>}
+                      {selectedOrder.shippingAddress.city && <div><span className="text-slate-600">City: </span>{selectedOrder.shippingAddress.city}</div>}
+                      {selectedOrder.shippingAddress.state && <div><span className="text-slate-600">State: </span>{selectedOrder.shippingAddress.state}</div>}
+                      {selectedOrder.shippingAddress.pincode && <div><span className="text-slate-600">PIN Code: </span>{selectedOrder.shippingAddress.pincode}</div>}
+                      {selectedOrder.shippingAddress.country && <div><span className="text-slate-600">Country: </span>{selectedOrder.shippingAddress.country}</div>}
+                      {selectedOrder.shippingAddress.notes && <div><span className="text-slate-600">Notes: </span>{selectedOrder.shippingAddress.notes}</div>}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-900">{selectedOrder.shippingAddress || '—'}</p>
+                  )}
+                  {selectedOrder.phone && (
+                    <div className="text-sm text-slate-900 mt-2"><span className="text-slate-600">Phone: </span>{selectedOrder.phone}</div>
+                  )}
+                  {selectedOrder.notes && (
+                    <div className="text-sm text-slate-900 mt-2"><span className="text-slate-600">Order Notes: </span>{selectedOrder.notes}</div>
+                  )}
                 </div>
 
                 {/* Status & Payment */}
