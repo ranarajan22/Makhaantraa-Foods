@@ -714,20 +714,20 @@ export default function EnhancedCheckout() {
             {/* Coupon */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4">Coupon Code</h2>
-              
-              <div className="flex gap-2">
+
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   name="couponCode"
                   value={formData.couponCode}
                   onChange={handleChange}
                   placeholder="Enter coupon code"
-                  className="flex-1 p-3 border rounded-lg"
+                  className="w-full p-3 border rounded-lg"
                 />
                 <button
                   type="button"
                   onClick={validateCoupon}
-                  className="px-6 py-3 bg-gray-200 rounded-lg hover:bg-gray-300"
+                  className="w-full sm:w-auto px-6 py-3 bg-gray-200 rounded-lg hover:bg-gray-300"
                 >
                   Apply
                 </button>
