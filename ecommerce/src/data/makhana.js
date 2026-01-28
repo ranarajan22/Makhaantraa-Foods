@@ -146,7 +146,7 @@ export const blogPosts = [
     slug: "why-gi-mithila-makhana",
     title: "Why the GI Tag on Mithila Makhana is More Than Just a Label – A Quality Promise by Makhaantraafoods PVT. LTD.",
     excerpt: "Discover why the GI tag is more than a label—it’s a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
-    image: "/product_image/flavoured.webp",
+    image: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769239072/products/qttb7wg7wgu8s0jfixgx.jpg",
     date: "2026-01-10",
     body: [
       "Why the GI Tag on Mithila Makhana is More Than Just a Label – A Quality Promise by Makhaantraafoods PVT. LTD.",
@@ -206,7 +206,7 @@ export const blogPosts = [
     slug: "healthy-snacking",
     title: "Makhana: The Clean-Label Super Snack – A Personal Promise from Makhaantraafoods PVT. LTD.",
     excerpt: "Discover the plant-based powerhouse that`s high in protein, low GI, and ready to take on any flavor you can imagine.",
-    image: "/product_image/4suta.jpg",
+    image: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg",
     date: "2026-01-20",
     body: [
       "At Makhaantraafoods PVT. LTD., we don`t just see makhana as a commodity; we see it as the future of mindful eating. As the world moves away from over-processed 'junk' and toward transparent, honest ingredients, makhana (fox nuts) has stepped into the spotlight. It is the ultimate 'better-for-you' snack—a plant-based powerhouse that feels light, tastes great, and respects the body.",
