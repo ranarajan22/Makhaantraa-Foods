@@ -257,6 +257,18 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
                     <p className="text-sm text-slate-600">Requirement</p>
                     <p className="font-semibold text-slate-900">{selectedSample.requirement || '—'}</p>
                   </div>
+                  <div>
+                    <p className="text-sm text-slate-600">Sample Package</p>
+                    <p className="font-semibold text-slate-900">
+                      {selectedSample.samplePackage === '650' && '₹650 (1x premium pack)'}
+                      {selectedSample.samplePackage === '1000' && '₹1000 (2x premium packs)'}
+                      {!['650','1000'].includes(selectedSample.samplePackage) && (selectedSample.samplePackage || '—')}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600">Payment Method</p>
+                    <p className="font-semibold text-slate-900 capitalize">{selectedSample.paymentMethod || '—'}</p>
+                  </div>
                 </div>
               </div>
 

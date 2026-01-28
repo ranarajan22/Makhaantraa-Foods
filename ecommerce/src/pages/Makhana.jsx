@@ -52,6 +52,8 @@ export default function Makhana() {
     makhanaType: "",
     requirement: "",
     message: "",
+    samplePackage: "",
+    paymentMethod: "",
   });
 
   useEffect(() => {
@@ -258,7 +260,40 @@ export default function Makhana() {
               <option value="multiple">Multiple Types (Specify in notes)</option>
             </select>
                         <input className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Expected quantity after sample (e.g., 100kg/month)" value={form.requirement} onChange={(e) => setForm({ ...form, requirement: e.target.value })} />
-            <textarea className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Any specific specs or notes" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+                        <textarea className="w-full input-brand p-3 md:col-span-2 placeholder:text-xs md:placeholder:text-sm" placeholder="Any specific specs or notes" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+                        {/* Sample Package Selector */}
+                        <select className="w-full input-brand p-3 md:col-span-2" value={form.samplePackage} onChange={e => setForm({ ...form, samplePackage: e.target.value })} required>
+                          <option value="" disabled>Select Sample Package (Required)</option>
+                          <option value="650">Sample Package – ₹650 (includes shipping, 1x premium pack)</option>
+                          <option value="1000">Sample Package – ₹1000 (includes shipping, 2x premium packs)</option>
+                        </select>
+                        {/* Payment Method Selector */}
+                        <div className="w-full md:col-span-2 flex flex-col gap-2 mt-2">
+                          <label className="font-semibold text-brand">Select Payment Method</label>
+                          <div className="flex gap-4">
+                            <label className="flex items-center gap-2">
+                              <input type="radio" name="paymentMethod" value="upi" checked={form.paymentMethod === 'upi'} onChange={e => setForm({ ...form, paymentMethod: e.target.value })} required />
+                              <span>UPI</span>
+                            </label>
+                            <label className="flex items-center gap-2">
+                              <input type="radio" name="paymentMethod" value="razorpay" checked={form.paymentMethod === 'razorpay'} onChange={e => setForm({ ...form, paymentMethod: e.target.value })} required />
+                              <span>Razorpay</span>
+                            </label>
+                          </div>
+                          {form.paymentMethod === 'upi' && (
+                            <div className="bg-green-50 border border-green-200 rounded p-3 mt-2 text-sm">
+                              <div className="font-semibold mb-1">Pay via UPI</div>
+                              <div>UPI ID: <span className="font-mono">makhaantraafoods@upi</span></div>
+                              <div className="text-xs text-slate-500">(After submitting the form, please pay the selected amount and share the transaction ID with our team on WhatsApp.)</div>
+                            </div>
+                          )}
+                          {form.paymentMethod === 'razorpay' && (
+                            <div className="bg-blue-50 border border-blue-200 rounded p-3 mt-2 text-sm">
+                              <div className="font-semibold mb-1">Pay via Razorpay</div>
+                              <div>Razorpay payment link will be shared after form submission.</div>
+                            </div>
+                          )}
+                        </div>
             <div className="md:col-span-2 flex flex-wrap gap-3 items-center justify-between">
               <div className="text-sm text-slate-600 flex items-center gap-2">
                 <Shield className="text-brand" size={18} /> We respect your privacy and only use this to ship your sample.

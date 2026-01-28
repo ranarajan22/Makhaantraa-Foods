@@ -20,7 +20,9 @@ router.post('/submit', async (req, res) => {
       pincode,
       makhanaType,
       requirement,
-      message
+      message,
+      samplePackage,
+      paymentMethod
     } = req.body;
 
     // Validate required fields (trim and check for empty strings)
@@ -33,7 +35,9 @@ router.post('/submit', async (req, res) => {
       district,
       state,
       pincode,
-      makhanaType
+      makhanaType,
+      samplePackage,
+      paymentMethod
     };
 
     const missingFields = Object.entries(requiredFields)
@@ -78,6 +82,8 @@ router.post('/submit', async (req, res) => {
       makhanaType: makhanaType.trim(),
       requirement: (requirement || '').trim(),
       message: (message || '').trim(),
+      samplePackage: samplePackage,
+      paymentMethod: paymentMethod,
       status: 'Pending'
     };
 

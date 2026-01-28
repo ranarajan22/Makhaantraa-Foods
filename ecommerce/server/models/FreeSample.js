@@ -18,6 +18,8 @@ const freeSampleSchema = new mongoose.Schema({
   requirement: { type: String, trim: true, default: '' },
   message: { type: String, trim: true, default: '' },
   chargedAmount: { type: Number, default: 0 },
+  samplePackage: { type: String, enum: ['650', '1000'], required: true },
+  paymentMethod: { type: String, enum: ['upi', 'razorpay'], required: true },
   status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
   adminNotes: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }
