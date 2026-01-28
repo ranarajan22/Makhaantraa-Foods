@@ -53,7 +53,7 @@ function Footer() {
               <li className="mb-2"><a href="/contact" className="text-slate-300 hover:text-green-400 transition-colors">Contact Us</a></li>
               <li className="mb-2"><a href="/faq" className="text-slate-300 hover:text-green-400 transition-colors">FAQ</a></li>
               <li className="mb-2"><a href="/help-center" className="text-slate-300 hover:text-green-400 transition-colors">Help Center</a></li>
-              <li className="mb-2"><a href="/status" className="text-slate-300 hover:text-green-400 transition-colors">Server Status</a></li>
+
             </ul>
           </div>
           <div>
@@ -103,11 +103,37 @@ function Footer() {
           <div className="flex items-center space-x-6">
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaFacebook size={24} /></a>
-              <a href="https://instagram.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
+              <a href="https://www.instagram.com/makhaantraafoods/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
               <a href="https://twitter.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaTwitter size={24} /></a>
-              <a href="https://linkedin.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaLinkedin size={24} /></a>
+              <a href="https://in.linkedin.com/in/makhaantra%C3%A3-foods-96a241397" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaLinkedin size={24} /></a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="text-slate-400 hover:text-green-400 transition-colors"><FaWhatsapp size={24} /></a>
             </div>
+            <button
+              className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-bold shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200 text-base border-2 border-white/10"
+              style={{ minWidth: 120, letterSpacing: '0.02em' }}
+              onClick={() => {
+                const shareUrl = 'https://www.makhaantraafoods.com';
+                const shareData = {
+                  title: 'Makhaantraa Foods',
+                  text: 'Check out Makhaantraa Foods!',
+                  url: shareUrl,
+                };
+                if (navigator.share) {
+                  navigator.share(shareData).catch(() => {});
+                } else if (navigator.clipboard) {
+                  navigator.clipboard.writeText(shareUrl).then(() => {
+                    alert('Website link copied to clipboard!');
+                  });
+                } else {
+                  window.prompt('Copy this link:', shareUrl);
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 8.25V6a3 3 0 00-6 0v2.25m6 0A2.25 2.25 0 0117.25 10.5h.75A2.25 2.25 0 0120.25 12.75v4.5A2.25 2.25 0 0118 19.5h-12A2.25 2.25 0 013.75 17.25v-4.5A2.25 2.25 0 016 10.5h.75A2.25 2.25 0 019 8.25m6 0h-6" />
+              </svg>
+              Share Website
+            </button>
           </div>
         </div>
       </div>

@@ -42,7 +42,7 @@ function HeroSection() {
     );
   }
 
-  const heroImage = settings?.heroImage || "/makhana.jpeg";
+  const heroImage = settings?.heroImage?.startsWith('/') ? settings.heroImage : ('/' + (settings?.heroImage || 'makhana.jpeg'));
 
   return (
     <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
