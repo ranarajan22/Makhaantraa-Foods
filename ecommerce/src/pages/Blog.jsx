@@ -23,9 +23,18 @@ export default function Blog() {
           <article key={post.slug} className="bg-white rounded-2xl shadow-brand border border-green-50 flex flex-col overflow-hidden hover:shadow-2xl transition">
             {post.image && (
               <img
-                src={post.image.startsWith('/') ? post.image : '/' + post.image}
+                src={
+                  post.image.startsWith('http') && post.image.includes('cloudinary')
+                    ? post.image
+                    : (process.env.PUBLIC_URL ? process.env.PUBLIC_URL + post.image : post.image)
+                }
                 alt={post.title}
                 className="w-full h-48 object-cover"
+                onError={e => {
+                  // fallback to placeholder if image fails
+                  e.target.onerror = null;
+                  e.target.src = process.env.PUBLIC_URL ? process.env.PUBLIC_URL + '/product_image/makhana.jpeg' : '/product_image/makhana.jpeg';
+                }}
               />
             )}
             <div className="p-6 flex flex-col gap-3 flex-1">
