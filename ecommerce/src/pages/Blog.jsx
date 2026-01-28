@@ -31,9 +31,9 @@ export default function Blog() {
                 alt={post.title}
                 className="w-full h-48 object-cover"
                 onError={e => {
-                  // fallback to placeholder if image fails
-                  e.target.onerror = null;
-                  e.target.src = process.env.PUBLIC_URL ? process.env.PUBLIC_URL + '/product_image/makhana.jpeg' : '/product_image/makhana.jpeg';
+                      e.target.onerror = null;
+                      const cloudUrl = `https://res.cloudinary.com/dujkkenmf/image/upload/v1${post.image}`;
+                      e.target.src = cloudUrl;
                 }}
               />
             )}
