@@ -23,18 +23,9 @@ export default function Blog() {
           <article key={post.slug} className="bg-white rounded-2xl shadow-brand border border-green-50 flex flex-col overflow-hidden hover:shadow-2xl transition">
             {post.image && (
               <img
-                src={
-                  post.image.startsWith('http') && post.image.includes('cloudinary')
-                    ? post.image
-                    : (process.env.PUBLIC_URL ? process.env.PUBLIC_URL + post.image : post.image)
-                }
+                src={post.image}
                 alt={post.title}
                 className="w-full h-48 object-cover"
-                onError={e => {
-                      e.target.onerror = null;
-                      const cloudUrl = `https://res.cloudinary.com/dujkkenmf/image/upload/v1${post.image}`;
-                      e.target.src = cloudUrl;
-                }}
               />
             )}
             <div className="p-6 flex flex-col gap-3 flex-1">

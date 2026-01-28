@@ -137,7 +137,7 @@ export default function BlogPost() {
       {/* Hero image */}
       {post.image && (
         <img
-          src={`${publicUrl}${post.image}`}
+          src={post.image}
           alt={post.title}
           className="w-full max-h-96 object-cover rounded-b-3xl shadow-lg -mb-16"
         />
