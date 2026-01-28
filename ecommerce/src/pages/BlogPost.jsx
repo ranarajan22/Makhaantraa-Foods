@@ -9,7 +9,7 @@ export default function BlogPost() {
   const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
 
   // Images for alternating layout (with captions), exclude the hero image if present
-  const publicUrl = process.env.PUBLIC_URL || "";
+  // Removed unused publicUrl variable
   const allExtraImages = [
     { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg", caption: "Freshly roasted premium Makhana" },
     { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg", caption: "4 Suta Makhana: Value and quality" },
