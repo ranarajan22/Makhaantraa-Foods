@@ -11,11 +11,11 @@ export default function BlogPost() {
   // Images for alternating layout (with captions), exclude the hero image if present
   const publicUrl = process.env.PUBLIC_URL || "";
   const allExtraImages = [
-    { src: `${publicUrl}/product_image/roasted1.jpeg`, caption: "Freshly roasted premium Makhana" },
-    { src: `${publicUrl}/product_image/4suta.jpg`, caption: "4 Suta Makhana: Value and quality" },
-    { src: `${publicUrl}/product_image/makhana.jpeg`, caption: "Makhana: The clean-label superfood" },
-    { src: `${publicUrl}/product_image/5%20suta.jpeg`, caption: "5 Suta: Clean-label snack" },
-    { src: `${publicUrl}/product_image/flavoured.webp`, caption: "Flavoured Makhana" }
+    { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg", caption: "Freshly roasted premium Makhana" },
+    { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg", caption: "4 Suta Makhana: Value and quality" },
+    { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243116/products/kssbglict17cc4xtxthj.webp", caption: "Makhana: The clean-label superfood" },
+    { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg", caption: "5 Suta: Clean-label snack" },
+    { src: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769239072/products/qttb7wg7wgu8s0jfixgx.jpg", caption: "Flavoured Makhana" }
   ];
   // Filter out the hero image if it exists in extra images
   // Compare only the path part for filtering
