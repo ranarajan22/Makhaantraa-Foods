@@ -9,15 +9,17 @@ export default function BlogPost() {
   const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
 
   // Images for alternating layout (with captions), exclude the hero image if present
+  const publicUrl = process.env.PUBLIC_URL || "";
   const allExtraImages = [
-    { src: "/product_image/roasted1.jpeg", caption: "Freshly roasted premium Makhana" },
-    { src: "/product_image/4suta.jpg", caption: "4 Suta Makhana: Value and quality" },
-    { src: "/product_image/makhana.jpeg", caption: "Makhana: The clean-label superfood" },
-    { src: "/product_image/5%20suta.jpeg", caption: "5 Suta: Clean-label snack" },
-    { src: "/product_image/flavoured.webp", caption: "Flavoured Makhana" }
+    { src: `${publicUrl}/product_image/roasted1.jpeg`, caption: "Freshly roasted premium Makhana" },
+    { src: `${publicUrl}/product_image/4suta.jpg`, caption: "4 Suta Makhana: Value and quality" },
+    { src: `${publicUrl}/product_image/makhana.jpeg`, caption: "Makhana: The clean-label superfood" },
+    { src: `${publicUrl}/product_image/5%20suta.jpeg`, caption: "5 Suta: Clean-label snack" },
+    { src: `${publicUrl}/product_image/flavoured.webp`, caption: "Flavoured Makhana" }
   ];
   // Filter out the hero image if it exists in extra images
-  const extraImages = allExtraImages.filter(img => img.src !== post.image);
+  // Compare only the path part for filtering
+  const extraImages = allExtraImages.filter(img => !post.image || !img.src.endsWith(post.image.replace(/^.*\/product_image\//, "/product_image/")));
 
   // Author/date/reading time (date from post)
   const author = "Makhaantraa Team";
@@ -86,11 +88,11 @@ export default function BlogPost() {
               <p className="text-slate-800 leading-relaxed text-lg text-justify" dangerouslySetInnerHTML={{ __html: highlighted }} />
             </div>
             <div>
-              <img
-                src={extraImages[imgIdx].src.startsWith('/') ? extraImages[imgIdx].src : '/' + extraImages[imgIdx].src}
-                alt="Makhana visual"
-                className="w-full rounded-xl shadow-lg object-cover max-h-80 mb-2"
-              />
+                <img
+                  src={extraImages[imgIdx].src}
+                  alt="Makhana visual"
+                  className="w-full rounded-xl shadow-lg object-cover max-h-80 mb-2"
+                />
               <div className="text-xs text-slate-500 text-center mt-1">{extraImages[imgIdx].caption}</div>
             </div>
           </div>
@@ -135,7 +137,7 @@ export default function BlogPost() {
       {/* Hero image */}
       {post.image && (
         <img
-          src={post.image.startsWith('/') ? post.image : '/' + post.image}
+          src={`${publicUrl}${post.image}`}
           alt={post.title}
           className="w-full max-h-96 object-cover rounded-b-3xl shadow-lg -mb-16"
         />

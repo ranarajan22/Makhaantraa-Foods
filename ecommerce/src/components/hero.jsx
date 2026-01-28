@@ -42,7 +42,19 @@ function HeroSection() {
     );
   }
 
-  const heroImage = settings?.heroImage?.startsWith('/') ? settings.heroImage : ('/' + (settings?.heroImage || 'makhana.jpeg'));
+  // Support Cloudinary or local images
+  let heroImage = settings?.heroImage;
+  if (heroImage) {
+    if (heroImage.startsWith('http') && heroImage.includes('cloudinary')) {
+      // Use Cloudinary URL as is
+    } else if (heroImage.startsWith('/')) {
+      heroImage = process.env.PUBLIC_URL ? process.env.PUBLIC_URL + heroImage : heroImage;
+    } else {
+      heroImage = process.env.PUBLIC_URL ? process.env.PUBLIC_URL + '/' + heroImage : '/' + heroImage;
+    }
+  } else {
+    heroImage = process.env.PUBLIC_URL ? process.env.PUBLIC_URL + '/product_image/makhana.jpeg' : '/product_image/makhana.jpeg';
+  }
 
   return (
     <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
