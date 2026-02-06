@@ -184,31 +184,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Meet the Team */}
-      <section className="bg-white rounded-2xl shadow-lg p-8 mt-10 w-full mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-6 text-yellow-700">Meet the Team</h2>
-        <div className="flex flex-wrap justify-center gap-10">
-          <div className="flex flex-col items-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Team Member" className="w-24 h-24 rounded-full shadow-lg mb-2 object-cover bg-gray-200" />
-            <span className="font-bold">Team Member 1</span>
-            <span className="text-gray-500 text-sm">Founder & CEO</span>
-            <span className="text-gray-600 text-xs text-center mt-1">Visionary behind Makhaantraa, passionate about quality and farmer welfare.</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Team Member" className="w-24 h-24 rounded-full shadow-lg mb-2 object-cover bg-gray-200" />
-            <span className="font-bold">Team Member 2</span>
-            <span className="text-gray-500 text-sm">Co-Founder & Food Technologist</span>
-            <span className="text-gray-600 text-xs text-center mt-1">Ensures every batch meets the highest standards of taste and safety.</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Team Member" className="w-24 h-24 rounded-full shadow-lg mb-2 object-cover bg-gray-200" />
-            <span className="font-bold">Team Member 3</span>
-            <span className="text-gray-500 text-sm">Head of Operations</span>
-            <span className="text-gray-600 text-xs text-center mt-1">Keeps the makhana moving from pond to pack, on time every time.</span>
-          </div>
-        </div>
-      </section>
-
       {/* Why People Love Us */}
       <section className="bg-gradient-to-r from-pink-100 via-yellow-50 to-green-100 rounded-2xl shadow-lg p-8 mt-10 w-full mx-auto">
         <h2 className="text-3xl font-bold text-center mb-6 text-pink-700">Why People Love Us</h2>
