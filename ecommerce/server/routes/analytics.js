@@ -273,15 +273,6 @@ router.get('/dashboard', async (req, res) => {
     });
 
     const executionTime = Date.now() - startTime;
-    console.log(`⚡ Analytics Dashboard loaded in ${executionTime}ms`);
-
-    // ===== VERIFICATION LOGGING - Database Validation =====
-    console.log('\n🔍 ANALYTICS DATA VERIFICATION:');
-    console.log(`✅ Data loaded in ${executionTime}ms`);
-    console.log('📊 ORDERS:', { totalOrders, ordersToday, ordersThisWeek, ordersThisMonth });
-    console.log('💰 REVENUE:', { total: totalRevenue?.total, today: revenueToday?.total, month: revenueThisMonth?.total });
-    console.log('👥 USERS (role=user):', { total: totalUsers, newThisMonth: newUsersThisMonth, newToday: newUsersToday });
-    console.log('📦 PRODUCTS:', { total: totalProducts, outOfStock: outOfStockProducts, lowStock: lowStockProducts });
 
     res.json({
       overview: {
