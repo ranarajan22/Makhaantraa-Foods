@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const { generateToken, protect } = require('../middleware/auth');
 const crypto = require('crypto');
+const { sendPasswordResetEmail } = require('../utils/emailService');
 
 // Register
 router.post('/register', async (req, res) => {
@@ -317,21 +318,48 @@ router.delete('/address/:addressId', protect, async (req, res) => {
 router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
     }
 
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({ error: 'No account found with this email address' });
+    }
+
+    // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
     user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
     await user.save();
 
-    // TODO: Send email with reset link
-    res.json({ message: 'Password reset link sent to email', resetToken });
+    // Send password reset email
+    try {
+      await sendPasswordResetEmail(user.email, resetToken, user.name);
+      
+      res.json({ 
+        message: 'Password reset email sent successfully. Please check your inbox.',
+        success: true,
+        // Include token only in development for testing
+        ...(process.env.NODE_ENV === 'development' && { resetToken })
+      });
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      
+      // If email fails, still return success but with a note
+      // The token is saved in DB, so user can still use it if they get it another way
+      res.json({
+        message: 'Password reset initiated. If email sending is configured, you will receive an email shortly.',
+        success: true,
+        resetToken, // Return token for testing when email is not configured
+        warning: 'Email service may not be configured. Use the token above to reset your password.'
+      });
+    }
   } catch (error) {
+    console.error('Forgot password error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -358,6 +386,46 @@ router.post('/reset-password/:token', async (req, res) => {
 
     res.json({ message: 'Password reset successful' });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Change password (for logged-in users including admins)
+router.post('/change-password', protect, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // Validate input
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters' });
+    }
+
+    // Get user with password field
+    const user = await User.findById(req.user._id).select('+password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Verify current password
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+
+    // Update password
+    user.password = newPassword;
+    await user.save();
+
+    res.json({ 
+      message: 'Password changed successfully',
+      success: true 
+    });
+  } catch (error) {
+    console.error('Change password error:', error);
     res.status(500).json({ error: error.message });
   }
 });

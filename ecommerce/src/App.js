@@ -32,6 +32,8 @@ const Blog = lazy(() => import('./pages/Blog'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
 const Login = lazy(() => import('./pages/Login'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboardNew'));
 const OrderTracking = lazy(() => import('./pages/OrderTracking'));
@@ -111,6 +113,22 @@ function AppLayout() {
             element={
               <Suspense fallback={<Skeleton height="300px" />}>
                 <Login />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <ForgotPassword />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/reset-password/:token"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <ResetPassword />
               </Suspense>
             }
           />

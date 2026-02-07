@@ -84,7 +84,9 @@ orderSchema.pre('save', async function(next) {
 orderSchema.index({ user: 1, createdAt: -1 });    // Fast user order history
 orderSchema.index({ status: 1, createdAt: -1 });  // Fast order filtering by status
 orderSchema.index({ paymentStatus: 1 });          // Fast payment status queries
+orderSchema.index({ paymentStatus: 1, createdAt: -1 }); // Analytics: paid orders by date
 orderSchema.index({ createdAt: -1 });             // Fast sorting by date
 orderSchema.index({ orderNumber: 1 });            // Already unique indexed
+orderSchema.index({ status: 1, paymentStatus: 1 }); // Analytics: order and payment status breakdown
 
 module.exports = mongoose.model('Order', orderSchema);

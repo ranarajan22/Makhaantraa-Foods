@@ -79,7 +79,7 @@ export default function AdminLogin() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="admin@ecommerce.com"
+                placeholder="Eneter your admin email"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition"
                 disabled={loading}
               />
@@ -115,16 +115,7 @@ export default function AdminLogin() {
 
       
 
-        {/* Back to User Login */}
-        <div className="text-center">
-          <p className="text-gray-400 text-sm mb-3">Are you a regular user?</p>
-          <button
-            onClick={() => nav('/login')}
-            className="text-blue-500 hover:text-blue-600 font-medium transition"
-          >
-            Back to User Login →
-          </button>
-        </div>
+        
       </div>
     </div>
   );

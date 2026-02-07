@@ -156,8 +156,18 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  
+  // Verify email configuration
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
+    const { verifyEmailConfig } = require('./utils/emailService');
+    await verifyEmailConfig();
+  } else {
+    console.log('⚠️  Email service not configured. Password reset emails will not be sent.');
+    console.log('📧 To enable emails, configure EMAIL_USER and EMAIL_PASSWORD in .env file.');
+    console.log('📖 See docs/EMAIL_SETUP_GUIDE.md for setup instructions.');
+  }
 });
 
 // Handle unhandled promise rejections and uncaught exceptions

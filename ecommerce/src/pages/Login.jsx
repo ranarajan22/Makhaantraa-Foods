@@ -130,7 +130,7 @@ export default function Login() {
                   onChange={handleChange}
                   required={!isLogin}
                   className="w-full pl-10 pr-4 py-3 border border-green-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  placeholder="John Doe"
+                  placeholder="Enter your full name"
                 />
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function Login() {
                 onChange={handleChange}
                 required
                 className="w-full pl-10 pr-4 py-3 border border-green-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder="you@example.com"
+                placeholder="Enter your email"
               />
             </div>
           </div>
@@ -167,7 +167,7 @@ export default function Login() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-green-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  placeholder="+91 1234567890"
+                  placeholder="Enter your phone number"
                 />
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function Login() {
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-12 py-3 border border-green-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  placeholder="••••••••"
+                  placeholder="Password"
                 />
               <button
                 type="button"

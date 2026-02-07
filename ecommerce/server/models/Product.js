@@ -64,6 +64,9 @@ productSchema.index({ featured: 1, active: 1 });   // Fast featured products que
 productSchema.index({ createdAt: -1 });            // Fast sorting by date
 productSchema.index({ price: 1 });                 // Price range queries
 productSchema.index({ stock: 1 });                 // Stock queries
+productSchema.index({ soldCount: -1 });            // Analytics: top products
+productSchema.index({ category: 1, soldCount: -1 }); // Analytics: top products by category
+productSchema.index({ stock: 1, category: 1 });   // Analytics: category stock analysis
 
 // Virtual for discounted price
 productSchema.virtual('discountedPrice').get(function() {

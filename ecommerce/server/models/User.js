@@ -45,6 +45,7 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 userSchema.index({ email: 1 });           // Fast email lookup for login
 userSchema.index({ createdAt: -1 });      // Fast sorting by date
 userSchema.index({ role: 1 });            // Fast admin filtering
+userSchema.index({ role: 1, createdAt: -1 }); // Analytics: new users by role and date
 userSchema.index({ email: 1, role: 1 });  // Combined index for admin email queries
 
 module.exports = mongoose.model('User', userSchema);
