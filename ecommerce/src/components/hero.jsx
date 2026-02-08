@@ -214,7 +214,7 @@ function FeaturedCategories() {
                     src={product.mainImage || (product.images && product.images[0])}
                     alt={product.name}
                     className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
-                    onError={e => { e.target.onerror = null; e.target.src = 'product_image/ceramic.jpg'; }}
+                    onError={e => { e.target.onerror = null; e.target.src = 'https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg'; }}
                   />
                   <div className="absolute top-4 right-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
                     {product.grade}
@@ -359,10 +359,10 @@ function FeaturedProducts() {
           >
             <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
               <img
-                src={p.mainImage || p.image || (p.images && p.images[0]) || '/product_image/ceramic.jpg'}
+                src={p.mainImage || p.image || (p.images && p.images[0]) || 'https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg'}
                 alt={p.name}
                 className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
-                onError={(e) => { e.target.src = '/product_image/ceramic.jpg'; }}
+                onError={(e) => { e.target.src = 'https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg'; }}
               />
               <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                 {p.grade}

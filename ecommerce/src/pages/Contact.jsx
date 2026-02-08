@@ -48,7 +48,7 @@ export default function Contact() {
           </p>
           <div className="space-y-4 text-gray-700">
             <div>
-              <strong>Email:</strong> makhaantraafoods@gmail.com
+              <strong>Email:</strong> support@makhaantraafoods.com
             </div>
             <div>
               <strong>Phone:</strong> +91 9142252059
