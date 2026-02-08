@@ -18,12 +18,8 @@ export default function About() {
             alt="Makhaantraa Hero"
             className="w-full h-[22rem] md:h-[28rem] object-cover rounded-2xl shadow-xl border-4 border-yellow-300"
           />
-          {/* Decorative basil leaf image as accent */}
-          <img
-            src="https://merakisan.com/wp-content/uploads/2021/03/basil-leaf-1.png"
-            alt="Basil Leaf"
-            className="w-14 h-14 object-contain absolute bottom-4 right-4 opacity-80 drop-shadow-md rotate-12"
-          />
+          {/* Decorative leaf accent */}
+          <div className="w-14 h-14 absolute bottom-4 right-4 opacity-80 drop-shadow-md rotate-12"></div>
           <span className="absolute top-6 left-6 bg-yellow-400 text-gray-900 px-6 py-2 rounded-full text-lg font-bold shadow-lg z-20 border-2 border-white">India's Trusted GI-Tagged Makhana</span>
         </div>
         <h1 className="text-5xl font-extrabold mb-4 text-gray-900 tracking-tight">About Us</h1>

@@ -4,6 +4,7 @@ import { makhanaProducts } from "../data/makhana";
 import { Link, useNavigate } from "react-router-dom";
 import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp } from "lucide-react";
 import { API_BASE_URL } from '../config';
+import FAQ, { makhaanaFAQs } from './FAQ';
 
 /* ---------------------- Skeleton ---------------------- */
 const Skeleton = ({ height = "20px", width = "100%", className = "" }) => (
@@ -101,7 +102,7 @@ function HeroSection() {
               to="/makhana-sample" 
               className="bg-gradient-to-r from-green-700 via-green-600 to-green-400 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-95 transition-all text-lg shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transform"
             >
-              Get Free Sample →
+              Get Sample →
             </Link>
             <Link 
               to="/products" 
@@ -773,6 +774,7 @@ export default function Hero() {
       <HowItWorks />
       <WhyChooseUs />
       <Testimonials />
+      <FAQ faqs={makhaanaFAQs} />
       <Newsletter />
       <ScrollToTopButton />
     </>

@@ -48,13 +48,13 @@ export default function Contact() {
           </p>
           <div className="space-y-4 text-gray-700">
             <div>
-              <strong>Email:</strong> support@yourbrand.com
+              <strong>Email:</strong> makhaantraafoods@gmail.com
             </div>
             <div>
               <strong>Phone:</strong> +91 9142252059
             </div>
             <div>
-              <strong>Address:</strong> 123 Handmade Street, Craft City, India
+              <strong>Address:</strong> Madhubani,Bihar, India
             </div>
           </div>
         </div>

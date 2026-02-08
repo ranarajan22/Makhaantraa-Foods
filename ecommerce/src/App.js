@@ -28,8 +28,14 @@ const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Makhana = lazy(() => import('./pages/Makhana'));
 const OrderBulk = lazy(() => import('./pages/OrderBulk'));
-const Blog = lazy(() => import('./pages/Blog'));
+const Blog = lazy(() => import('./pages/blog/BlogIndex'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const HealthBenefitsOfMakhana = lazy(() => import('./pages/blog/HealthBenefitsOfMakhana'));
+const MakhanaRecipes = lazy(() => import('./pages/blog/MakhanaRecipes'));
+const WhatIsMakhana = lazy(() => import('./pages/blog/WhatIsMakhana'));
+const MakhanaForWeightLoss = lazy(() => import('./pages/blog/MakhanaForWeightLoss'));
+const GIMitilaaMakhana = lazy(() => import('./pages/blog/GIMitilaaMakhana'));
+const CleanLabelMakhana = lazy(() => import('./pages/blog/CleanLabelMakhana'));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
 const Login = lazy(() => import('./pages/Login'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -195,6 +201,54 @@ function AppLayout() {
             element={
               <Suspense fallback={<Skeleton height="300px" />}>
                 <Blog />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/health-benefits-of-makhana"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <HealthBenefitsOfMakhana />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/makhana-recipes"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <MakhanaRecipes />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/what-is-makhana"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <WhatIsMakhana />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/makhana-for-weight-loss"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <MakhanaForWeightLoss />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/why-gi-mithila-makhana"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <GIMitilaaMakhana />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/blog/healthy-snacking"
+            element={
+              <Suspense fallback={<Skeleton height="300px" />}>
+                <CleanLabelMakhana />
               </Suspense>
             }
           />

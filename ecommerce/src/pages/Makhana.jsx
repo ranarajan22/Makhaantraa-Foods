@@ -143,7 +143,7 @@ export default function Makhana() {
             </p>
             <div className="flex flex-wrap gap-3">
               <button onClick={scrollToForm} className="bg-white text-brand font-semibold px-5 py-3 rounded-lg shadow-brand hover:opacity-95 transition">
-                Get Free Sample
+                Get Sample
               </button>
               <button onClick={() => document.getElementById("specs")?.scrollIntoView({ behavior: "smooth" })} className="btn-brand-ghost px-5 py-3 rounded-lg bg-white text-brand font-semibold">
                 View Specs

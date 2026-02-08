@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 import { makhanaProducts } from "../data/makhana";
 import { API_BASE_URL } from "../config";
 import { Shield, Truck, Sparkles, ClipboardList, Star, ShoppingCart, Heart, Minus, Plus, Gift } from "lucide-react";
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { generateProductSchema, generateBreadcrumbSchema } from '../utils/structuredData';
 import toast from 'react-hot-toast';
 
 export default function ProductDetail() {
@@ -258,7 +260,39 @@ export default function ProductDetail() {
 
 
   return (
-    <div className="bg-brand-soft min-h-screen">
+    <>
+      {/* SEO Meta Tags and Structured Data */}
+      <Helmet>
+        <title>{product.name} | Buy Premium Makhana | Makhaantraa Foods</title>
+        <meta name="description" content={`${product.description} Order ${product.name} at ₹${product.price}. ${product.grade} grade, ${product.popRate} pop rate. GI-certified Mithila makhana.`} />
+        <meta name="keywords" content={`${product.name}, buy makhana, ${product.grade}, makhana price, ${product.category}, fox nuts, lotus seeds`} />
+        <link rel="canonical" href={`https://www.makhaantraafoods.com/product/${productKey}`} />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content={`${product.name} | Makhaantraa Foods`} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`https://www.makhaantraafoods.com/product/${productKey}`} />
+        <meta property="og:image" content={activeImage || product.mainImage || product.image} />
+        <meta property="product:price:amount" content={product.price} />
+        <meta property="product:price:currency" content="INR" />
+        
+        {/* Product Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(generateProductSchema(product))}
+        </script>
+        
+        {/* Breadcrumb Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(generateBreadcrumbSchema([
+            { name: "Home", url: "https://www.makhaantraafoods.com" },
+            { name: "Products", url: "https://www.makhaantraafoods.com/products" },
+            { name: product.name, url: `https://www.makhaantraafoods.com/product/${productKey}` }
+          ]))}
+        </script>
+      </Helmet>
+
+      <div className="bg-brand-soft min-h-screen">
       <section className="bg-white shadow-brand border-b border-green-50">
         <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
@@ -277,7 +311,7 @@ export default function ProductDetail() {
             {/* Price and Cart Section */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 299) * packSize * quantity)}</span>
+                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 999) * packSize * quantity)}</span>
                 {product.originalPrice && (
                   <span className="text-xl text-gray-400 line-through">₹{Math.round(product.originalPrice * packSize * quantity)}</span>
                 )}
@@ -291,7 +325,13 @@ export default function ProductDetail() {
 
               <div className="flex items-center gap-3 text-sm text-slate-700 mb-4">
                 <span className="bg-white px-3 py-1 rounded-full border border-green-100 font-semibold">MOQ: {product.moq || "-"}</span>
-                <span className="bg-white px-3 py-1 rounded-full border border-green-100 font-semibold">Stock: {typeof product.stock === "number" ? product.stock : "-"}</span>
+                <span className={`px-3 py-1 rounded-full font-semibold ${
+                  typeof product.stock === "number"
+                    ? (product.stock === 0 
+                        ? "bg-red-50 text-red-600 border border-red-200" 
+                        : "bg-green-50 text-green-600 border border-green-200")
+                    : "bg-white border border-green-100"
+                }`}>Stock: {typeof product.stock === "number" ? product.stock : "-"}</span>
                 {product.active === false && (
                   <span className="bg-red-50 text-red-600 px-3 py-1 rounded-full border border-red-100 font-semibold">Inactive</span>
                 )}
@@ -387,7 +427,7 @@ export default function ProductDetail() {
             </div>
 
             <div className="flex gap-3 pt-4 flex-wrap">
-              <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Free Sample</Link>
+              <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Sample</Link>
               <Link to="/order-bulk" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Bulk Order</Link>
               <Link to="/products" className="text-brand font-semibold underline self-center">← Back to Products</Link>
               {error && <span className="text-xs text-amber-600">{error}</span>}
@@ -472,7 +512,7 @@ export default function ProductDetail() {
           </p>
           <div className="flex gap-3 flex-wrap pt-4">
             <Link to="/order-bulk" className="bg-brand-gradient text-white px-5 py-3 rounded-lg font-semibold hover:opacity-95 transition shadow-brand">Request Quote</Link>
-            <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Free Sample</Link>
+            <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Sample</Link>
           </div>
         </div>
       </section>
@@ -597,5 +637,6 @@ export default function ProductDetail() {
         </div>
       </section>
     </div>
+    </>
   );
 }
