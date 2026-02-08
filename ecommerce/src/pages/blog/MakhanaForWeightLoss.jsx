@@ -9,6 +9,16 @@ const WeightLossArticle = () => (
       to using makhana for effective weight management.
     </p>
 
+    {/* Healthy Snack Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769239072/products/qttb7wg7wgu8s0jfixgx.jpg" 
+        alt="Healthy Flavored Makhana for Weight Loss" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Low-Calorie Makhana - Perfect Weight Loss Snack</p>
+    </div>
+
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Why is Makhana Good for Weight Loss?</h2>
     
     <div className="grid md:grid-cols-2 gap-4 mt-4">

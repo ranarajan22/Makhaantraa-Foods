@@ -12,7 +12,7 @@ const blogPosts = [
     date: "2026-02-08",
     category: "Health & Nutrition",
     slug: "health-benefits-of-makhana",
-    image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80",
     readTime: "8 min read",
     tags: ["Health", "Nutrition", "Superfood"]
   },
@@ -24,7 +24,7 @@ const blogPosts = [
     date: "2026-02-07",
     category: "Recipes",
     slug: "makhana-recipes",
-    image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800",
+    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80",
     readTime: "10 min read",
     tags: ["Recipes", "Cooking", "Snacks"]
   },
@@ -36,7 +36,7 @@ const blogPosts = [
     date: "2026-02-06",
     category: "Education",
     slug: "what-is-makhana",
-    image: "https://images.unsplash.com/photo-1587049352846-4a222e784194?w=800",
+    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80",
     readTime: "12 min read",
     tags: ["Education", "GI Tag", "Fox Nuts"]
   },
@@ -48,7 +48,7 @@ const blogPosts = [
     date: "2026-02-05",
     category: "Weight Loss",
     slug: "makhana-for-weight-loss",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
     readTime: "15 min read",
     tags: ["Weight Loss", "Diet", "Fitness"]
   },
@@ -121,14 +121,29 @@ export default function BlogIndex() {
 
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Makhana Blog
+        <div className="relative bg-gradient-to-br from-green-600 via-green-500 to-emerald-600 text-white py-16 overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg')] opacity-10 bg-cover bg-center"></div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-block mb-3 px-5 py-2 bg-white/30 rounded-full backdrop-blur-md border border-white/40">
+              <span className="text-sm font-bold tracking-wide text-white drop-shadow-md">📚 Knowledge Hub</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight drop-shadow-lg">
+              Discover the World of <span className="text-yellow-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Makhana</span>
             </h1>
-            <p className="text-xl text-green-100 max-w-2xl mx-auto">
-              Expert articles on health benefits, delicious recipes, nutrition tips, and everything about makhana (fox nuts)
+            <p className="text-lg md:text-xl text-white font-medium max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+              Expert insights on health benefits, traditional recipes, nutrition science, and the amazing journey from Mithila's wetlands to your table
             </p>
+            <div className="mt-6 flex flex-wrap gap-3 justify-center text-sm font-semibold">
+              <div className="flex items-center gap-2 bg-white/20 px-5 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-lg">
+                ✓ Scientifically Backed
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 px-5 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-lg">
+                ✓ Traditional Wisdom
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 px-5 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-lg">
+                ✓ Practical Tips
+              </div>
+            </div>
           </div>
         </div>
 
@@ -155,22 +170,28 @@ export default function BlogIndex() {
 
         {/* Blog Posts Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
               <article
                 key={post.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <Link to={`/blog/${post.slug}`}>
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50">
                     <img
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                     <div className="absolute top-4 left-4">
-                      <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-green-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
                         {post.category}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <span className="text-white text-sm font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
+                        {post.readTime}
                       </span>
                     </div>
                   </div>
@@ -215,13 +236,12 @@ export default function BlogIndex() {
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t">
-                    <span className="text-sm text-gray-500">{post.readTime}</span>
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-green-600 font-medium hover:text-green-700 transition-colors"
+                      className="inline-flex items-center text-green-600 font-bold hover:text-green-700 transition-colors group"
                     >
-                      Read More
-                      <ArrowRight className="w-4 h-4 ml-1" />
+                      Read Article
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -230,30 +250,7 @@ export default function BlogIndex() {
           </div>
         </div>
 
-        {/* Newsletter CTA */}
-        <div className="bg-green-600 py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Subscribe to Our Newsletter
-            </h2>
-            <p className="text-green-100 mb-8 text-lg">
-              Get the latest articles, recipes, and health tips delivered to your inbox weekly
-            </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-              <button
-                type="submit"
-                className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
+
       </div>
     </>
   );

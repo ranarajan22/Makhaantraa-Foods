@@ -8,6 +8,16 @@ const HealthBenefitsArticle = () => (
       This superfood is packed with nutrients that offer numerous health benefits, making it an excellent addition to your daily diet.
     </p>
 
+    {/* Makhana Plants Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg" 
+        alt="Fresh Makhana Harvest from Mithila" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Fresh Premium Makhana from Mithila Region</p>
+    </div>
+
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">1. Excellent Source of Protein</h2>
     <p className="text-gray-700 leading-relaxed">
       Makhana contains about 9-10% protein, making it an excellent plant-based protein source for vegetarians and vegans. 
@@ -39,6 +49,16 @@ const HealthBenefitsArticle = () => (
       Makhana contains powerful antioxidants like kaempferol, which help fight free radicals and reduce oxidative stress. 
       These antioxidants slow down the aging process, improve skin health, and may reduce the risk of chronic diseases including cancer.
     </p>
+
+    {/* Different Grades Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243116/products/kssbglict17cc4xtxthj.webp" 
+        alt="Different Grades of Makhana" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Premium Quality Makhana - Rich in Nutrients</p>
+    </div>
 
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">6. Strengthens Bones</h2>
     <p className="text-gray-700 leading-relaxed">

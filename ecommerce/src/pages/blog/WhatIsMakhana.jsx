@@ -8,6 +8,16 @@ const WhatIsMakhanaArticle = () => (
       But what exactly is makhana, and why is it suddenly everywhere? This complete guide answers all your questions.
     </p>
 
+    {/* Makhana Pond/Plant Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp" 
+        alt="Makhana Growing in Mithila Wetlands" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Makhana Growing in Traditional Mithila Wetlands</p>
+    </div>
+
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What is Makhana? The Basics</h2>
     <p className="text-gray-700 leading-relaxed">
       Makhana are the seeds of the Euryale Fox plant (scientific name: <em>Euryale ferox</em>), which grows in stagnant water bodies, 
@@ -30,6 +40,17 @@ const WhatIsMakhanaArticle = () => (
     <p className="text-gray-700 leading-relaxed">
       The process of making makhana is labor-intensive and requires skilled workers:
     </p>
+
+    {/* Processing Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp" 
+        alt="Traditional Makhana Processing" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Traditional Makhana Processing Method</p>
+    </div>
+
     <ol className="list-decimal list-inside space-y-3 text-gray-700 mt-4">
       <li><strong>Collection:</strong> Seeds are collected from lotus ponds in Mithila region</li>
       <li><strong>Sun Drying:</strong> Seeds are dried in the sun for several days</li>

@@ -8,6 +8,16 @@ const MakhanaRecipesArticle = () => (
       From crunchy roasted snacks to creamy desserts, here are 7 delicious makhana recipes that are both nutritious and easy to make.
     </p>
 
+    {/* Fresh Makhana Image */}
+    <div className="my-8 rounded-xl overflow-hidden shadow-md">
+      <img 
+        src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg" 
+        alt="Premium Roasted Makhana" 
+        className="w-full h-80 object-cover"
+      />
+      <p className="text-sm text-gray-600 text-center py-2 bg-gray-50">Premium Roasted Makhana - Perfect for Cooking</p>
+    </div>
+
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">1. Classic Roasted Makhana</h2>
     <div className="bg-gray-50 p-6 rounded-lg">
       <h3 className="font-semibold text-lg mb-3">Ingredients:</h3>
