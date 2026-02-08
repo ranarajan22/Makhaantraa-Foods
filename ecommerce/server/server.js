@@ -91,8 +91,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan('dev'));
 
 // Serve static files from frontend public folder
-const path = require('path');
-// Serve static files from /public/product_image with CORS headers for images
+const path = require('path');// Serve robots.txt for backend API
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});// Serve static files from /public/product_image with CORS headers for images
 app.use('/product_image', express.static(path.join(__dirname, '../public/product_image'), {
   setHeaders: (res) => {
     res.set('Access-Control-Allow-Origin', '*'); // Or set to your Vercel domain for more security
