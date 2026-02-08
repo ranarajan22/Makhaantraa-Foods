@@ -98,7 +98,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Add more product URLs dynamically as needed -->
-  <!-- Example product URLs - update with actual product IDs -->
 </urlset>
