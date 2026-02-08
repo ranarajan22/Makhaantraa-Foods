@@ -13,7 +13,10 @@ router.use(protect, admin);
 router.get('/dashboard', async (req, res) => {
   const startTime = Date.now();
   try {
+    // Set today to start of day (midnight) for accurate "today" counting
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     const lastWeek = new Date(today);
